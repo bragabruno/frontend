@@ -2,54 +2,54 @@
   display: block;
 }
 
-.login-container {
+.login-column {
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   min-height: 100vh;
-  background-color: var(--bg-base);
+  // Futuristic nebula backdrop layered over the cosmic theme.
+  background:
+    radial-gradient(circle at 20% 15%, rgba(63, 81, 181, 0.35), transparent 45%),
+    radial-gradient(circle at 85% 80%, rgba(170, 22, 244, 0.3), transparent 45%),
+    radial-gradient(circle at 50% 50%, rgba(0, 214, 214, 0.12), transparent 60%);
 }
 
 .login-card {
   width: 100%;
-  max-width: 400px;
-  padding: 32px;
-  background: var(--bg-surface);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-lg);
+  max-width: 26rem;
+  box-shadow: 0 0 2.5rem rgba(120, 92, 255, 0.35);
+}
 
-  h1 {
-    margin: 0 0 8px 0;
-    font-size: 22px;
+.login-title {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.login-subtitle {
+  margin: 0.25rem 0 0;
+  font-size: 0.85rem;
+  opacity: 0.7;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+}
+
+.form-group {
+  margin-bottom: 1.25rem;
+
+  .label {
+    display: block;
+    margin-bottom: 0.4rem;
+    font-size: 0.8rem;
     font-weight: 600;
-    color: var(--text-primary);
-    text-align: center;
+    letter-spacing: 0.04em;
   }
-
-  p {
-    margin: 0 0 24px 0;
-    font-size: 14px;
-    color: var(--text-secondary);
-    text-align: center;
-  }
-}
-
-.full-width {
-  width: 100%;
-}
-
-.submit-btn {
-  height: 48px;
-  margin-top: 16px;
 }
 
 .error-message {
-  color: var(--accent-red);
-  font-size: 13px;
-  margin-bottom: 16px;
-  text-align: center;
-  padding: 8px;
-  background: var(--accent-red-dim);
-  border-radius: var(--radius-sm);
+  margin: 0 0 1rem;
+  // Nebular cosmic theme variable so the error color tracks the active theme.
+  color: var(--text-danger-color, var(--color-danger-500, #ff3d71));
+  font-size: 0.85rem;
 }
