@@ -21,14 +21,20 @@ export interface ConfirmDialogData {
   standalone: true,
   imports: [NbCardModule, NbButtonModule],
   template: `
-    <nb-card class="confirm-dialog">
-      <nb-card-header>{{ data.title }}</nb-card-header>
-      <nb-card-body>{{ data.message }}</nb-card-body>
+    <nb-card
+      class="confirm-dialog"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="confirm-dialog-title"
+      aria-describedby="confirm-dialog-message"
+    >
+      <nb-card-header id="confirm-dialog-title">{{ data.title }}</nb-card-header>
+      <nb-card-body id="confirm-dialog-message">{{ data.message }}</nb-card-body>
       <nb-card-footer class="confirm-actions">
-        <button nbButton ghost status="basic" (click)="dialogRef.close(false)">
+        <button nbButton ghost status="basic" type="button" (click)="dialogRef.close(false)">
           {{ data.cancelText ?? 'Cancel' }}
         </button>
-        <button nbButton status="danger" (click)="dialogRef.close(true)">
+        <button nbButton status="danger" type="button" (click)="dialogRef.close(true)">
           {{ data.confirmText ?? 'Confirm' }}
         </button>
       </nb-card-footer>

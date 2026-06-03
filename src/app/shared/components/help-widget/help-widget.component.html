@@ -1,6 +1,7 @@
 <div class="help-widget" [class.open]="isOpen()">
   <button
     nbButton
+    type="button"
     status="primary"
     shape="round"
     class="help-fab"
@@ -18,11 +19,11 @@
     <h3>Need help?</h3>
     <p>Get support or view documentation</p>
     <div class="help-actions">
-      <button nbButton ghost status="basic" (click)="contactSupport()">
+      <button nbButton ghost status="basic" type="button" (click)="contactSupport()">
         <nb-icon icon="email-outline" pack="eva"></nb-icon>
         Contact Support
       </button>
-      <button nbButton ghost status="basic" (click)="viewDocs()">
+      <button nbButton ghost status="basic" type="button" (click)="viewDocs()">
         <nb-icon icon="book-open-outline" pack="eva"></nb-icon>
         View Docs
       </button>
