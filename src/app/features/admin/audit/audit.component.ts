@@ -2,9 +2,7 @@ import { Component, OnInit, signal } from '@angular/core';
 import { NgIf, NgFor, DatePipe, SlicePipe } from '@angular/common';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { NbCardModule, NbButtonModule, NbIconModule, NbSpinnerModule } from '@nebular/theme';
 import { AdminService } from '../services/admin.service';
 import { AuditEventDto, PageResponse } from '../../../shared/models/models';
 
@@ -18,63 +16,71 @@ import { AuditEventDto, PageResponse } from '../../../shared/models/models';
     SlicePipe,
     MatTableModule,
     MatPaginatorModule,
-    MatButtonModule,
-    MatIconModule,
-    MatProgressSpinnerModule,
+    NbCardModule,
+    NbButtonModule,
+    NbIconModule,
+    NbSpinnerModule,
   ],
   template: `
     <div class="admin-page">
       <h1>Audit Trail</h1>
 
-      <div class="loading" *ngIf="loading()">
-        <mat-spinner diameter="24" />
+      <div
+        class="loading"
+        *ngIf="loading()"
+        [nbSpinner]="true"
+        nbSpinnerSize="medium"
+        nbSpinnerStatus="primary"
+      >
         <span>Loading audit events...</span>
       </div>
 
       <div class="error" *ngIf="error() as err">
-        <mat-icon>error_outline</mat-icon>
+        <nb-icon icon="alert-circle-outline" pack="eva"></nb-icon>
         <span>{{ err }}</span>
-        <button mat-stroked-button (click)="loadEvents()">Retry</button>
+        <button nbButton ghost status="primary" type="button" (click)="loadEvents()">Retry</button>
       </div>
 
       <div class="empty" *ngIf="!loading() && !error() && events().length === 0">
         <span>No audit events found</span>
       </div>
 
-      <table
-        mat-table
-        [dataSource]="events()"
-        *ngIf="!loading() && !error() && events().length > 0"
-      >
-        <ng-container matColumnDef="timestamp">
-          <th mat-header-cell *matHeaderCellDef>Timestamp</th>
-          <td mat-cell *matCellDef="let row" class="mono">{{ row.timestamp | date: 'medium' }}</td>
-        </ng-container>
-        <ng-container matColumnDef="actor">
-          <th mat-header-cell *matHeaderCellDef>Actor</th>
-          <td mat-cell *matCellDef="let row">{{ row.actorUsername }}</td>
-        </ng-container>
-        <ng-container matColumnDef="action">
-          <th mat-header-cell *matHeaderCellDef>Action</th>
-          <td mat-cell *matCellDef="let row">
-            <span class="action-badge">{{ row.action }}</span>
-          </td>
-        </ng-container>
-        <ng-container matColumnDef="target">
-          <th mat-header-cell *matHeaderCellDef>Target</th>
-          <td mat-cell *matCellDef="let row">
-            {{ row.targetType }}: {{ row.targetId | slice: 0 : 8 }}
-          </td>
-        </ng-container>
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-      </table>
-      <mat-paginator
-        [length]="totalElements()"
-        [pageSize]="50"
-        (page)="onPageChange($event)"
-        showFirstLastButtons
-      ></mat-paginator>
+      <nb-card *ngIf="!loading() && !error() && events().length > 0">
+        <nb-card-body>
+          <table mat-table [dataSource]="events()">
+            <ng-container matColumnDef="timestamp">
+              <th mat-header-cell *matHeaderCellDef>Timestamp</th>
+              <td mat-cell *matCellDef="let row" class="mono">
+                {{ row.timestamp | date: 'medium' }}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="actor">
+              <th mat-header-cell *matHeaderCellDef>Actor</th>
+              <td mat-cell *matCellDef="let row">{{ row.actorUsername }}</td>
+            </ng-container>
+            <ng-container matColumnDef="action">
+              <th mat-header-cell *matHeaderCellDef>Action</th>
+              <td mat-cell *matCellDef="let row">
+                <span class="action-badge">{{ row.action }}</span>
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="target">
+              <th mat-header-cell *matHeaderCellDef>Target</th>
+              <td mat-cell *matCellDef="let row">
+                {{ row.targetType }}: {{ row.targetId | slice: 0 : 8 }}
+              </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+          </table>
+          <mat-paginator
+            [length]="totalElements()"
+            [pageSize]="50"
+            (page)="onPageChange($event)"
+            showFirstLastButtons
+          ></mat-paginator>
+        </nb-card-body>
+      </nb-card>
     </div>
   `,
   styles: [

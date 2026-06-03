@@ -2,11 +2,14 @@ import { Component, OnInit, signal } from '@angular/core';
 import { NgIf, NgFor } from '@angular/common';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import {
+  NbCardModule,
+  NbButtonModule,
+  NbIconModule,
+  NbSpinnerModule,
+  NbToggleModule,
+} from '@nebular/theme';
 import { AdminService } from '../services/admin.service';
 import { RuleDto, PageResponse } from '../../../shared/models/models';
 
@@ -18,65 +21,75 @@ import { RuleDto, PageResponse } from '../../../shared/models/models';
     NgFor,
     MatTableModule,
     MatPaginatorModule,
-    MatButtonModule,
-    MatIconModule,
-    MatSlideToggleModule,
-    MatProgressSpinnerModule,
     MatSnackBarModule,
+    NbCardModule,
+    NbButtonModule,
+    NbIconModule,
+    NbSpinnerModule,
+    NbToggleModule,
   ],
   template: `
     <div class="admin-page">
       <h1>Rule Configuration</h1>
 
-      <div class="loading" *ngIf="loading()">
-        <mat-spinner diameter="24" />
+      <div
+        class="loading"
+        *ngIf="loading()"
+        [nbSpinner]="true"
+        nbSpinnerSize="medium"
+        nbSpinnerStatus="primary"
+      >
         <span>Loading rules...</span>
       </div>
 
       <div class="error" *ngIf="error() as err">
-        <mat-icon>error_outline</mat-icon>
+        <nb-icon icon="alert-circle-outline" pack="eva"></nb-icon>
         <span>{{ err }}</span>
-        <button mat-stroked-button (click)="loadRules()">Retry</button>
+        <button nbButton ghost status="primary" type="button" (click)="loadRules()">Retry</button>
       </div>
 
       <div class="empty" *ngIf="!loading() && !error() && rules().length === 0">
         <span>No rules found</span>
       </div>
 
-      <table mat-table [dataSource]="rules()" *ngIf="!loading() && !error() && rules().length > 0">
-        <ng-container matColumnDef="name">
-          <th mat-header-cell *matHeaderCellDef>Name</th>
-          <td mat-cell *matCellDef="let row">{{ row.name }}</td>
-        </ng-container>
-        <ng-container matColumnDef="type">
-          <th mat-header-cell *matHeaderCellDef>Type</th>
-          <td mat-cell *matCellDef="let row">
-            <span class="type-badge">{{ row.type }}</span>
-          </td>
-        </ng-container>
-        <ng-container matColumnDef="weight">
-          <th mat-header-cell *matHeaderCellDef>Weight</th>
-          <td mat-cell *matCellDef="let row">{{ row.weight }}</td>
-        </ng-container>
-        <ng-container matColumnDef="threshold">
-          <th mat-header-cell *matHeaderCellDef>Threshold</th>
-          <td mat-cell *matCellDef="let row">{{ row.threshold }}</td>
-        </ng-container>
-        <ng-container matColumnDef="enabled">
-          <th mat-header-cell *matHeaderCellDef>Enabled</th>
-          <td mat-cell *matCellDef="let row">
-            <mat-slide-toggle [checked]="row.enabled" (change)="toggleRule(row)"></mat-slide-toggle>
-          </td>
-        </ng-container>
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-      </table>
-      <mat-paginator
-        [length]="totalElements()"
-        [pageSize]="20"
-        (page)="onPageChange($event)"
-        showFirstLastButtons
-      ></mat-paginator>
+      <nb-card *ngIf="!loading() && !error() && rules().length > 0">
+        <nb-card-body>
+          <table mat-table [dataSource]="rules()">
+            <ng-container matColumnDef="name">
+              <th mat-header-cell *matHeaderCellDef>Name</th>
+              <td mat-cell *matCellDef="let row">{{ row.name }}</td>
+            </ng-container>
+            <ng-container matColumnDef="type">
+              <th mat-header-cell *matHeaderCellDef>Type</th>
+              <td mat-cell *matCellDef="let row">
+                <span class="type-badge">{{ row.type }}</span>
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="weight">
+              <th mat-header-cell *matHeaderCellDef>Weight</th>
+              <td mat-cell *matCellDef="let row">{{ row.weight }}</td>
+            </ng-container>
+            <ng-container matColumnDef="threshold">
+              <th mat-header-cell *matHeaderCellDef>Threshold</th>
+              <td mat-cell *matCellDef="let row">{{ row.threshold }}</td>
+            </ng-container>
+            <ng-container matColumnDef="enabled">
+              <th mat-header-cell *matHeaderCellDef>Enabled</th>
+              <td mat-cell *matCellDef="let row">
+                <nb-toggle [checked]="row.enabled" (checkedChange)="toggleRule(row)"></nb-toggle>
+              </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+          </table>
+          <mat-paginator
+            [length]="totalElements()"
+            [pageSize]="20"
+            (page)="onPageChange($event)"
+            showFirstLastButtons
+          ></mat-paginator>
+        </nb-card-body>
+      </nb-card>
     </div>
   `,
   styles: [
