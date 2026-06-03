@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
@@ -6,6 +7,20 @@ import { of, throwError } from 'rxjs';
 import { CaseDetailComponent } from './case-detail.component';
 import { CasesService } from '../services/cases.service';
 import { CaseDetailDto } from '../../../shared/models/models';
+
+/** Mirrors the template's score formatting so specs assert behaviour, not a literal. */
+const asPercent = (score: number): string => `${(score * 100).toFixed(1)}%`;
+
+/** Maps each `.score-item` block to { label -> rendered value } for targeted assertions. */
+function readScoreItems(fixture: ComponentFixture<CaseDetailComponent>): Record<string, string> {
+  const result: Record<string, string> = {};
+  for (const item of fixture.debugElement.queryAll(By.css('.score-item'))) {
+    const label = item.query(By.css('.label'))?.nativeElement.textContent.trim();
+    const value = item.query(By.css('.value'))?.nativeElement.textContent.trim();
+    if (label) result[label] = value;
+  }
+  return result;
+}
 
 function makeDetail(): CaseDetailDto {
   return {
@@ -88,26 +103,36 @@ describe('CaseDetailComponent', () => {
   });
 
   it('renders the ML + rules + aggregate breakdown clearly', () => {
-    const text = setup().nativeElement.textContent as string;
-    expect(text).toContain('ML Score');
-    expect(text).toContain('80.0%'); // mlScore 0.8
-    expect(text).toContain('Rules Score');
-    expect(text).toContain('60.0%'); // rulesScore 0.6
-    expect(text).toContain('Aggregate');
-    expect(text).toContain('72.0%'); // aggregateScore 0.72
+    const fixture = setup();
+    const rs = makeDetail().riskScore;
+    const scores = readScoreItems(fixture);
+
+    expect(scores['ML Score']).toBe(asPercent(rs.mlScore));
+    expect(scores['Rules Score']).toBe(asPercent(rs.rulesScore));
+    expect(scores['Aggregate']).toBe(asPercent(rs.aggregateScore));
   });
 
   it('renders the decision and top explanation factors (reason codes)', () => {
-    const text = setup().nativeElement.textContent as string;
-    expect(text).toContain('DECLINE');
-    expect(text).toContain('VELOCITY_HIGH');
-    expect(text).toContain('GEO_MISMATCH');
+    const fixture = setup();
+
+    const decision = fixture.debugElement.query(By.css('.decision-chip')).nativeElement.textContent;
+    expect(decision.trim()).toBe(makeDetail().riskScore.decision);
+
+    const codes = fixture.debugElement
+      .queryAll(By.css('.code-chip'))
+      .map((el) => el.nativeElement.textContent.trim());
+    expect(codes).toEqual(makeDetail().riskScore.reasonCodes);
   });
 
-  it('renders the transaction context', () => {
-    const text = setup().nativeElement.textContent as string;
-    expect(text).toContain('US'); // country
-    expect(text).toContain('10.0.0.1'); // ip
+  it('renders the transaction context (country and IP)', () => {
+    const fixture = setup();
+    const tx = makeDetail().transaction;
+    const values = fixture.debugElement
+      .queryAll(By.css('.info-grid .value'))
+      .map((el) => el.nativeElement.textContent.trim());
+
+    expect(values).toContain(tx.country);
+    expect(values).toContain(tx.ipAddress);
   });
 
   it('handles a load failure: clears loading, leaves no detail, notifies', () => {
