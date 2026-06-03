@@ -2,13 +2,29 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { NbLayoutModule, NbCardModule, NbInputModule, NbButtonModule } from '@nebular/theme';
+import {
+  NbLayoutModule,
+  NbCardModule,
+  NbInputModule,
+  NbButtonModule,
+  NbFormFieldModule,
+  NbIconModule,
+} from '@nebular/theme';
 import { AuthService } from '../../../core/auth/auth.service';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [NgIf, FormsModule, NbLayoutModule, NbCardModule, NbInputModule, NbButtonModule],
+  imports: [
+    NgIf,
+    FormsModule,
+    NbLayoutModule,
+    NbCardModule,
+    NbInputModule,
+    NbButtonModule,
+    NbFormFieldModule,
+    NbIconModule,
+  ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })

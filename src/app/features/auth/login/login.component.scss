@@ -49,6 +49,7 @@
 
 .error-message {
   margin: 0 0 1rem;
-  color: var(--color-danger-500, #ff3d71);
+  // Nebular cosmic theme variable so the error color tracks the active theme.
+  color: var(--text-danger-color, var(--color-danger-500, #ff3d71));
   font-size: 0.85rem;
 }

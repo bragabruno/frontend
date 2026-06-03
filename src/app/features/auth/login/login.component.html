@@ -24,17 +24,32 @@
 
           <div class="form-group">
             <label class="label" for="password">Password</label>
-            <input
-              nbInput
-              fullWidth
-              fieldSize="large"
-              id="password"
-              name="password"
-              autocomplete="current-password"
-              placeholder="Password"
-              [type]="hidePassword ? 'password' : 'text'"
-              [(ngModel)]="password"
-            />
+            <nb-form-field>
+              <input
+                nbInput
+                fullWidth
+                fieldSize="large"
+                id="password"
+                name="password"
+                autocomplete="current-password"
+                placeholder="Password"
+                [type]="hidePassword ? 'password' : 'text'"
+                [(ngModel)]="password"
+              />
+              <button
+                nbSuffix
+                nbButton
+                ghost
+                type="button"
+                (click)="hidePassword = !hidePassword"
+                [attr.aria-label]="hidePassword ? 'Show password' : 'Hide password'"
+              >
+                <nb-icon
+                  [icon]="hidePassword ? 'eye-outline' : 'eye-off-outline'"
+                  pack="eva"
+                ></nb-icon>
+              </button>
+            </nb-form-field>
           </div>
 
           <p class="error-message" *ngIf="error">{{ error }}</p>
