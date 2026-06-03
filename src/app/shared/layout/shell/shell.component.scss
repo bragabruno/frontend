@@ -1,0 +1,27 @@
+:host {
+  display: block;
+  height: 100vh;
+}
+
+.shell-container {
+  height: 100%;
+}
+
+.shell-sidenav {
+  width: 260px;
+  border: none;
+  background-color: var(--bg-sidebar);
+}
+
+.shell-sidenav.collapsed {
+  width: 64px;
+}
+
+.shell-content {
+  background-color: var(--bg-base);
+}
+
+.page-content {
+  padding: var(--spacing-lg);
+  min-height: calc(100vh - 64px - 48px);
+}

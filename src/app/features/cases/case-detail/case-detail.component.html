@@ -1,0 +1,204 @@
+<div class="case-detail-page" *ngIf="caseDetail() as detail">
+  <button mat-button (click)="goBack()" class="back-btn">
+    <mat-icon>arrow_back</mat-icon> Back to Cases
+  </button>
+
+  <!-- Summary Card -->
+  <mat-card class="summary-card">
+    <div class="summary-row">
+      <div class="summary-item">
+        <span class="label">Status</span>
+        <span class="status-chip" [class]="'status-' + detail.status.toLowerCase().replace('_', '-')">
+          {{ getStatusLabel(detail.status) }}
+        </span>
+      </div>
+      <div class="summary-item">
+        <span class="label">Severity</span>
+        <span class="severity-badge" [class]="'severity-' + detail.severity.toLowerCase()">
+          {{ detail.severity }}
+        </span>
+      </div>
+      <div class="summary-item">
+        <span class="label">Assignee</span>
+        <span>{{ detail.assigneeId ? (detail.assigneeId | slice:0:8) : 'Unassigned' }}</span>
+      </div>
+      <div class="summary-item" *ngIf="detail.slaDueAt">
+        <span class="label">SLA</span>
+        <span [class]="getSlaInfo(detail.slaDueAt).class">{{ getSlaInfo(detail.slaDueAt).text }}</span>
+      </div>
+    </div>
+
+    <div class="action-bar" *ngIf="validTransitions.length > 0">
+      <button mat-raised-button color="primary" *ngIf="detail.status === 'OPEN'" (click)="assignToMe()">
+        Assign to Me
+      </button>
+      <button mat-raised-button color="accent" *ngFor="let status of validTransitions" (click)="transitionTo(status)">
+        {{ getStatusLabel(status) }}
+      </button>
+    </div>
+  </mat-card>
+
+  <!-- Transaction & Risk Score -->
+  <div class="detail-grid">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Transaction</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="info-grid">
+          <div class="info-item">
+            <span class="label">Amount</span>
+            <span class="value">{{ formatAmount(detail.transaction.amount, detail.transaction.currency) }}</span>
+          </div>
+          <div class="info-item">
+            <span class="label">Currency</span>
+            <span class="value">{{ detail.transaction.currency }}</span>
+          </div>
+          <div class="info-item">
+            <span class="label">Country</span>
+            <span class="value">{{ detail.transaction.country }}</span>
+          </div>
+          <div class="info-item">
+            <span class="label">IP Address</span>
+            <span class="value mono">{{ detail.transaction.ipAddress }}</span>
+          </div>
+          <div class="info-item">
+            <span class="label">Status</span>
+            <span class="value">{{ detail.transaction.status }}</span>
+          </div>
+          <div class="info-item">
+            <span class="label">Created</span>
+            <span class="value">{{ formatTimestamp(detail.transaction.createdAt) }}</span>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Risk Score</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="score-section">
+          <div class="score-item">
+            <span class="label">ML Score</span>
+            <mat-progress-bar mode="determinate" [value]="detail.riskScore.mlScore * 100"></mat-progress-bar>
+            <span class="value">{{ (detail.riskScore.mlScore * 100).toFixed(1) }}%</span>
+          </div>
+          <div class="score-item">
+            <span class="label">Rules Score</span>
+            <mat-progress-bar mode="determinate" [value]="detail.riskScore.rulesScore * 100"></mat-progress-bar>
+            <span class="value">{{ (detail.riskScore.rulesScore * 100).toFixed(1) }}%</span>
+          </div>
+          <div class="score-item">
+            <span class="label">Aggregate</span>
+            <mat-progress-bar mode="determinate" [value]="detail.riskScore.aggregateScore * 100" color="warn"></mat-progress-bar>
+            <span class="value">{{ (detail.riskScore.aggregateScore * 100).toFixed(1) }}%</span>
+          </div>
+        </div>
+
+        <div class="decision-section">
+          <span class="label">Decision</span>
+          <span class="decision-chip" [style.background-color]="getDecisionColor(detail.riskScore.decision)">
+            {{ detail.riskScore.decision }}
+          </span>
+        </div>
+
+        <div class="reason-codes" *ngIf="detail.riskScore.reasonCodes.length > 0">
+          <span class="label">Reason Codes</span>
+          <div class="code-chips">
+            <span class="code-chip" *ngFor="let code of detail.riskScore.reasonCodes">{{ code }}</span>
+          </div>
+        </div>
+
+        <div class="degraded-warning" *ngIf="detail.riskScore.degradedMode">
+          <mat-icon>warning</mat-icon>
+          <span>Degraded Mode — ML model unavailable, using rules only</span>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- Notes & Labels Tabs -->
+  <mat-tab-group class="detail-tabs">
+    <mat-tab label="Notes ({{ detail.notes.length }})">
+      <div class="tab-content">
+        <div class="notes-list">
+          <mat-list>
+            <mat-list-item *ngFor="let note of detail.notes">
+              <div class="note-item">
+                <div class="note-header">
+                  <span class="author">{{ note.authorId | slice:0:8 }}</span>
+                  <span class="timestamp">{{ formatTimestamp(note.createdAt) }}</span>
+                </div>
+                <p class="note-content">{{ note.content }}</p>
+              </div>
+            </mat-list-item>
+          </mat-list>
+        </div>
+
+        <div class="add-note-form">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Add a note</mat-label>
+            <textarea matInput [(ngModel)]="newNote" rows="3" minlength="10"></textarea>
+          </mat-form-field>
+          <button
+            mat-raised-button
+            color="primary"
+            (click)="submitNote()"
+            [disabled]="newNote.length < 10 || noteSubmitting">
+            Add Note
+          </button>
+        </div>
+      </div>
+    </mat-tab>
+
+    <mat-tab label="Labels ({{ detail.labels.length }})">
+      <div class="tab-content">
+        <mat-list *ngIf="detail.labels.length > 0">
+          <mat-list-item *ngFor="let label of detail.labels">
+            <div class="label-item">
+              <span class="decision-chip" [style.background-color]="getDecisionColor(label.label)">
+                {{ label.label }}
+              </span>
+              <span class="confidence">{{ (label.confidence * 100).toFixed(0) }}%</span>
+              <span class="reason">{{ label.reason }}</span>
+              <span class="timestamp">{{ formatTimestamp(label.labeledAt) }}</span>
+            </div>
+          </mat-list-item>
+        </mat-list>
+
+        <div class="label-form">
+          <mat-radio-group [(ngModel)]="labelForm.label" class="label-radio">
+            <mat-radio-button value="FRAUD">FRAUD</mat-radio-button>
+            <mat-radio-button value="LEGITIMATE">LEGITIMATE</mat-radio-button>
+          </mat-radio-group>
+
+          <div class="slider-row">
+            <span class="label">Confidence: {{ labelForm.confidence }}%</span>
+            <mat-slider min="0" max="100" step="5">
+              <input matSliderThumb [(ngModel)]="labelForm.confidence" />
+            </mat-slider>
+          </div>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Reason</mat-label>
+            <textarea matInput [(ngModel)]="labelForm.reason" rows="3"></textarea>
+          </mat-form-field>
+
+          <button
+            mat-raised-button
+            color="warn"
+            (click)="submitLabel()"
+            [disabled]="!labelForm.reason || labelSubmitting">
+            Submit Label
+          </button>
+        </div>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</div>
+
+<div class="loading" *ngIf="loading()">
+  <p>Loading case details...</p>
+</div>

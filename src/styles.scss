@@ -1,0 +1,190 @@
+@use '@angular/material' as mat;
+@import 'styles/variables';
+@import 'styles/mixins';
+@import 'styles/responsive';
+
+html {
+  font-family: var(--font-family);
+  font-size: 16px;
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  background: var(--bg-base);
+  color: var(--text-primary);
+  min-height: 100vh;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+// Material 3 Dark Theme
+$dark-theme: mat.define-theme((
+  color: (
+    theme-type: dark,
+    primary: mat.$blue-palette,
+    tertiary: mat.$violet-palette,
+  ),
+  density: (scale: 0),
+));
+
+html {
+  @include mat.all-component-themes($dark-theme);
+
+  // Override M3 background surfaces to match our tokens
+  --mat-app-background-color: var(--bg-base);
+  --mat-app-text-color: var(--text-primary);
+  --mat-card-container-color: var(--bg-surface);
+  --mat-dialog-container-color: var(--bg-elevated);
+  --mat-menu-container-color: var(--bg-elevated);
+  --mat-sidenav-container-background-color: var(--bg-sidebar);
+  --mat-toolbar-container-background-color: var(--bg-surface);
+  --mat-table-background-color: var(--bg-surface);
+  --mat-table-header-background-color: var(--bg-elevated);
+  --mat-tab-header-active-focus-indicator-color: var(--accent-blue);
+  --mat-tab-header-active-hover-indicator-color: var(--accent-blue);
+  --mat-tab-header-active-indicator-color: var(--accent-blue);
+  --mat-fab-foreground-color: white;
+  --mat-paginator-container-color: var(--bg-surface);
+  --mat-form-field-container-text-color: var(--text-secondary);
+  --mat-form-field-container-label-text-color: var(--text-secondary);
+  --mat-form-field-focus-color: var(--accent-blue);
+  --mat-form-field-outline-color: var(--border-medium);
+  --mat-select-panel-background-color: var(--bg-elevated);
+  --mat-option-hover-state-layer-color: rgba(255, 255, 255, 0.05);
+  --mat-option-active-state-layer-color: rgba(255, 255, 255, 0.1);
+  --mat-switch-selected-track-color: var(--accent-blue);
+  --mat-checkbox-selected-checkmark-color: white;
+  --mat-divider-color: var(--border-subtle);
+  --mat-progress-bar-container-color: var(--bg-elevated);
+  --mat-progress-spinner-active-indicator-color: var(--accent-blue);
+  --mat-slide-toggle-active-track-color: var(--accent-blue);
+  --mat-snack-bar-container-color: var(--bg-elevated);
+}
+
+// Global scrollbar styles
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-medium);
+  border-radius: 3px;
+
+  &:hover {
+    background: var(--border-strong);
+  }
+}
+
+// Toasts (Mat Snackbar overrides)
+.mat-mdc-snack-bar-container {
+  &.success-snackbar {
+    --mdc-snackbar-container-color: var(--status-resolved-legit);
+    --mdc-snackbar-supporting-text-color: var(--text-inverse);
+  }
+
+  &.error-snackbar {
+    --mdc-snackbar-container-color: var(--accent-red);
+    --mdc-snackbar-supporting-text-color: var(--text-primary);
+  }
+}
+
+// Mat dialog backdrop
+.mat-mdc-dialog-container {
+  --mdc-dialog-container-color: var(--bg-elevated);
+}
+
+// Angular Material form field dark overrides
+.mat-mdc-form-field {
+  --mdc-filled-text-field-container-color: var(--bg-input);
+  --mdc-filled-text-field-hover-state-layer-color: transparent;
+  --mdc-filled-text-field-focus-active-indicator-color: var(--accent-blue);
+  --mdc-outlined-text-field-outline-color: var(--border-medium);
+  --mdc-outlined-text-field-focus-hover-outline-color: var(--accent-blue);
+  --mdc-outlined-text-field-focus-active-indicator-color: var(--accent-blue);
+  --mdc-filled-text-field-label-text-color: var(--text-secondary);
+  --mdc-filled-text-field-input-text-color: var(--text-primary);
+  --mdc-outlined-text-field-label-text-color: var(--text-secondary);
+  --mdc-outlined-text-field-input-text-color: var(--text-primary);
+}
+
+// Mat button overrides
+.mat-mdc-raised-button,
+.mat-mdc-unelevated-button {
+  --mdc-protected-button-container-color: var(--accent-blue);
+  --mdc-protected-button-label-text-color: white;
+}
+
+.mat-mdc-outlined-button {
+  --mdc-protected-button-outline-color: var(--border-medium);
+  --mdc-protected-button-label-text-color: var(--text-primary);
+}
+
+.mat-mdc-icon-button {
+  --mdc-icon-button-icon-color: var(--text-secondary);
+}
+
+// --- Focus Ring (Accessibility) ---
+*:focus-visible {
+  outline: 2px solid var(--accent-blue);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+// --- Loading Skeleton ---
+@keyframes shimmer {
+  0% { background-position: -200px 0; }
+  100% { background-position: calc(200px + 100%) 0; }
+}
+
+.skeleton {
+  background: linear-gradient(90deg, var(--bg-elevated) 0%, var(--bg-surface) 50%, var(--bg-elevated) 100%);
+  background-size: 200px 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+  border-radius: var(--radius-sm);
+}
+
+.skeleton-text {
+  height: 14px;
+  margin-bottom: 8px;
+}
+
+.skeleton-circle {
+  border-radius: var(--radius-full);
+}
+
+// --- Card Hover Glow ---
+.card-hover {
+  transition: all 200ms ease;
+
+  &:hover {
+    border-color: var(--accent-blue);
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.1);
+  }
+}
+
+// --- Smooth Transitions ---
+.transition-all {
+  transition: all var(--transition-normal);
+}
+
+// --- Reduced Motion ---
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

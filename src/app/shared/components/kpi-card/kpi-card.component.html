@@ -1,0 +1,28 @@
+<div class="kpi-card" [style.--accent]="kpi().color">
+  <div class="kpi-header">
+    <span class="kpi-label">{{ kpi().label }}</span>
+    <div class="kpi-change" [class.positive]="isPositive()" [class.negative]="!isPositive()">
+      <mat-icon class="change-icon">{{ isPositive() ? 'trending_up' : 'trending_down' }}</mat-icon>
+      <span>{{ changePercent() | number:'1.0-1' }}%</span>
+    </div>
+  </div>
+
+  <div class="kpi-value-row">
+    <span class="kpi-value">{{ kpi().prefix || '' }}{{ kpi().value | number }}{{ kpi().suffix || '' }}</span>
+    <svg class="sparkline" viewBox="0 0 120 40" preserveAspectRatio="none">
+      <path
+        [attr.d]="sparklineAreaPath()"
+        [attr.fill]="kpi().color"
+        fill-opacity="0.1"
+      />
+      <path
+        [attr.d]="sparklinePath()"
+        [attr.stroke]="kpi().color"
+        stroke-width="2"
+        fill="none"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+  </div>
+</div>

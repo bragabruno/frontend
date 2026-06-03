@@ -1,0 +1,178 @@
+<div class="cases-page">
+  <div class="page-header">
+    <h1>Case Queue</h1>
+    <div class="filters">
+      <mat-form-field appearance="outline">
+        <mat-label>Status</mat-label>
+        <mat-select [(ngModel)]="statusFilter" (selectionChange)="onFilterChange()">
+          <mat-option value="">All</mat-option>
+          <mat-option *ngFor="let s of statusOptions" [value]="s">{{ s.replace('_', ' ') }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Severity</mat-label>
+        <mat-select [(ngModel)]="severityFilter" (selectionChange)="onFilterChange()">
+          <mat-option value="">All</mat-option>
+          <mat-option *ngFor="let s of severityOptions" [value]="s">{{ s }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="kpi-grid" *ngIf="kpis().length">
+    <app-kpi-card *ngFor="let kpi of kpis()" [kpi]="kpi" />
+  </div>
+
+  <app-dashboard-charts />
+
+  <!-- Loading State -->
+  <div class="loading" *ngIf="loading()">
+    <mat-spinner diameter="32" />
+    <span>Loading cases...</span>
+  </div>
+
+  <!-- Error State -->
+  <div class="error" *ngIf="error() as err">
+    <mat-icon class="error-icon">error_outline</mat-icon>
+    <span>{{ err }}</span>
+    <button mat-stroked-button (click)="loadCases()">Retry</button>
+  </div>
+
+  <!-- Empty State -->
+  <div class="empty" *ngIf="!loading() && !error() && cases().length === 0">
+    <mat-icon class="empty-icon">inbox</mat-icon>
+    <span>No cases found</span>
+    <button mat-stroked-button (click)="onFilterChange()" *ngIf="statusFilter || severityFilter">Clear Filters</button>
+  </div>
+
+  <div class="table-container" *ngIf="!loading() && !error() && cases().length > 0">
+    <table mat-table [dataSource]="cases()" matSort (matSortChange)="onSort($event)" multiTemplateDataRows>
+
+      <ng-container matColumnDef="expand">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let row" class="expand-cell">
+          <button mat-icon-button class="expand-btn" (click)="toggleExpand(row, $event)"
+                  [matTooltip]="isExpanded(row.id) ? 'Collapse' : 'Expand'">
+            <mat-icon>{{ isExpanded(row.id) ? 'expand_less' : 'expand_more' }}</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="severity">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Severity</th>
+        <td mat-cell *matCellDef="let row">
+          <span class="severity-badge" [class]="'severity-' + row.severity.toLowerCase()">
+            <mat-icon class="sev-icon">{{ getSeverityIcon(row.severity) }}</mat-icon>
+            {{ row.severity }}
+          </span>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef>Case ID</th>
+        <td mat-cell *matCellDef="let row" class="case-id">{{ row.id | slice:0:8 }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef>Status</th>
+        <td mat-cell *matCellDef="let row">
+          <span class="status-chip" [class]="'status-' + row.status.toLowerCase().replace('_', '-')">
+            {{ row.status.replace('_', ' ') }}
+          </span>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="transactionAmount">
+        <th mat-header-cell *matHeaderCellDef>Amount</th>
+        <td mat-cell *matCellDef="let row" class="amount-cell">--</td>
+      </ng-container>
+
+      <ng-container matColumnDef="assignee">
+        <th mat-header-cell *matHeaderCellDef>Assignee</th>
+        <td mat-cell *matCellDef="let row">
+          <span *ngIf="row.assigneeId" class="assignee-badge">{{ row.assigneeId | slice:0:8 }}</span>
+          <span *ngIf="!row.assigneeId" class="unassigned">Unassigned</span>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="openedAt">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Opened</th>
+        <td mat-cell *matCellDef="let row">{{ row.openedAt | date:'short' }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="sla">
+        <th mat-header-cell *matHeaderCellDef>SLA</th>
+        <td mat-cell *matCellDef="let row" [class]="getSlaInfo(row.slaDueAt).class">
+          {{ getSlaInfo(row.slaDueAt).text }}
+        </td>
+      </ng-container>
+
+      <!-- Expanded Row Detail -->
+      <ng-container matColumnDef="expandedDetail">
+        <td mat-cell *matCellDef="let row" [attr.colspan]="displayedColumns.length" class="detail-cell">
+          <div class="expanded-detail" [class.visible]="isExpanded(row.id)">
+            <div class="detail-grid">
+              <div class="detail-section">
+                <h4>Transaction Preview</h4>
+                <div class="detail-row">
+                  <span class="detail-label">Case ID</span>
+                  <span class="detail-value mono">{{ row.id }}</span>
+                </div>
+                <div class="detail-row">
+                  <span class="detail-label">Transaction</span>
+                  <span class="detail-value mono">{{ row.transactionId | slice:0:12 }}...</span>
+                </div>
+                <div class="detail-row">
+                  <span class="detail-label">Opened</span>
+                  <span class="detail-value">{{ row.openedAt | date:'medium' }}</span>
+                </div>
+              </div>
+              <div class="detail-section">
+                <h4>Risk Summary</h4>
+                <div class="detail-row">
+                  <span class="detail-label">Severity</span>
+                  <span class="severity-badge sm" [class]="'severity-' + row.severity.toLowerCase()">{{ row.severity }}</span>
+                </div>
+                <div class="detail-row">
+                  <span class="detail-label">Status</span>
+                  <span class="status-chip sm" [class]="'status-' + row.status.toLowerCase().replace('_', '-')">{{ row.status.replace('_', ' ') }}</span>
+                </div>
+                <div class="detail-row">
+                  <span class="detail-label">SLA Due</span>
+                  <span class="detail-value" [class]="getSlaInfo(row.slaDueAt).class">{{ getSlaInfo(row.slaDueAt).text }}</span>
+                </div>
+              </div>
+              <div class="detail-actions">
+                <button mat-raised-button color="primary" (click)="onRowClick(row)">
+                  <mat-icon>open_in_new</mat-icon>
+                  View Full Case
+                </button>
+              </div>
+            </div>
+          </div>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"
+          (click)="onRowClick(row)"
+          class="clickable-row"
+          [class.row-expanded]="isExpanded(row.id)"
+          [class.row-new]="isNewCase(row.id)">
+      </tr>
+      <tr mat-row *matRowDef="let row; columns: ['expandedDetail']"
+          class="detail-row-container">
+      </tr>
+
+    </table>
+  </div>
+
+  <mat-paginator
+    [length]="totalElements()"
+    [pageSize]="pageSize"
+    [pageSizeOptions]="[10, 20, 50]"
+    (page)="onPageChange($event)"
+    showFirstLastButtons>
+  </mat-paginator>
+</div>

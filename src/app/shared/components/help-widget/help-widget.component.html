@@ -1,0 +1,21 @@
+<div class="help-widget" [class.open]="isOpen()">
+  <button mat-fab class="help-fab" (click)="toggle()" [matTooltip]="isOpen() ? 'Close' : 'Need help?'"
+          aria-label="Help">
+    <mat-icon>{{ isOpen() ? 'close' : 'help_outline' }}</mat-icon>
+  </button>
+
+  <div class="help-panel" *ngIf="isOpen()">
+    <h3>Need help?</h3>
+    <p>Get support or view documentation</p>
+    <div class="help-actions">
+      <button mat-stroked-button (click)="contactSupport()">
+        <mat-icon>email</mat-icon>
+        Contact Support
+      </button>
+      <button mat-stroked-button (click)="viewDocs()">
+        <mat-icon>menu_book</mat-icon>
+        View Docs
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,75 @@
+:host {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 1000;
+}
+
+.help-widget {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+}
+
+.help-fab {
+  background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+  color: white;
+  box-shadow: var(--shadow-lg);
+
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+
+.help-panel {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 20px;
+  width: 240px;
+  box-shadow: var(--shadow-lg);
+  animation: slideUp 200ms ease;
+
+  h3 {
+    margin: 0 0 4px 0;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  p {
+    margin: 0 0 16px 0;
+    font-size: 13px;
+    color: var(--text-secondary);
+  }
+}
+
+.help-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  button {
+    width: 100%;
+    justify-content: flex-start;
+    gap: 8px;
+    color: var(--text-primary);
+    border-color: var(--border-medium);
+
+    &:hover {
+      background: var(--bg-surface);
+    }
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

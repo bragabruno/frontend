@@ -1,0 +1,30 @@
+<nav class="sidenav" [class.collapsed]="collapsed()">
+  <div class="sidenav-header">
+    <div class="logo-mark">FP</div>
+    <span class="logo-text" *ngIf="!collapsed()">FraudPrevention</span>
+  </div>
+
+  <mat-nav-list class="nav-list">
+    <ng-container *ngFor="let item of navItems">
+      <a *ngIf="isVisible(item)"
+         mat-list-item
+         [routerLink]="item.route"
+         routerLinkActive="active-link"
+         [matTooltip]="collapsed() ? item.label : ''"
+         matTooltipPosition="right">
+        <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
+        <span matListItemTitle *ngIf="!collapsed()">{{ item.label }}</span>
+      </a>
+    </ng-container>
+  </mat-nav-list>
+
+  <div class="sidenav-footer" *ngIf="user() as u">
+    <div class="user-profile" [matTooltip]="collapsed() ? u.username : ''">
+      <div class="user-avatar">{{ initials }}</div>
+      <div class="user-info" *ngIf="!collapsed()">
+        <span class="user-name">{{ u.username }}</span>
+        <span class="user-role">{{ roleLabel }}</span>
+      </div>
+    </div>
+  </div>
+</nav>

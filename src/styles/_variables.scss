@@ -1,0 +1,194 @@
+// ============================================================
+// Design Tokens — Fraud Prevention Dashboard (Dark Theme)
+// ============================================================
+
+// --- CSS Custom Properties (Dark Theme) ---
+:root {
+  // Backgrounds
+  --bg-base: #0a0a0a;
+  --bg-surface: #1a1a1a;
+  --bg-elevated: #242424;
+  --bg-sidebar: #0f0f0f;
+  --bg-input: #1e1e1e;
+
+  // Borders
+  --border-subtle: #2a2a2a;
+  --border-medium: #3a3a3a;
+  --border-strong: #4a4a4a;
+
+  // Text
+  --text-primary: #ffffff;
+  --text-secondary: #a0a0a0;
+  --text-tertiary: #666666;
+  --text-inverse: #0a0a0a;
+
+  // Accents
+  --accent-green: #22c55e;
+  --accent-green-dim: rgba(34, 197, 94, 0.15);
+  --accent-red: #ef4444;
+  --accent-red-dim: rgba(239, 68, 68, 0.15);
+  --accent-amber: #f59e0b;
+  --accent-amber-dim: rgba(245, 158, 11, 0.15);
+  --accent-blue: #3b82f6;
+  --accent-blue-dim: rgba(59, 130, 246, 0.15);
+  --accent-purple: #a855f7;
+  --accent-purple-dim: rgba(168, 85, 247, 0.15);
+  --accent-cyan: #06b6d4;
+  --accent-cyan-dim: rgba(6, 182, 212, 0.15);
+
+  // Severity
+  --severity-critical: #ef4444;
+  --severity-critical-bg: rgba(239, 68, 68, 0.12);
+  --severity-high: #f59e0b;
+  --severity-high-bg: rgba(245, 158, 11, 0.12);
+  --severity-medium: #eab308;
+  --severity-medium-bg: rgba(234, 179, 8, 0.12);
+  --severity-low: #06b6d4;
+  --severity-low-bg: rgba(6, 182, 212, 0.12);
+
+  // Decision
+  --decision-approve: #22c55e;
+  --decision-approve-bg: rgba(34, 197, 94, 0.12);
+  --decision-review: #f59e0b;
+  --decision-review-bg: rgba(245, 158, 11, 0.12);
+  --decision-decline: #ef4444;
+  --decision-decline-bg: rgba(239, 68, 68, 0.12);
+
+  // Status
+  --status-open: #3b82f6;
+  --status-assigned: #a855f7;
+  --status-in-review: #f59e0b;
+  --status-resolved-fraud: #ef4444;
+  --status-resolved-legit: #22c55e;
+  --status-escalated: #ec4899;
+  --status-closed: #6b7280;
+
+  // Shadows
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5);
+  --shadow-glow-blue: 0 0 20px rgba(59, 130, 246, 0.15);
+
+  // Spacing
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-2xl: 48px;
+
+  // Typography
+  --font-family: 'Inter', 'Roboto', 'Helvetica Neue', sans-serif;
+  --font-family-mono: 'JetBrains Mono', 'Roboto Mono', monospace;
+
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.8125rem;
+  --font-size-base: 0.875rem;
+  --font-size-md: 1rem;
+  --font-size-lg: 1.25rem;
+  --font-size-xl: 1.5rem;
+  --font-size-2xl: 2rem;
+
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  // Border Radius
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+  --radius-full: 9999px;
+
+  // Transitions
+  --transition-fast: 150ms ease;
+  --transition-normal: 250ms ease;
+  --transition-slow: 350ms ease;
+
+  // Z-index
+  --z-sidenav: 1000;
+  --z-topbar: 1100;
+  --z-modal: 1200;
+  --z-toast: 1300;
+}
+
+// --- Legacy SCSS Variables (mapped to CSS vars for backward compat) ---
+$_color-bg-base: var(--bg-base);
+$_color-bg-surface: var(--bg-surface);
+$_color-bg-elevated: var(--bg-elevated);
+$_color-bg-sidebar: var(--bg-sidebar);
+$_color-bg-card: var(--bg-surface);
+$_color-bg-secondary: var(--bg-base);
+$_color-bg-input: var(--bg-input);
+
+$_color-text-primary: var(--text-primary);
+$_color-text-secondary: var(--text-secondary);
+$_color-text-disabled: var(--text-tertiary);
+$_color-text-inverse: var(--text-inverse);
+
+$_color-border: var(--border-subtle);
+$_color-divider: var(--border-subtle);
+
+$_severity-critical: var(--severity-critical);
+$_severity-critical-bg: var(--severity-critical-bg);
+$_severity-high: var(--severity-high);
+$_severity-high-bg: var(--severity-high-bg);
+$_severity-medium: var(--severity-medium);
+$_severity-medium-bg: var(--severity-medium-bg);
+$_severity-low: var(--severity-low);
+$_severity-low-bg: var(--severity-low-bg);
+
+$_decision-approve: var(--decision-approve);
+$_decision-approve-bg: var(--decision-approve-bg);
+$_decision-review: var(--decision-review);
+$_decision-review-bg: var(--decision-review-bg);
+$_decision-decline: var(--decision-decline);
+$_decision-decline-bg: var(--decision-decline-bg);
+
+$_status-open: var(--status-open);
+$_status-assigned: var(--status-assigned);
+$_status-in-review: var(--status-in-review);
+$_status-resolved-fraud: var(--status-resolved-fraud);
+$_status-resolved-legit: var(--status-resolved-legit);
+$_status-escalated: var(--status-escalated);
+$_status-closed: var(--status-closed);
+
+$_spacing-xs: var(--spacing-xs);
+$_spacing-sm: var(--spacing-sm);
+$_spacing-md: var(--spacing-md);
+$_spacing-lg: var(--spacing-lg);
+$_spacing-xl: var(--spacing-xl);
+$_spacing-2xl: var(--spacing-2xl);
+
+$_font-family: var(--font-family);
+$_font-family-mono: var(--font-family-mono);
+
+$_font-size-xs: var(--font-size-xs);
+$_font-size-sm: var(--font-size-sm);
+$_font-size-base: var(--font-size-base);
+$_font-size-md: var(--font-size-md);
+$_font-size-lg: var(--font-size-lg);
+$_font-size-xl: var(--font-size-xl);
+
+$_font-weight-regular: var(--font-weight-regular);
+$_font-weight-medium: var(--font-weight-medium);
+$_font-weight-bold: var(--font-weight-bold);
+
+$_radius-sm: var(--radius-sm);
+$_radius-md: var(--radius-md);
+$_radius-lg: var(--radius-lg);
+$_radius-full: var(--radius-full);
+
+$_shadow-sm: var(--shadow-sm);
+$_shadow-md: var(--shadow-md);
+$_shadow-lg: var(--shadow-lg);
+
+$_transition-fast: var(--transition-fast);
+$_transition-normal: var(--transition-normal);
+$_transition-slow: var(--transition-slow);
+
+$_z-sidenav: var(--z-sidenav);
+$_z-topbar: var(--z-topbar);
+$_z-modal: var(--z-modal);
+$_z-toast: var(--z-toast);

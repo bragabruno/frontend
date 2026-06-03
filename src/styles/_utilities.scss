@@ -1,0 +1,120 @@
+// ============================================================
+// Utility Classes — Fraud Prevention Dashboard
+// ============================================================
+
+@import 'variables';
+@import 'mixins';
+
+// --- Severity Badges ---
+.severity-critical {
+  @include severity-badge('CRITICAL');
+}
+.severity-high {
+  @include severity-badge('HIGH');
+}
+.severity-medium {
+  @include severity-badge('MEDIUM');
+}
+.severity-low {
+  @include severity-badge('LOW');
+}
+
+// --- Decision Chips ---
+.decision-approve {
+  @include decision-chip('APPROVE');
+}
+.decision-review {
+  @include decision-chip('REVIEW');
+}
+.decision-decline {
+  @include decision-chip('DECLINE');
+}
+
+// --- Status Chips ---
+.status-open {
+  @include status-chip('OPEN');
+}
+.status-assigned {
+  @include status-chip('ASSIGNED');
+}
+.status-in-review {
+  @include status-chip('IN_REVIEW');
+}
+.status-resolved-fraud {
+  @include status-chip('RESOLVED_FRAUD');
+}
+.status-resolved-legit {
+  @include status-chip('RESOLVED_LEGIT');
+}
+.status-escalated {
+  @include status-chip('ESCALATED');
+}
+.status-closed {
+  @include status-chip('CLOSED');
+}
+
+// --- Text Utilities ---
+.text-primary { color: $_color-text-primary; }
+.text-secondary { color: $_color-text-secondary; }
+.text-disabled { color: $_color-text-disabled; }
+.text-critical { color: $_severity-critical; }
+.text-high { color: $_severity-high; }
+.text-medium { color: $_severity-medium; }
+.text-low { color: $_severity-low; }
+
+.text-xs { font-size: $_font-size-xs; }
+.text-sm { font-size: $_font-size-sm; }
+.text-base { font-size: $_font-size-base; }
+.text-md { font-size: $_font-size-md; }
+.text-lg { font-size: $_font-size-lg; }
+.text-xl { font-size: $_font-size-xl; }
+
+.font-medium { font-weight: $_font-weight-medium; }
+.font-bold { font-weight: $_font-weight-bold; }
+
+.truncate { @include truncate; }
+
+// --- Spacing Utilities ---
+.mt-xs { margin-top: $_spacing-xs; }
+.mt-sm { margin-top: $_spacing-sm; }
+.mt-md { margin-top: $_spacing-md; }
+.mt-lg { margin-top: $_spacing-lg; }
+
+.mb-xs { margin-bottom: $_spacing-xs; }
+.mb-sm { margin-bottom: $_spacing-sm; }
+.mb-md { margin-bottom: $_spacing-md; }
+.mb-lg { margin-bottom: $_spacing-lg; }
+
+.p-sm { padding: $_spacing-sm; }
+.p-md { padding: $_spacing-md; }
+.p-lg { padding: $_spacing-lg; }
+
+// --- Layout Utilities ---
+.flex { display: flex; }
+.flex-col { flex-direction: column; }
+.items-center { align-items: center; }
+.justify-between { justify-content: space-between; }
+.justify-center { justify-content: center; }
+.gap-xs { gap: $_spacing-xs; }
+.gap-sm { gap: $_spacing-sm; }
+.gap-md { gap: $_spacing-md; }
+.gap-lg { gap: $_spacing-lg; }
+.flex-1 { flex: 1; }
+
+// --- SLA ---
+.sla-ok { color: $_severity-low; }
+.sla-warning { color: $_severity-high; }
+.sla-overdue { color: $_severity-critical; font-weight: $_font-weight-bold; }
+
+// --- Card ---
+.card { @include card; }
+
+// --- Pulse Animation (for new cases) ---
+@keyframes pulse-highlight {
+  0% { background-color: rgba(21, 101, 192, 0.1); }
+  100% { background-color: transparent; }
+}
+
+.row-new {
+  animation: pulse-highlight 3s ease-out;
+}

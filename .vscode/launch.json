@@ -1,0 +1,116 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "chrome",
+      "name": "Frontend — ng serve (Chrome)",
+      "request": "launch",
+      "url": "http://localhost:4200",
+      "webRoot": "${workspaceFolder}/src",
+      "sourceMaps": true,
+      "sourceMapPathOverrides": {
+        "webpack:///./~/*": "${webRoot}/node_modules/*",
+        "webpack:///./src/*": "${webRoot}/*",
+        "webpack:///*": "*"
+      },
+      "preLaunchTask": "ng-serve"
+    },
+    {
+      "type": "chrome",
+      "name": "Frontend — ng serve (MSW mock)",
+      "request": "launch",
+      "url": "http://localhost:4200",
+      "webRoot": "${workspaceFolder}/src",
+      "sourceMaps": true,
+      "sourceMapPathOverrides": {
+        "webpack:///./~/*": "${webRoot}/node_modules/*",
+        "webpack:///./src/*": "${webRoot}/*",
+        "webpack:///*": "*"
+      },
+      "preLaunchTask": "ng-serve-mock",
+      "env": {
+        "NG_APP_MOCK_API": "true"
+      }
+    },
+    {
+      "type": "chrome",
+      "name": "Frontend — ng serve (proxy to backend)",
+      "request": "launch",
+      "url": "http://localhost:4200",
+      "webRoot": "${workspaceFolder}/src",
+      "sourceMaps": true,
+      "sourceMapPathOverrides": {
+        "webpack:///./~/*": "${webRoot}/node_modules/*",
+        "webpack:///./src/*": "${webRoot}/*",
+        "webpack:///*": "*"
+      },
+      "preLaunchTask": "ng-serve-proxy"
+    },
+    {
+      "type": "node",
+      "name": "Frontend — Karma Tests",
+      "request": "launch",
+      "program": "${workspaceFolder}/node_modules/.bin/ng",
+      "args": ["test", "--no-watch", "--browsers=ChromeHeadless"],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen"
+    },
+    {
+      "type": "node",
+      "name": "Frontend — Karma Tests (watch)",
+      "request": "launch",
+      "program": "${workspaceFolder}/node_modules/.bin/ng",
+      "args": ["test", "--watch", "--browsers=Chrome"],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen"
+    },
+    {
+      "type": "node",
+      "name": "Frontend — Playwright E2E",
+      "request": "launch",
+      "program": "${workspaceFolder}/node_modules/.bin/playwright",
+      "args": ["test", "--headed"],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen"
+    },
+    {
+      "type": "node",
+      "name": "Frontend — Playwright E2E (current file)",
+      "request": "launch",
+      "program": "${workspaceFolder}/node_modules/.bin/playwright",
+      "args": ["test", "${relativeFile}", "--headed"],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen"
+    },
+    {
+      "type": "node",
+      "name": "Frontend — ESLint",
+      "request": "launch",
+      "program": "${workspaceFolder}/node_modules/.bin/ng",
+      "args": ["lint"],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen"
+    }
+  ],
+  "compounds": [
+    {
+      "name": "Frontend — Full Dev (MSW + Chrome)",
+      "configurations": [
+        "Frontend — ng serve (MSW mock)"
+      ],
+      "stopAll": true
+    },
+    {
+      "name": "Frontend — Full Dev (backend proxy + Chrome)",
+      "configurations": [
+        "Frontend — ng serve (proxy to backend)"
+      ],
+      "stopAll": true
+    }
+  ]
+}

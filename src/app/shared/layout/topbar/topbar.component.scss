@@ -1,0 +1,130 @@
+:host {
+  display: block;
+}
+
+.topbar {
+  background-color: var(--bg-surface);
+  color: var(--text-primary);
+  border-bottom: 1px solid var(--border-subtle);
+  position: sticky;
+  top: 0;
+  z-index: 1100;
+  height: 64px;
+  padding: 0 16px;
+  gap: 12px;
+}
+
+.menu-btn {
+  color: var(--text-secondary);
+}
+
+.search-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: var(--bg-input);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 6px 12px;
+  width: 280px;
+  transition: border-color 150ms ease;
+
+  &:focus-within {
+    border-color: var(--accent-blue);
+  }
+}
+
+.search-icon {
+  color: var(--text-tertiary);
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+}
+
+.search-input {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--text-primary);
+  font-size: 13px;
+  width: 100%;
+  font-family: var(--font-family);
+
+  &::placeholder {
+    color: var(--text-tertiary);
+  }
+}
+
+.spacer {
+  flex: 1;
+}
+
+.topbar-actions {
+  display: flex;
+  gap: 4px;
+}
+
+.action-btn {
+  color: var(--text-secondary);
+}
+
+.topbar-divider {
+  width: 1px;
+  height: 24px;
+  background-color: var(--border-subtle);
+  margin: 0 4px;
+}
+
+.user-button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-transform: none;
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  transition: background-color 150ms ease;
+
+  &:hover {
+    background-color: var(--bg-elevated);
+  }
+}
+
+.user-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radius-full);
+  background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  line-height: 1.2;
+}
+
+.username {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.role-badge {
+  font-size: 11px;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.dropdown-icon {
+  color: var(--text-tertiary);
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+}
