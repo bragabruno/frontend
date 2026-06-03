@@ -86,12 +86,14 @@ export class CasesListComponent implements OnInit, OnDestroy {
     private kpiService: KpiService,
     private sseService: SseService,
     private router: Router,
-  ) {}
+  ) {
+    // effect() must be created in an injection context (constructor), not ngOnInit.
+    this.setupSseUpdates();
+  }
 
   ngOnInit(): void {
     this.loadCases();
     this.loadKpis();
-    this.setupSseUpdates();
   }
 
   ngOnDestroy(): void {

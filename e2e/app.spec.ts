@@ -24,13 +24,16 @@ test.describe('Session persistence', () => {
     await page.fill('input[name="password"]', 'password');
     await page.click('button[type="submit"]');
 
-    // Successful login lands on the case queue.
+    // Successful login lands on the case queue and the queue actually renders.
     await expect(page).toHaveURL(/\/cases/);
+    await expect(page.locator('h1')).toContainText('Case Queue');
+    await expect(page.locator('table[mat-table]')).toBeVisible();
 
     // Reload: the persisted refresh token should restore the session via /auth/me
     // before the route guard runs, so the user is not bounced back to /login.
     await page.reload();
     await expect(page).toHaveURL(/\/cases/);
     await expect(page).not.toHaveURL(/\/login/);
+    await expect(page.locator('table[mat-table]')).toBeVisible();
   });
 });
