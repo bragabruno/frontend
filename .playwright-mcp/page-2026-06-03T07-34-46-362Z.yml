@@ -1,0 +1,476 @@
+- generic [ref=e38]:
+  - generic [ref=e39]:
+    - heading "Case Queue" [level=1] [ref=e40]
+    - generic [ref=e41]:
+      - generic [ref=e44] [cursor=pointer]:
+        - generic [ref=e45]: Status
+        - combobox "Status" [ref=e47]:
+          - generic [ref=e48]:
+            - generic [ref=e50]: All
+            - img [ref=e53]
+      - generic [ref=e58] [cursor=pointer]:
+        - generic [ref=e59]: Severity
+        - combobox "Severity" [ref=e61]:
+          - generic [ref=e62]:
+            - generic [ref=e64]: All
+            - img [ref=e67]
+  - generic [ref=e70]:
+    - generic [ref=e72]:
+      - generic [ref=e73]:
+        - generic [ref=e74]: Open Cases
+        - generic [ref=e75]:
+          - img [ref=e76]: trending_up
+          - generic [ref=e77]: 23.7%
+      - generic [ref=e78]:
+        - generic [ref=e79]: "47"
+        - img [ref=e80]
+    - generic [ref=e84]:
+      - generic [ref=e85]:
+        - generic [ref=e86]: Critical
+        - generic [ref=e87]:
+          - img [ref=e88]: trending_up
+          - generic [ref=e89]: 60%
+      - generic [ref=e90]:
+        - generic [ref=e91]: "8"
+        - img [ref=e92]
+    - generic [ref=e96]:
+      - generic [ref=e97]:
+        - generic [ref=e98]: Resolved Today
+        - generic [ref=e99]:
+          - img [ref=e100]: trending_up
+          - generic [ref=e101]: 27.8%
+      - generic [ref=e102]:
+        - generic [ref=e103]: "23"
+        - img [ref=e104]
+    - generic [ref=e108]:
+      - generic [ref=e109]:
+        - generic [ref=e110]: Avg SLA
+        - generic [ref=e111]:
+          - img [ref=e112]: trending_up
+          - generic [ref=e113]: 4.5%
+      - generic [ref=e114]:
+        - generic [ref=e115]: 92%
+        - img [ref=e116]
+    - generic [ref=e120]:
+      - generic [ref=e121]:
+        - generic [ref=e122]: Fraud Rate
+        - generic [ref=e123]:
+          - img [ref=e124]: trending_down
+          - generic [ref=e125]: "-22%"
+      - generic [ref=e126]:
+        - generic [ref=e127]: 3.2%
+        - img [ref=e128]
+    - generic [ref=e132]:
+      - generic [ref=e133]:
+        - generic [ref=e134]: Pending Review
+        - generic [ref=e135]:
+          - img [ref=e136]: trending_up
+          - generic [ref=e137]: 25%
+      - generic [ref=e138]:
+        - generic [ref=e139]: "15"
+        - img [ref=e140]
+  - generic [ref=e144]:
+    - generic [ref=e145]:
+      - heading "Case Status Distribution" [level=3] [ref=e146]
+      - img [ref=e150]:
+        - generic [ref=e152]:
+          - generic [ref=e156]: Open
+          - generic [ref=e164]: Assigned
+          - generic [ref=e172]: In Review
+          - generic [ref=e180]: Escalated
+          - generic [ref=e188]: Resolved F...
+          - generic [ref=e196]: Resolved L...
+          - generic [ref=e204]: Closed
+    - generic [ref=e209]:
+      - heading "Cases by Severity" [level=3] [ref=e210]
+      - img [ref=e214]:
+        - generic [ref=e215]:
+          - generic [ref=e219]:
+            - generic "Critical" [ref=e220]:
+              - generic [ref=e221]: Critical
+            - generic "High" [ref=e222]:
+              - generic [ref=e223]: High
+            - generic "Medium" [ref=e224]:
+              - generic [ref=e225]: Medium
+            - generic "Low" [ref=e226]:
+              - generic [ref=e227]: Low
+          - generic [ref=e231]:
+            - generic "0" [ref=e232]:
+              - generic [ref=e233]: "0"
+            - generic "5" [ref=e234]:
+              - generic [ref=e235]: "5"
+            - generic "10" [ref=e236]:
+              - generic [ref=e237]: "10"
+            - generic "15" [ref=e238]:
+              - generic [ref=e239]: "15"
+          - generic [ref=e241]:
+            - img "Critical 8" [ref=e243] [cursor=pointer]
+            - img "High 14" [ref=e245] [cursor=pointer]
+            - img "Medium 18" [ref=e247] [cursor=pointer]
+            - img "Low 7" [ref=e249] [cursor=pointer]
+    - generic [ref=e250]:
+      - heading "Top Rules Triggered" [level=3] [ref=e251]
+      - img [ref=e255]:
+        - generic [ref=e256]:
+          - generic [ref=e260]:
+            - generic "0" [ref=e261]:
+              - generic [ref=e262]: "0"
+            - generic "10" [ref=e263]:
+              - generic [ref=e264]: "10"
+            - generic "20" [ref=e265]:
+              - generic [ref=e266]: "20"
+            - generic "30" [ref=e267]:
+              - generic [ref=e268]: "30"
+          - generic [ref=e272]:
+            - generic "Velocity > 5 txns/hr" [ref=e273]:
+              - generic [ref=e274]: Velocity > 5 txn...
+            - generic "New device + high amount" [ref=e275]:
+              - generic [ref=e276]: New device + hig...
+            - generic "Geo anomaly" [ref=e277]:
+              - generic [ref=e278]: Geo anomaly
+            - generic "Known fraud merchant" [ref=e279]:
+              - generic [ref=e280]: Known fraud merc...
+            - generic "Amount > $5000" [ref=e281]:
+              - generic [ref=e282]: Amount > $5000
+          - generic [ref=e283]:
+            - img "Velocity > 5 txns/hr 34" [ref=e285] [cursor=pointer]
+            - img "New device + high amount 28" [ref=e287] [cursor=pointer]
+            - img "Geo anomaly 21" [ref=e289] [cursor=pointer]
+            - img "Known fraud merchant 15" [ref=e291] [cursor=pointer]
+            - img "Amount > $5000 12" [ref=e293] [cursor=pointer]
+  - table [ref=e295]:
+    - rowgroup [ref=e296]:
+      - row "Severity Case ID Status Amount Assignee Opened SLA" [ref=e297]:
+        - columnheader [ref=e298]
+        - columnheader "Severity" [ref=e299] [cursor=pointer]:
+          - button "Severity" [ref=e300]:
+            - generic [ref=e301]: Severity
+            - img [ref=e303]
+        - columnheader "Case ID" [ref=e305]
+        - columnheader "Status" [ref=e306]
+        - columnheader "Amount" [ref=e307]
+        - columnheader "Assignee" [ref=e308]
+        - columnheader "Opened" [ref=e309] [cursor=pointer]:
+          - button "Opened" [ref=e310]:
+            - generic [ref=e311]: Opened
+            - img [ref=e313]
+        - columnheader "SLA" [ref=e315]
+    - rowgroup [ref=e316]:
+      - row "CRITICAL f24c35c6 ESCALATED -- bob 5/21/26, 2:53 AM OVERDUE 4h 1m" [ref=e317] [cursor=pointer]:
+        - cell [ref=e318]:
+          - button [ref=e319]:
+            - img [ref=e320]: expand_more
+        - cell "CRITICAL" [ref=e323]:
+          - generic [ref=e324]:
+            - img [ref=e325]: error
+            - text: CRITICAL
+        - cell "f24c35c6" [ref=e326]
+        - cell "ESCALATED" [ref=e327]:
+          - generic [ref=e328]: ESCALATED
+        - cell "--" [ref=e329]
+        - cell "bob" [ref=e330]
+        - cell "5/21/26, 2:53 AM" [ref=e331]
+        - cell "OVERDUE 4h 1m" [ref=e332]
+      - row "CRITICAL e371e17b RESOLVED FRAUD -- dave 5/23/26, 2:20 AM No SLA" [ref=e333] [cursor=pointer]:
+        - cell [ref=e334]:
+          - button [ref=e335]:
+            - img [ref=e336]: expand_more
+        - cell "CRITICAL" [ref=e339]:
+          - generic [ref=e340]:
+            - img [ref=e341]: error
+            - text: CRITICAL
+        - cell "e371e17b" [ref=e342]
+        - cell "RESOLVED FRAUD" [ref=e343]:
+          - generic [ref=e344]: RESOLVED FRAUD
+        - cell "--" [ref=e345]
+        - cell "dave" [ref=e346]
+        - cell "5/23/26, 2:20 AM" [ref=e347]
+        - cell "No SLA" [ref=e348]
+      - row "CRITICAL 3d7a80aa ASSIGNED -- dave 5/26/26, 2:20 PM 4h 59m remaining" [ref=e349] [cursor=pointer]:
+        - cell [ref=e350]:
+          - button [ref=e351]:
+            - img [ref=e352]: expand_more
+        - cell "CRITICAL" [ref=e355]:
+          - generic [ref=e356]:
+            - img [ref=e357]: error
+            - text: CRITICAL
+        - cell "3d7a80aa" [ref=e358]
+        - cell "ASSIGNED" [ref=e359]:
+          - generic [ref=e360]: ASSIGNED
+        - cell "--" [ref=e361]
+        - cell "dave" [ref=e362]
+        - cell "5/26/26, 2:20 PM" [ref=e363]
+        - cell "4h 59m remaining" [ref=e364]
+      - row "CRITICAL 33a8d5b4 ASSIGNED -- carol 5/27/26, 4:29 AM 22h 59m remaining" [ref=e365] [cursor=pointer]:
+        - cell [ref=e366]:
+          - button [ref=e367]:
+            - img [ref=e368]: expand_more
+        - cell "CRITICAL" [ref=e371]:
+          - generic [ref=e372]:
+            - img [ref=e373]: error
+            - text: CRITICAL
+        - cell "33a8d5b4" [ref=e374]
+        - cell "ASSIGNED" [ref=e375]:
+          - generic [ref=e376]: ASSIGNED
+        - cell "--" [ref=e377]
+        - cell "carol" [ref=e378]
+        - cell "5/27/26, 4:29 AM" [ref=e379]
+        - cell "22h 59m remaining" [ref=e380]
+      - row "CRITICAL 7eaf96ec OPEN -- Unassigned 5/29/26, 12:58 PM 27h 59m remaining" [ref=e381] [cursor=pointer]:
+        - cell [ref=e382]:
+          - button [ref=e383]:
+            - img [ref=e384]: expand_more
+        - cell "CRITICAL" [ref=e387]:
+          - generic [ref=e388]:
+            - img [ref=e389]: error
+            - text: CRITICAL
+        - cell "7eaf96ec" [ref=e390]
+        - cell "OPEN" [ref=e391]:
+          - generic [ref=e392]: OPEN
+        - cell "--" [ref=e393]
+        - cell "Unassigned" [ref=e394]
+        - cell "5/29/26, 12:58 PM" [ref=e395]
+        - cell "27h 59m remaining" [ref=e396]
+      - row "CRITICAL 20a7f5ad CLOSED -- carol 5/29/26, 6:18 PM No SLA" [ref=e397] [cursor=pointer]:
+        - cell [ref=e398]:
+          - button [ref=e399]:
+            - img [ref=e400]: expand_more
+        - cell "CRITICAL" [ref=e403]:
+          - generic [ref=e404]:
+            - img [ref=e405]: error
+            - text: CRITICAL
+        - cell "20a7f5ad" [ref=e406]
+        - cell "CLOSED" [ref=e407]:
+          - generic [ref=e408]: CLOSED
+        - cell "--" [ref=e409]
+        - cell "carol" [ref=e410]
+        - cell "5/29/26, 6:18 PM" [ref=e411]
+        - cell "No SLA" [ref=e412]
+      - row "HIGH 177935b8 ESCALATED -- eve 5/21/26, 11:23 AM 30h 59m remaining" [ref=e413] [cursor=pointer]:
+        - cell [ref=e414]:
+          - button [ref=e415]:
+            - img [ref=e416]: expand_more
+        - cell "HIGH" [ref=e419]:
+          - generic [ref=e420]:
+            - img [ref=e421]: warning
+            - text: HIGH
+        - cell "177935b8" [ref=e422]
+        - cell "ESCALATED" [ref=e423]:
+          - generic [ref=e424]: ESCALATED
+        - cell "--" [ref=e425]
+        - cell "eve" [ref=e426]
+        - cell "5/21/26, 11:23 AM" [ref=e427]
+        - cell "30h 59m remaining" [ref=e428]
+      - row "HIGH 201230aa CLOSED -- frank 5/31/26, 4:46 AM No SLA" [ref=e429] [cursor=pointer]:
+        - cell [ref=e430]:
+          - button [ref=e431]:
+            - img [ref=e432]: expand_more
+        - cell "HIGH" [ref=e435]:
+          - generic [ref=e436]:
+            - img [ref=e437]: warning
+            - text: HIGH
+        - cell "201230aa" [ref=e438]
+        - cell "CLOSED" [ref=e439]:
+          - generic [ref=e440]: CLOSED
+        - cell "--" [ref=e441]
+        - cell "frank" [ref=e442]
+        - cell "5/31/26, 4:46 AM" [ref=e443]
+        - cell "No SLA" [ref=e444]
+      - row "HIGH c92af929 RESOLVED LEGIT -- carol 6/1/26, 9:33 AM No SLA" [ref=e445] [cursor=pointer]:
+        - cell [ref=e446]:
+          - button [ref=e447]:
+            - img [ref=e448]: expand_more
+        - cell "HIGH" [ref=e451]:
+          - generic [ref=e452]:
+            - img [ref=e453]: warning
+            - text: HIGH
+        - cell "c92af929" [ref=e454]
+        - cell "RESOLVED LEGIT" [ref=e455]:
+          - generic [ref=e456]: RESOLVED LEGIT
+        - cell "--" [ref=e457]
+        - cell "carol" [ref=e458]
+        - cell "6/1/26, 9:33 AM" [ref=e459]
+        - cell "No SLA" [ref=e460]
+      - row "HIGH 96daaf60 ESCALATED -- frank 6/1/26, 12:16 PM 28h 59m remaining" [ref=e461] [cursor=pointer]:
+        - cell [ref=e462]:
+          - button [ref=e463]:
+            - img [ref=e464]: expand_more
+        - cell "HIGH" [ref=e467]:
+          - generic [ref=e468]:
+            - img [ref=e469]: warning
+            - text: HIGH
+        - cell "96daaf60" [ref=e470]
+        - cell "ESCALATED" [ref=e471]:
+          - generic [ref=e472]: ESCALATED
+        - cell "--" [ref=e473]
+        - cell "frank" [ref=e474]
+        - cell "6/1/26, 12:16 PM" [ref=e475]
+        - cell "28h 59m remaining" [ref=e476]
+      - row "HIGH ee1ebdec ASSIGNED -- carol 6/2/26, 8:54 AM 34h 59m remaining" [ref=e477] [cursor=pointer]:
+        - cell [ref=e478]:
+          - button [ref=e479]:
+            - img [ref=e480]: expand_more
+        - cell "HIGH" [ref=e483]:
+          - generic [ref=e484]:
+            - img [ref=e485]: warning
+            - text: HIGH
+        - cell "ee1ebdec" [ref=e486]
+        - cell "ASSIGNED" [ref=e487]:
+          - generic [ref=e488]: ASSIGNED
+        - cell "--" [ref=e489]
+        - cell "carol" [ref=e490]
+        - cell "6/2/26, 8:54 AM" [ref=e491]
+        - cell "34h 59m remaining" [ref=e492]
+      - row "HIGH e43d674b CLOSED -- dave 6/2/26, 4:53 PM No SLA" [ref=e493] [cursor=pointer]:
+        - cell [ref=e494]:
+          - button [ref=e495]:
+            - img [ref=e496]: expand_more
+        - cell "HIGH" [ref=e499]:
+          - generic [ref=e500]:
+            - img [ref=e501]: warning
+            - text: HIGH
+        - cell "e43d674b" [ref=e502]
+        - cell "CLOSED" [ref=e503]:
+          - generic [ref=e504]: CLOSED
+        - cell "--" [ref=e505]
+        - cell "dave" [ref=e506]
+        - cell "6/2/26, 4:53 PM" [ref=e507]
+        - cell "No SLA" [ref=e508]
+      - row "MEDIUM 26dedede ASSIGNED -- dave 5/22/26, 1:03 AM 6h 59m remaining" [ref=e509] [cursor=pointer]:
+        - cell [ref=e510]:
+          - button [ref=e511]:
+            - img [ref=e512]: expand_more
+        - cell "MEDIUM" [ref=e515]:
+          - generic [ref=e516]:
+            - img [ref=e517]: info
+            - text: MEDIUM
+        - cell "26dedede" [ref=e518]
+        - cell "ASSIGNED" [ref=e519]:
+          - generic [ref=e520]: ASSIGNED
+        - cell "--" [ref=e521]
+        - cell "dave" [ref=e522]
+        - cell "5/22/26, 1:03 AM" [ref=e523]
+        - cell "6h 59m remaining" [ref=e524]
+      - row "MEDIUM d17138c3 ASSIGNED -- frank 5/23/26, 8:11 AM 8h 59m remaining" [ref=e525] [cursor=pointer]:
+        - cell [ref=e526]:
+          - button [ref=e527]:
+            - img [ref=e528]: expand_more
+        - cell "MEDIUM" [ref=e531]:
+          - generic [ref=e532]:
+            - img [ref=e533]: info
+            - text: MEDIUM
+        - cell "d17138c3" [ref=e534]
+        - cell "ASSIGNED" [ref=e535]:
+          - generic [ref=e536]: ASSIGNED
+        - cell "--" [ref=e537]
+        - cell "frank" [ref=e538]
+        - cell "5/23/26, 8:11 AM" [ref=e539]
+        - cell "8h 59m remaining" [ref=e540]
+      - row "MEDIUM 264635be OPEN -- Unassigned 5/25/26, 9:26 AM OVERDUE 8h 1m" [ref=e541] [cursor=pointer]:
+        - cell [ref=e542]:
+          - button [ref=e543]:
+            - img [ref=e544]: expand_more
+        - cell "MEDIUM" [ref=e547]:
+          - generic [ref=e548]:
+            - img [ref=e549]: info
+            - text: MEDIUM
+        - cell "264635be" [ref=e550]
+        - cell "OPEN" [ref=e551]:
+          - generic [ref=e552]: OPEN
+        - cell "--" [ref=e553]
+        - cell "Unassigned" [ref=e554]
+        - cell "5/25/26, 9:26 AM" [ref=e555]
+        - cell "OVERDUE 8h 1m" [ref=e556]
+      - row "MEDIUM 3d59a1b8 ESCALATED -- eve 5/26/26, 12:05 AM 28h 59m remaining" [ref=e557] [cursor=pointer]:
+        - cell [ref=e558]:
+          - button [ref=e559]:
+            - img [ref=e560]: expand_more
+        - cell "MEDIUM" [ref=e563]:
+          - generic [ref=e564]:
+            - img [ref=e565]: info
+            - text: MEDIUM
+        - cell "3d59a1b8" [ref=e566]
+        - cell "ESCALATED" [ref=e567]:
+          - generic [ref=e568]: ESCALATED
+        - cell "--" [ref=e569]
+        - cell "eve" [ref=e570]
+        - cell "5/26/26, 12:05 AM" [ref=e571]
+        - cell "28h 59m remaining" [ref=e572]
+      - row "MEDIUM 337d0b38 IN REVIEW -- carol 6/3/26, 12:45 AM 19h 59m remaining" [ref=e573] [cursor=pointer]:
+        - cell [ref=e574]:
+          - button [ref=e575]:
+            - img [ref=e576]: expand_more
+        - cell "MEDIUM" [ref=e579]:
+          - generic [ref=e580]:
+            - img [ref=e581]: info
+            - text: MEDIUM
+        - cell "337d0b38" [ref=e582]
+        - cell "IN REVIEW" [ref=e583]:
+          - generic [ref=e584]: IN REVIEW
+        - cell "--" [ref=e585]
+        - cell "carol" [ref=e586]
+        - cell "6/3/26, 12:45 AM" [ref=e587]
+        - cell "19h 59m remaining" [ref=e588]
+      - row "MEDIUM cf14ce95 OPEN -- Unassigned 6/3/26, 12:54 PM 31h 59m remaining" [ref=e589] [cursor=pointer]:
+        - cell [ref=e590]:
+          - button [ref=e591]:
+            - img [ref=e592]: expand_more
+        - cell "MEDIUM" [ref=e595]:
+          - generic [ref=e596]:
+            - img [ref=e597]: info
+            - text: MEDIUM
+        - cell "cf14ce95" [ref=e598]
+        - cell "OPEN" [ref=e599]:
+          - generic [ref=e600]: OPEN
+        - cell "--" [ref=e601]
+        - cell "Unassigned" [ref=e602]
+        - cell "6/3/26, 12:54 PM" [ref=e603]
+        - cell "31h 59m remaining" [ref=e604]
+      - row "LOW f8841de7 RESOLVED FRAUD -- carol 5/24/26, 6:22 AM No SLA" [ref=e605] [cursor=pointer]:
+        - cell [ref=e606]:
+          - button [ref=e607]:
+            - img [ref=e608]: expand_more
+        - cell "LOW" [ref=e611]:
+          - generic [ref=e612]:
+            - img [ref=e613]: check_circle
+            - text: LOW
+        - cell "f8841de7" [ref=e614]
+        - cell "RESOLVED FRAUD" [ref=e615]:
+          - generic [ref=e616]: RESOLVED FRAUD
+        - cell "--" [ref=e617]
+        - cell "carol" [ref=e618]
+        - cell "5/24/26, 6:22 AM" [ref=e619]
+        - cell "No SLA" [ref=e620]
+      - row "LOW a2e5aae6 ESCALATED -- bob 5/24/26, 12:02 PM 26h 59m remaining" [ref=e621] [cursor=pointer]:
+        - cell [ref=e622]:
+          - button [ref=e623]:
+            - img [ref=e624]: expand_more
+        - cell "LOW" [ref=e627]:
+          - generic [ref=e628]:
+            - img [ref=e629]: check_circle
+            - text: LOW
+        - cell "a2e5aae6" [ref=e630]
+        - cell "ESCALATED" [ref=e631]:
+          - generic [ref=e632]: ESCALATED
+        - cell "--" [ref=e633]
+        - cell "bob" [ref=e634]
+        - cell "5/24/26, 12:02 PM" [ref=e635]
+        - cell "26h 59m remaining" [ref=e636]
+  - group [ref=e637]:
+    - generic [ref=e639]:
+      - generic [ref=e640]:
+        - generic [ref=e641]: "Items per page:"
+        - combobox "Items per page:" [ref=e646] [cursor=pointer]:
+          - generic [ref=e647]:
+            - generic [ref=e649]: "20"
+            - img [ref=e652]
+      - generic [ref=e655]:
+        - generic [ref=e656]: 1 – 20 of 25
+        - button "First page" [disabled] [ref=e657]:
+          - img [ref=e658]
+        - button "Previous page" [disabled] [ref=e662]:
+          - img [ref=e663]
+        - button "Next page" [ref=e667] [cursor=pointer]:
+          - img [ref=e668]
+        - button "Last page" [ref=e672] [cursor=pointer]:
+          - img [ref=e673]
