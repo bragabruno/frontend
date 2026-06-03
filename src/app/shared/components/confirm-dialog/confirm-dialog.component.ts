@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
-import { MatButtonModule } from '@angular/material/button';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { NbCardModule, NbButtonModule } from '@nebular/theme';
 
 export interface ConfirmDialogData {
   title: string;
@@ -11,23 +11,30 @@ export interface ConfirmDialogData {
 
 /**
  * Reusable confirmation dialog for guarding destructive actions.
- * Closes with `true` when confirmed, `false`/undefined otherwise.
+ * Rendered with Nebular components but opened/closed via MatDialog so callers
+ * keep using `dialog.open(...).afterClosed()`. Closes with `true` when
+ * confirmed, `false` otherwise.
  */
 @Component({
   selector: 'app-confirm-dialog',
   standalone: true,
-  imports: [MatDialogModule, MatButtonModule],
+  imports: [NbCardModule, NbButtonModule],
   template: `
-    <h2 mat-dialog-title>{{ data.title }}</h2>
-    <mat-dialog-content>{{ data.message }}</mat-dialog-content>
-    <mat-dialog-actions align="end">
-      <button mat-button [mat-dialog-close]="false">{{ data.cancelText ?? 'Cancel' }}</button>
-      <button mat-raised-button color="warn" [mat-dialog-close]="true">
-        {{ data.confirmText ?? 'Confirm' }}
-      </button>
-    </mat-dialog-actions>
+    <nb-card class="confirm-dialog">
+      <nb-card-header>{{ data.title }}</nb-card-header>
+      <nb-card-body>{{ data.message }}</nb-card-body>
+      <nb-card-footer class="confirm-actions">
+        <button nbButton ghost status="basic" (click)="dialogRef.close(false)">
+          {{ data.cancelText ?? 'Cancel' }}
+        </button>
+        <button nbButton status="danger" (click)="dialogRef.close(true)">
+          {{ data.confirmText ?? 'Confirm' }}
+        </button>
+      </nb-card-footer>
+    </nb-card>
   `,
 })
 export class ConfirmDialogComponent {
   readonly data = inject<ConfirmDialogData>(MAT_DIALOG_DATA);
+  readonly dialogRef = inject<MatDialogRef<ConfirmDialogComponent, boolean>>(MatDialogRef);
 }
