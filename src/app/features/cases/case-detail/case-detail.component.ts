@@ -21,10 +21,12 @@ import {
   ConfirmDialogComponent,
   ConfirmDialogData,
 } from '../../../shared/components/confirm-dialog/confirm-dialog.component';
+import { HasRoleDirective } from '../../../shared/directives/has-role.directive';
 import {
   CaseDetailDto,
   CaseStatus,
   LabelType,
+  Role,
   VALID_TRANSITIONS,
 } from '../../../shared/models/models';
 import { formatSlaDue, formatCurrency, formatDate } from '../../../shared/utils/utils';
@@ -58,6 +60,7 @@ interface LabelSubmission {
     MatInputModule,
     MatRadioModule,
     MatSliderModule,
+    HasRoleDirective,
   ],
   templateUrl: './case-detail.component.html',
   styleUrl: './case-detail.component.scss',
@@ -70,6 +73,9 @@ export class CaseDetailComponent implements OnInit {
 
   labelForm = { label: 'FRAUD' as 'FRAUD' | 'LEGITIMATE', confidence: 80, reason: '' };
   labelSubmitting = false;
+
+  /** Roles allowed to take case actions. Auditors are read-only (excluded). */
+  readonly actionRoles: Role[] = ['ADMIN', 'FRAUD_ANALYST', 'INVESTIGATOR'];
 
   constructor(
     private route: ActivatedRoute,

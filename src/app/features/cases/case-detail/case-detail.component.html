@@ -8,7 +8,10 @@
     <div class="summary-row">
       <div class="summary-item">
         <span class="label">Status</span>
-        <span class="status-chip" [class]="'status-' + detail.status.toLowerCase().replace('_', '-')">
+        <span
+          class="status-chip"
+          [class]="'status-' + detail.status.toLowerCase().replace('_', '-')"
+        >
           {{ getStatusLabel(detail.status) }}
         </span>
       </div>
@@ -20,22 +23,36 @@
       </div>
       <div class="summary-item">
         <span class="label">Assignee</span>
-        <span>{{ detail.assigneeId ? (detail.assigneeId | slice:0:8) : 'Unassigned' }}</span>
+        <span>{{ detail.assigneeId ? (detail.assigneeId | slice: 0 : 8) : 'Unassigned' }}</span>
       </div>
       <div class="summary-item" *ngIf="detail.slaDueAt">
         <span class="label">SLA</span>
-        <span [class]="getSlaInfo(detail.slaDueAt).class">{{ getSlaInfo(detail.slaDueAt).text }}</span>
+        <span [class]="getSlaInfo(detail.slaDueAt).class">{{
+          getSlaInfo(detail.slaDueAt).text
+        }}</span>
       </div>
     </div>
 
-    <div class="action-bar" *ngIf="validTransitions.length > 0">
-      <button mat-raised-button color="primary" *ngIf="detail.status === 'OPEN'" (click)="assignToMe()">
-        Assign to Me
-      </button>
-      <button mat-raised-button color="accent" *ngFor="let status of validTransitions" (click)="transitionTo(status)">
-        {{ getStatusLabel(status) }}
-      </button>
-    </div>
+    <ng-container *appHasRole="actionRoles">
+      <div class="action-bar" *ngIf="validTransitions.length > 0">
+        <button
+          mat-raised-button
+          color="primary"
+          *ngIf="detail.status === 'OPEN'"
+          (click)="assignToMe()"
+        >
+          Assign to Me
+        </button>
+        <button
+          mat-raised-button
+          color="accent"
+          *ngFor="let status of validTransitions"
+          (click)="transitionTo(status)"
+        >
+          {{ getStatusLabel(status) }}
+        </button>
+      </div>
+    </ng-container>
   </mat-card>
 
   <!-- Transaction & Risk Score -->
@@ -48,7 +65,9 @@
         <div class="info-grid">
           <div class="info-item">
             <span class="label">Amount</span>
-            <span class="value">{{ formatAmount(detail.transaction.amount, detail.transaction.currency) }}</span>
+            <span class="value">{{
+              formatAmount(detail.transaction.amount, detail.transaction.currency)
+            }}</span>
           </div>
           <div class="info-item">
             <span class="label">Currency</span>
@@ -82,24 +101,37 @@
         <div class="score-section">
           <div class="score-item">
             <span class="label">ML Score</span>
-            <mat-progress-bar mode="determinate" [value]="detail.riskScore.mlScore * 100"></mat-progress-bar>
+            <mat-progress-bar
+              mode="determinate"
+              [value]="detail.riskScore.mlScore * 100"
+            ></mat-progress-bar>
             <span class="value">{{ (detail.riskScore.mlScore * 100).toFixed(1) }}%</span>
           </div>
           <div class="score-item">
             <span class="label">Rules Score</span>
-            <mat-progress-bar mode="determinate" [value]="detail.riskScore.rulesScore * 100"></mat-progress-bar>
+            <mat-progress-bar
+              mode="determinate"
+              [value]="detail.riskScore.rulesScore * 100"
+            ></mat-progress-bar>
             <span class="value">{{ (detail.riskScore.rulesScore * 100).toFixed(1) }}%</span>
           </div>
           <div class="score-item">
             <span class="label">Aggregate</span>
-            <mat-progress-bar mode="determinate" [value]="detail.riskScore.aggregateScore * 100" color="warn"></mat-progress-bar>
+            <mat-progress-bar
+              mode="determinate"
+              [value]="detail.riskScore.aggregateScore * 100"
+              color="warn"
+            ></mat-progress-bar>
             <span class="value">{{ (detail.riskScore.aggregateScore * 100).toFixed(1) }}%</span>
           </div>
         </div>
 
         <div class="decision-section">
           <span class="label">Decision</span>
-          <span class="decision-chip" [style.background-color]="getDecisionColor(detail.riskScore.decision)">
+          <span
+            class="decision-chip"
+            [style.background-color]="getDecisionColor(detail.riskScore.decision)"
+          >
             {{ detail.riskScore.decision }}
           </span>
         </div>
@@ -107,7 +139,9 @@
         <div class="reason-codes" *ngIf="detail.riskScore.reasonCodes.length > 0">
           <span class="label">Reason Codes</span>
           <div class="code-chips">
-            <span class="code-chip" *ngFor="let code of detail.riskScore.reasonCodes">{{ code }}</span>
+            <span class="code-chip" *ngFor="let code of detail.riskScore.reasonCodes">{{
+              code
+            }}</span>
           </div>
         </div>
 
@@ -128,7 +162,7 @@
             <mat-list-item *ngFor="let note of detail.notes">
               <div class="note-item">
                 <div class="note-header">
-                  <span class="author">{{ note.authorId | slice:0:8 }}</span>
+                  <span class="author">{{ note.authorId | slice: 0 : 8 }}</span>
                   <span class="timestamp">{{ formatTimestamp(note.createdAt) }}</span>
                 </div>
                 <p class="note-content">{{ note.content }}</p>
@@ -137,7 +171,7 @@
           </mat-list>
         </div>
 
-        <div class="add-note-form">
+        <div class="add-note-form" *appHasRole="actionRoles">
           <mat-form-field appearance="outline" class="full-width">
             <mat-label>Add a note</mat-label>
             <textarea matInput [(ngModel)]="newNote" rows="3" minlength="10"></textarea>
@@ -146,7 +180,8 @@
             mat-raised-button
             color="primary"
             (click)="submitNote()"
-            [disabled]="newNote.length < 10 || noteSubmitting">
+            [disabled]="newNote.length < 10 || noteSubmitting"
+          >
             Add Note
           </button>
         </div>
@@ -168,7 +203,7 @@
           </mat-list-item>
         </mat-list>
 
-        <div class="label-form">
+        <div class="label-form" *appHasRole="actionRoles">
           <mat-radio-group [(ngModel)]="labelForm.label" class="label-radio">
             <mat-radio-button value="FRAUD">FRAUD</mat-radio-button>
             <mat-radio-button value="LEGITIMATE">LEGITIMATE</mat-radio-button>
@@ -190,7 +225,8 @@
             mat-raised-button
             color="warn"
             (click)="submitLabel()"
-            [disabled]="!labelForm.reason || labelSubmitting">
+            [disabled]="!labelForm.reason || labelSubmitting"
+          >
             Submit Label
           </button>
         </div>

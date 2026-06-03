@@ -110,7 +110,7 @@ describe('CaseDetailComponent', () => {
       'addNote',
     ]);
     snackBar = jasmine.createSpyObj<MatSnackBar>('MatSnackBar', ['open']);
-    authService = jasmine.createSpyObj<AuthService>('AuthService', ['currentUser']);
+    authService = jasmine.createSpyObj<AuthService>('AuthService', ['currentUser', 'hasRole']);
     dialog = jasmine.createSpyObj<MatDialog>('MatDialog', ['open']);
 
     casesService.getCase.and.returnValue(of(makeDetail()));
@@ -119,6 +119,8 @@ describe('CaseDetailComponent', () => {
       username: 'me',
       role: 'FRAUD_ANALYST',
     });
+    // Default: the acting roles can see action affordances (*appHasRole).
+    authService.hasRole.and.returnValue(true);
   });
 
   it('loads the case by route id on init', () => {
@@ -315,6 +317,28 @@ describe('CaseDetailComponent', () => {
 
       expect(component.newNote).toBe('a sufficiently long note'); // draft retained
       expect(snackBar.open).toHaveBeenCalledWith('Failed to add note', 'Close', { duration: 3000 });
+    });
+  });
+
+  describe('role-aware affordances', () => {
+    // Note: the add-note form is in the active Notes tab; the label form lives in the
+    // (lazily-rendered) Labels tab, so we assert gating via the note form + action bar.
+    it('shows action affordances for an acting role', () => {
+      authService.hasRole.and.returnValue(true);
+      const fixture = setup();
+
+      expect(fixture.debugElement.query(By.css('.add-note-form'))).toBeTruthy();
+      expect(authService.hasRole).toHaveBeenCalledWith('ADMIN', 'FRAUD_ANALYST', 'INVESTIGATOR');
+    });
+
+    it('hides action affordances for a read-only auditor', () => {
+      authService.hasRole.and.returnValue(false);
+      const fixture = setup();
+
+      expect(fixture.debugElement.query(By.css('.action-bar'))).toBeNull();
+      expect(fixture.debugElement.query(By.css('.add-note-form'))).toBeNull();
+      // The case context is still fully visible (read access retained).
+      expect(fixture.debugElement.query(By.css('.score-section'))).toBeTruthy();
     });
   });
 });
