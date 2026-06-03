@@ -7,7 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatListModule } from '@angular/material/list';
 import { FormsModule } from '@angular/forms';
@@ -16,8 +16,25 @@ import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSliderModule } from '@angular/material/slider';
 import { CasesService } from '../services/cases.service';
-import { CaseDetailDto, CaseStatus, VALID_TRANSITIONS } from '../../../shared/models/models';
+import { AuthService } from '../../../core/auth/auth.service';
+import {
+  ConfirmDialogComponent,
+  ConfirmDialogData,
+} from '../../../shared/components/confirm-dialog/confirm-dialog.component';
+import {
+  CaseDetailDto,
+  CaseStatus,
+  LabelType,
+  VALID_TRANSITIONS,
+} from '../../../shared/models/models';
 import { formatSlaDue, formatCurrency, formatDate } from '../../../shared/utils/utils';
+
+/** A label captured at confirmation time so a later form edit can't alter what is persisted. */
+interface LabelSubmission {
+  label: LabelType;
+  confidence: number;
+  reason: string;
+}
 
 @Component({
   selector: 'app-case-detail',
@@ -59,6 +76,8 @@ export class CaseDetailComponent implements OnInit {
     private router: Router,
     private casesService: CasesService,
     private snackBar: MatSnackBar,
+    private authService: AuthService,
+    private dialog: MatDialog,
   ) {}
 
   ngOnInit(): void {
@@ -125,14 +144,20 @@ export class CaseDetailComponent implements OnInit {
 
   assignToMe(): void {
     const detail = this.caseDetail();
-    if (!detail) return;
+    const userId = this.authService.currentUser()?.userId;
+    if (!detail || !userId) return;
 
-    this.casesService.assignCase(detail.id, 'current-user-id').subscribe({
-      next: () => {
-        this.caseDetail.update((d) =>
-          d ? { ...d, assigneeId: 'current-user-id', status: 'ASSIGNED' as CaseStatus } : d,
-        );
-        this.snackBar.open('Case assigned to you', 'Close', { duration: 3000 });
+    // Optimistic: reflect the assignment immediately, roll back if the API rejects it.
+    const previous = { assigneeId: detail.assigneeId, status: detail.status };
+    this.caseDetail.update((d) =>
+      d ? { ...d, assigneeId: userId, status: 'ASSIGNED' as CaseStatus } : d,
+    );
+
+    this.casesService.assignCase(detail.id, userId).subscribe({
+      next: () => this.snackBar.open('Case assigned to you', 'Close', { duration: 3000 }),
+      error: () => {
+        this.caseDetail.update((d) => (d ? { ...d, ...previous } : d));
+        this.snackBar.open('Failed to assign case', 'Close', { duration: 3000 });
       },
     });
   }
@@ -158,23 +183,50 @@ export class CaseDetailComponent implements OnInit {
     const detail = this.caseDetail();
     if (!detail || !this.labelForm.reason) return;
 
+    // Snapshot the form now so an edit while the dialog is open can't change what was confirmed.
+    const submission: LabelSubmission = {
+      label: this.labelForm.label,
+      confidence: this.labelForm.confidence,
+      reason: this.labelForm.reason,
+    };
+    // Guard the destructive, audit-logged resolution behind an explicit confirmation.
+    const dialogData: ConfirmDialogData = {
+      title: `Mark case as ${submission.label}?`,
+      message: `This records an audit-logged ${submission.label} label and resolves the case. This cannot be easily undone.`,
+      confirmText: `Mark ${submission.label}`,
+    };
+    this.dialog
+      .open(ConfirmDialogComponent, { data: dialogData })
+      .afterClosed()
+      .subscribe((confirmed) => {
+        if (confirmed) this.persistLabel(submission);
+      });
+  }
+
+  private persistLabel(submission: LabelSubmission): void {
+    // Read the latest state so rollback restores what's current, not a pre-dialog snapshot.
+    const detail = this.caseDetail();
+    if (!detail) return;
+
+    const previousStatus = detail.status;
+    const newStatus: CaseStatus =
+      submission.label === 'FRAUD' ? 'RESOLVED_FRAUD' : 'RESOLVED_LEGIT';
+
+    // Optimistic: resolve the case immediately, roll back if the API rejects it.
     this.labelSubmitting = true;
+    this.caseDetail.update((d) => (d ? { ...d, status: newStatus } : d));
+
     this.casesService
-      .addLabel(
-        detail.id,
-        this.labelForm.label,
-        this.labelForm.confidence / 100,
-        this.labelForm.reason,
-      )
+      .addLabel(detail.id, submission.label, submission.confidence / 100, submission.reason)
       .subscribe({
         next: () => {
-          const newStatus = this.labelForm.label === 'FRAUD' ? 'RESOLVED_FRAUD' : 'RESOLVED_LEGIT';
-          this.caseDetail.update((d) => (d ? { ...d, status: newStatus as CaseStatus } : d));
           this.labelSubmitting = false;
-          this.snackBar.open(`Case marked as ${this.labelForm.label}`, 'Close', { duration: 3000 });
+          this.snackBar.open(`Case marked as ${submission.label}`, 'Close', { duration: 3000 });
         },
         error: () => {
           this.labelSubmitting = false;
+          this.caseDetail.update((d) => (d ? { ...d, status: previousStatus } : d));
+          this.snackBar.open('Failed to submit label', 'Close', { duration: 3000 });
         },
       });
   }
