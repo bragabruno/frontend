@@ -12,8 +12,9 @@ export interface ConfirmDialogData {
 /**
  * Reusable confirmation dialog for guarding destructive actions.
  * Rendered with Nebular components but opened/closed via MatDialog so callers
- * keep using `dialog.open(...).afterClosed()`. Closes with `true` when
- * confirmed, `false` otherwise.
+ * keep using `dialog.open(...).afterClosed()`. Closes with `true` on confirm,
+ * `false` on explicit cancel, and `undefined` if dismissed (backdrop/Escape).
+ * Callers should treat any non-`true` result as "not confirmed".
  */
 @Component({
   selector: 'app-confirm-dialog',
