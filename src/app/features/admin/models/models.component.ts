@@ -2,10 +2,7 @@ import { Component, OnInit, signal } from '@angular/core';
 import { NgIf, NgFor } from '@angular/common';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
-import { MatChipsModule } from '@angular/material/chips';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { NbCardModule, NbButtonModule, NbIconModule, NbSpinnerModule } from '@nebular/theme';
 import { AdminService } from '../services/admin.service';
 import { ModelVersionDto, PageResponse } from '../../../shared/models/models';
 
@@ -17,72 +14,77 @@ import { ModelVersionDto, PageResponse } from '../../../shared/models/models';
     NgFor,
     MatTableModule,
     MatPaginatorModule,
-    MatChipsModule,
-    MatButtonModule,
-    MatIconModule,
-    MatProgressSpinnerModule,
+    NbCardModule,
+    NbButtonModule,
+    NbIconModule,
+    NbSpinnerModule,
   ],
   template: `
     <div class="admin-page">
       <h1>Model Versions</h1>
 
-      <div class="loading" *ngIf="loading()">
-        <mat-spinner diameter="24" />
+      <div
+        class="loading"
+        *ngIf="loading()"
+        [nbSpinner]="true"
+        nbSpinnerSize="medium"
+        nbSpinnerStatus="primary"
+      >
         <span>Loading models...</span>
       </div>
 
       <div class="error" *ngIf="error() as err">
-        <mat-icon>error_outline</mat-icon>
+        <nb-icon icon="alert-circle-outline" pack="eva"></nb-icon>
         <span>{{ err }}</span>
-        <button mat-stroked-button (click)="loadModels()">Retry</button>
+        <button nbButton ghost status="primary" type="button" (click)="loadModels()">Retry</button>
       </div>
 
       <div class="empty" *ngIf="!loading() && !error() && models().length === 0">
         <span>No models found</span>
       </div>
 
-      <table
-        mat-table
-        [dataSource]="models()"
-        *ngIf="!loading() && !error() && models().length > 0"
-      >
-        <ng-container matColumnDef="version">
-          <th mat-header-cell *matHeaderCellDef>Version</th>
-          <td mat-cell *matCellDef="let row" class="mono">{{ row.version }}</td>
-        </ng-container>
-        <ng-container matColumnDef="status">
-          <th mat-header-cell *matHeaderCellDef>Status</th>
-          <td mat-cell *matCellDef="let row">
-            <span class="model-status" [class]="'status-' + row.status.toLowerCase()">{{
-              row.status
-            }}</span>
-          </td>
-        </ng-container>
-        <ng-container matColumnDef="prAuc">
-          <th mat-header-cell *matHeaderCellDef>PR-AUC</th>
-          <td mat-cell *matCellDef="let row">{{ (row.metrics.prAuc * 100).toFixed(1) }}%</td>
-        </ng-container>
-        <ng-container matColumnDef="rocAuc">
-          <th mat-header-cell *matHeaderCellDef>ROC-AUC</th>
-          <td mat-cell *matCellDef="let row">{{ (row.metrics.rocAuc * 100).toFixed(1) }}%</td>
-        </ng-container>
-        <ng-container matColumnDef="recall">
-          <th mat-header-cell *matHeaderCellDef>Recall</th>
-          <td mat-cell *matCellDef="let row">{{ (row.metrics.recall * 100).toFixed(1) }}%</td>
-        </ng-container>
-        <ng-container matColumnDef="fpr">
-          <th mat-header-cell *matHeaderCellDef>FPR</th>
-          <td mat-cell *matCellDef="let row">{{ (row.metrics.fpr * 100).toFixed(1) }}%</td>
-        </ng-container>
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-      </table>
-      <mat-paginator
-        [length]="totalElements()"
-        [pageSize]="10"
-        (page)="onPageChange($event)"
-        showFirstLastButtons
-      ></mat-paginator>
+      <nb-card *ngIf="!loading() && !error() && models().length > 0">
+        <nb-card-body>
+          <table mat-table [dataSource]="models()">
+            <ng-container matColumnDef="version">
+              <th mat-header-cell *matHeaderCellDef>Version</th>
+              <td mat-cell *matCellDef="let row" class="mono">{{ row.version }}</td>
+            </ng-container>
+            <ng-container matColumnDef="status">
+              <th mat-header-cell *matHeaderCellDef>Status</th>
+              <td mat-cell *matCellDef="let row">
+                <span class="model-status" [class]="'status-' + row.status.toLowerCase()">{{
+                  row.status
+                }}</span>
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="prAuc">
+              <th mat-header-cell *matHeaderCellDef>PR-AUC</th>
+              <td mat-cell *matCellDef="let row">{{ (row.metrics.prAuc * 100).toFixed(1) }}%</td>
+            </ng-container>
+            <ng-container matColumnDef="rocAuc">
+              <th mat-header-cell *matHeaderCellDef>ROC-AUC</th>
+              <td mat-cell *matCellDef="let row">{{ (row.metrics.rocAuc * 100).toFixed(1) }}%</td>
+            </ng-container>
+            <ng-container matColumnDef="recall">
+              <th mat-header-cell *matHeaderCellDef>Recall</th>
+              <td mat-cell *matCellDef="let row">{{ (row.metrics.recall * 100).toFixed(1) }}%</td>
+            </ng-container>
+            <ng-container matColumnDef="fpr">
+              <th mat-header-cell *matHeaderCellDef>FPR</th>
+              <td mat-cell *matCellDef="let row">{{ (row.metrics.fpr * 100).toFixed(1) }}%</td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+          </table>
+          <mat-paginator
+            [length]="totalElements()"
+            [pageSize]="10"
+            (page)="onPageChange($event)"
+            showFirstLastButtons
+          ></mat-paginator>
+        </nb-card-body>
+      </nb-card>
     </div>
   `,
   styles: [
