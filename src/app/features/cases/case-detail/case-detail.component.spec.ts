@@ -8,7 +8,7 @@ import { of, throwError } from 'rxjs';
 import { CaseDetailComponent } from './case-detail.component';
 import { CasesService } from '../services/cases.service';
 import { AuthService } from '../../../core/auth/auth.service';
-import { CaseDetailDto } from '../../../shared/models/models';
+import { CaseDetailDto, NoteDto } from '../../../shared/models/models';
 
 /** Mirrors the template's score formatting so specs assert behaviour, not a literal. */
 const asPercent = (score: number): string => `${(score * 100).toFixed(1)}%`;
@@ -107,6 +107,7 @@ describe('CaseDetailComponent', () => {
       'getCase',
       'assignCase',
       'addLabel',
+      'addNote',
     ]);
     snackBar = jasmine.createSpyObj<MatSnackBar>('MatSnackBar', ['open']);
     authService = jasmine.createSpyObj<AuthService>('AuthService', ['currentUser']);
@@ -252,6 +253,68 @@ describe('CaseDetailComponent', () => {
       component.submitLabel();
 
       expect(dialog.open).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('investigation notes', () => {
+    function makeNote(id: string, authorId: string, content: string, createdAt: string): NoteDto {
+      return { id, caseId: 'case-1', authorId, content, createdAt };
+    }
+
+    it('renders existing notes attributed (author) and timestamped, in chronological order', () => {
+      const notes = [
+        makeNote('n1', 'author-aaaaaaaa', 'first note', '2026-01-01T00:00:00Z'),
+        makeNote('n2', 'author-bbbbbbbb', 'second note', '2026-01-02T00:00:00Z'),
+      ];
+      casesService.getCase.and.returnValue(of({ ...makeDetail(), notes }));
+      const fixture = setup();
+
+      const rendered = fixture.debugElement.queryAll(By.css('.note-item')).map((el) => ({
+        author: el.query(By.css('.author')).nativeElement.textContent.trim(),
+        timestamp: el.query(By.css('.timestamp')).nativeElement.textContent.trim(),
+        content: el.query(By.css('.note-content')).nativeElement.textContent.trim(),
+      }));
+
+      expect(rendered.length).toBe(2);
+      // chronological order preserved
+      expect(rendered.map((r) => r.content)).toEqual(['first note', 'second note']);
+      // attributed: author id prefix is shown
+      expect(rendered[0].author).toBe('author-a'); // authorId | slice:0:8
+      // timestamped: a non-empty timestamp is rendered
+      expect(rendered[0].timestamp.length).toBeGreaterThan(0);
+    });
+
+    it('posts a note, appends it chronologically, and clears the draft', () => {
+      const posted = makeNote('n3', 'me-1', 'a sufficiently long note', '2026-01-03T00:00:00Z');
+      casesService.addNote.and.returnValue(of(posted));
+      const component = setup().componentInstance;
+      component.newNote = 'a sufficiently long note';
+
+      component.submitNote();
+
+      expect(casesService.addNote).toHaveBeenCalledWith('case-1', 'a sufficiently long note');
+      expect(component.caseDetail()?.notes.at(-1)).toEqual(posted);
+      expect(component.newNote).toBe('');
+    });
+
+    it('does not post a note shorter than 10 characters', () => {
+      const component = setup().componentInstance;
+      component.newNote = 'too short';
+
+      component.submitNote();
+
+      expect(casesService.addNote).not.toHaveBeenCalled();
+    });
+
+    it('keeps the draft and notifies when posting a note fails', () => {
+      casesService.addNote.and.returnValue(throwError(() => new Error('nope')));
+      const component = setup().componentInstance;
+      component.newNote = 'a sufficiently long note';
+
+      component.submitNote();
+
+      expect(component.newNote).toBe('a sufficiently long note'); // draft retained
+      expect(snackBar.open).toHaveBeenCalledWith('Failed to add note', 'Close', { duration: 3000 });
     });
   });
 });
