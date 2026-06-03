@@ -46,4 +46,12 @@ describe('HasRoleDirective', () => {
 
     expect(fixture.debugElement.query(By.css('.guarded'))).toBeNull();
   });
+
+  it('fails closed (hidden) and does not query roles when none are provided', () => {
+    authService.hasRole.and.returnValue(true);
+    const fixture = render([]);
+
+    expect(fixture.debugElement.query(By.css('.guarded'))).toBeNull();
+    expect(authService.hasRole).not.toHaveBeenCalled();
+  });
 });

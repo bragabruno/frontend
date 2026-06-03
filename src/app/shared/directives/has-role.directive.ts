@@ -21,9 +21,10 @@ export class HasRoleDirective {
   private rendered = false;
 
   @Input()
-  set appHasRole(roles: Role[] | Role) {
-    const allowed = Array.isArray(roles) ? roles : [roles];
-    const permitted = this.authService.hasRole(...allowed);
+  set appHasRole(roles: Role[] | Role | null | undefined) {
+    // Normalize to a clean list; with no roles given, fail closed (hide).
+    const allowed = (Array.isArray(roles) ? roles : roles ? [roles] : []).filter(Boolean);
+    const permitted = allowed.length > 0 && this.authService.hasRole(...allowed);
 
     if (permitted && !this.rendered) {
       this.viewContainer.createEmbeddedView(this.templateRef);
