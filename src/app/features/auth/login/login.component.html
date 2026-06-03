@@ -1,44 +1,57 @@
-<div class="login-container">
-  <mat-card class="login-card">
-    <mat-card-header>
-      <mat-card-title>Fraud Prevention System</mat-card-title>
-      <mat-card-subtitle>Analyst Dashboard</mat-card-subtitle>
-    </mat-card-header>
+<nb-layout>
+  <nb-layout-column class="login-column">
+    <nb-card class="login-card" status="primary" accent="info">
+      <nb-card-header>
+        <h1 class="login-title">Fraud Prevention System</h1>
+        <p class="login-subtitle">Analyst Console</p>
+      </nb-card-header>
 
-    <mat-card-content>
-      <form (ngSubmit)="onSubmit()">
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Username</mat-label>
-          <input matInput [(ngModel)]="username" name="username" autocomplete="username" />
-          <mat-icon matSuffix>person</mat-icon>
-        </mat-form-field>
+      <nb-card-body>
+        <form (ngSubmit)="onSubmit()">
+          <div class="form-group">
+            <label class="label" for="username">Username</label>
+            <input
+              nbInput
+              fullWidth
+              fieldSize="large"
+              id="username"
+              name="username"
+              autocomplete="username"
+              placeholder="Username"
+              [(ngModel)]="username"
+            />
+          </div>
 
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Password</mat-label>
-          <input
-            matInput
-            [(ngModel)]="password"
-            name="password"
-            [type]="hidePassword ? 'password' : 'text'"
-            autocomplete="current-password"
-          />
-          <button mat-icon-button matSuffix type="button" (click)="hidePassword = !hidePassword">
-            <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+          <div class="form-group">
+            <label class="label" for="password">Password</label>
+            <input
+              nbInput
+              fullWidth
+              fieldSize="large"
+              id="password"
+              name="password"
+              autocomplete="current-password"
+              placeholder="Password"
+              [type]="hidePassword ? 'password' : 'text'"
+              [(ngModel)]="password"
+            />
+          </div>
+
+          <p class="error-message" *ngIf="error">{{ error }}</p>
+
+          <button
+            nbButton
+            fullWidth
+            status="primary"
+            size="large"
+            type="submit"
+            [disabled]="loading"
+          >
+            <span *ngIf="!loading">Sign In</span>
+            <span *ngIf="loading">Signing in…</span>
           </button>
-        </mat-form-field>
-
-        <div class="error-message" *ngIf="error">{{ error }}</div>
-
-        <button
-          mat-raised-button
-          color="primary"
-          type="submit"
-          class="full-width submit-btn"
-          [disabled]="loading">
-          <mat-spinner *ngIf="loading" diameter="20"></mat-spinner>
-          <span *ngIf="!loading">Sign In</span>
-        </button>
-      </form>
-    </mat-card-content>
-  </mat-card>
-</div>
+        </form>
+      </nb-card-body>
+    </nb-card>
+  </nb-layout-column>
+</nb-layout>

@@ -32,6 +32,7 @@
               }
             ],
             "styles": [
+              "node_modules/@nebular/theme/styles/prebuilt/cosmic.css",
               "src/styles.scss"
             ],
             "scripts": []
@@ -47,8 +48,8 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kB",
-                  "maximumError": "1MB"
+                  "maximumWarning": "1MB",
+                  "maximumError": "1.5MB"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -100,6 +101,7 @@
               }
             ],
             "styles": [
+              "node_modules/@nebular/theme/styles/prebuilt/cosmic.css",
               "src/styles.scss"
             ],
             "scripts": []
