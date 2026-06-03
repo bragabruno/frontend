@@ -5,6 +5,7 @@ import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { AdminService } from '../services/admin.service';
 import { UserDto, PageResponse } from '../../../shared/models/models';
@@ -21,11 +22,28 @@ import { UserDto, PageResponse } from '../../../shared/models/models';
     MatIconModule,
     MatChipsModule,
     MatSnackBarModule,
+    MatProgressSpinnerModule,
   ],
   template: `
     <div class="admin-page">
       <h1>User Management</h1>
-      <table mat-table [dataSource]="users()">
+
+      <div class="loading" *ngIf="loading()">
+        <mat-spinner diameter="24" />
+        <span>Loading users...</span>
+      </div>
+
+      <div class="error" *ngIf="error() as err">
+        <mat-icon>error_outline</mat-icon>
+        <span>{{ err }}</span>
+        <button mat-stroked-button (click)="loadUsers()">Retry</button>
+      </div>
+
+      <div class="empty" *ngIf="!loading() && !error() && users().length === 0">
+        <span>No users found</span>
+      </div>
+
+      <table mat-table [dataSource]="users()" *ngIf="!loading() && !error() && users().length > 0">
         <ng-container matColumnDef="username">
           <th mat-header-cell *matHeaderCellDef>Username</th>
           <td mat-cell *matCellDef="let row">{{ row.username }}</td>
@@ -97,6 +115,28 @@ import { UserDto, PageResponse } from '../../../shared/models/models';
         color: var(--accent-red);
         font-weight: 500;
       }
+      .loading {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 48px;
+        justify-content: center;
+        color: var(--text-secondary);
+      }
+      .error {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+        padding: 48px;
+        color: var(--accent-red);
+      }
+      .empty {
+        display: flex;
+        justify-content: center;
+        padding: 48px;
+        color: var(--text-tertiary);
+      }
     `,
   ],
 })
@@ -104,6 +144,8 @@ export class UsersComponent implements OnInit {
   displayedColumns = ['username', 'email', 'role', 'status'];
   users = signal<UserDto[]>([]);
   totalElements = signal(0);
+  loading = signal(false);
+  error = signal<string | null>(null);
 
   constructor(private adminService: AdminService) {}
 
@@ -112,10 +154,17 @@ export class UsersComponent implements OnInit {
   }
 
   loadUsers(page = 0): void {
+    this.loading.set(true);
+    this.error.set(null);
     this.adminService.getUsers(page).subscribe({
       next: (res: PageResponse<UserDto>) => {
         this.users.set(res.content);
         this.totalElements.set(res.totalElements);
+        this.loading.set(false);
+      },
+      error: (err) => {
+        this.loading.set(false);
+        this.error.set(err.message ?? 'Failed to load users');
       },
     });
   }
