@@ -16,3 +16,21 @@ test.describe('Navigation', () => {
     await expect(page).toHaveURL(/\/login/);
   });
 });
+
+test.describe('Session persistence', () => {
+  test('should stay authenticated after a page reload', async ({ page }) => {
+    await page.goto('/login');
+    await page.fill('input[name="username"]', 'admin');
+    await page.fill('input[name="password"]', 'password');
+    await page.click('button[type="submit"]');
+
+    // Successful login lands on the case queue.
+    await expect(page).toHaveURL(/\/cases/);
+
+    // Reload: the persisted refresh token should restore the session via /auth/me
+    // before the route guard runs, so the user is not bounced back to /login.
+    await page.reload();
+    await expect(page).toHaveURL(/\/cases/);
+    await expect(page).not.toHaveURL(/\/login/);
+  });
+});

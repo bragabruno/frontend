@@ -47,18 +47,28 @@ function filterCases(url: URL): CaseSummaryDto[] {
   return filtered;
 }
 
+// Tracks the "logged-in" user so /auth/me and session restore reflect the last login.
+let currentMockUser: { userId: string; username: string; role: string } = {
+  userId: '00000000-0000-0000-0000-000000000001',
+  username: 'admin',
+  role: 'ADMIN',
+};
+
 export const handlers = [
   // Auth
   http.post('/api/auth/login', async ({ request }) => {
     await delay(MOCK_DELAY);
     const body = (await request.json()) as { username: string; password: string };
     if (body.username && body.password) {
+      currentMockUser = {
+        userId: '00000000-0000-0000-0000-000000000001',
+        username: body.username,
+        role: body.username === 'admin' ? 'ADMIN' : 'FRAUD_ANALYST',
+      };
       return HttpResponse.json({
         accessToken: 'mock-access-token-' + Date.now(),
         refreshToken: 'mock-refresh-token-' + Date.now(),
-        role: body.username === 'admin' ? 'ADMIN' : 'FRAUD_ANALYST',
-        userId: '00000000-0000-0000-0000-000000000001',
-        username: body.username,
+        ...currentMockUser,
       });
     }
     return HttpResponse.json(
@@ -80,6 +90,13 @@ export const handlers = [
       { type: 'about:blank', title: 'Unauthorized', status: 401, detail: 'Invalid refresh token' },
       { status: 401 },
     );
+  }),
+
+  // Authoritative identity for session restore (FRAUD-098): the access token is
+  // not persisted across reloads, so the SPA re-reads the current user here.
+  http.get('/api/auth/me', async () => {
+    await delay(MOCK_DELAY);
+    return HttpResponse.json(currentMockUser);
   }),
 
   http.post('/api/auth/logout', () => {
