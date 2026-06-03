@@ -95,11 +95,6 @@ table {
   height: 12px;
 }
 
-.severity-critical { background-color: var(--severity-critical-bg); color: var(--severity-critical); }
-.severity-high { background-color: var(--severity-high-bg); color: var(--severity-high); }
-.severity-medium { background-color: var(--severity-medium-bg); color: var(--severity-medium); }
-.severity-low { background-color: var(--severity-low-bg); color: var(--severity-low); }
-
 .status-chip {
   display: inline-flex;
   align-items: center;
@@ -115,14 +110,6 @@ table {
   }
 }
 
-.status-open { background-color: var(--status-open); }
-.status-assigned { background-color: var(--status-assigned); }
-.status-in-review { background-color: var(--status-in-review); }
-.status-resolved-fraud { background-color: var(--status-resolved-fraud); }
-.status-resolved-legit { background-color: var(--status-resolved-legit); }
-.status-escalated { background-color: var(--status-escalated); }
-.status-closed { background-color: var(--status-closed); }
-
 .assignee-badge {
   font-family: var(--font-family-mono);
   font-size: 12px;
@@ -137,10 +124,6 @@ table {
   font-style: italic;
 }
 
-.sla-ok { color: var(--accent-green); }
-.sla-warning { color: var(--accent-amber); }
-.sla-overdue { color: var(--accent-red); font-weight: 700; }
-
 .clickable-row {
   cursor: pointer;
   transition: background-color 150ms ease;
@@ -152,15 +135,6 @@ table {
 
 .row-expanded {
   background-color: var(--bg-elevated) !important;
-}
-
-@keyframes pulse-highlight {
-  0% { background-color: rgba(59, 130, 246, 0.15); }
-  100% { background-color: transparent; }
-}
-
-.row-new {
-  animation: pulse-highlight 3s ease-out;
 }
 
 // Expanded detail row
