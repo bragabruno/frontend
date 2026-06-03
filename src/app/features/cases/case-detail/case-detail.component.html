@@ -1,67 +1,62 @@
 <div class="case-detail-page" *ngIf="caseDetail() as detail">
-  <button mat-button (click)="goBack()" class="back-btn">
-    <mat-icon>arrow_back</mat-icon> Back to Cases
+  <button nbButton ghost status="basic" (click)="goBack()" class="back-btn">
+    <nb-icon icon="arrow-back-outline" pack="eva"></nb-icon> Back to Cases
   </button>
 
   <!-- Summary Card -->
-  <mat-card class="summary-card">
-    <div class="summary-row">
-      <div class="summary-item">
-        <span class="label">Status</span>
-        <span
-          class="status-chip"
-          [class]="'status-' + detail.status.toLowerCase().replace('_', '-')"
-        >
-          {{ getStatusLabel(detail.status) }}
-        </span>
+  <nb-card class="summary-card">
+    <nb-card-body>
+      <div class="summary-row">
+        <div class="summary-item">
+          <span class="label">Status</span>
+          <span
+            class="status-chip"
+            [class]="'status-' + detail.status.toLowerCase().replace('_', '-')"
+          >
+            {{ getStatusLabel(detail.status) }}
+          </span>
+        </div>
+        <div class="summary-item">
+          <span class="label">Severity</span>
+          <span class="severity-badge" [class]="'severity-' + detail.severity.toLowerCase()">
+            {{ detail.severity }}
+          </span>
+        </div>
+        <div class="summary-item">
+          <span class="label">Assignee</span>
+          <span>{{ detail.assigneeId ? (detail.assigneeId | slice: 0 : 8) : 'Unassigned' }}</span>
+        </div>
+        <div class="summary-item" *ngIf="detail.slaDueAt">
+          <span class="label">SLA</span>
+          <span [class]="getSlaInfo(detail.slaDueAt).class">{{
+            getSlaInfo(detail.slaDueAt).text
+          }}</span>
+        </div>
       </div>
-      <div class="summary-item">
-        <span class="label">Severity</span>
-        <span class="severity-badge" [class]="'severity-' + detail.severity.toLowerCase()">
-          {{ detail.severity }}
-        </span>
-      </div>
-      <div class="summary-item">
-        <span class="label">Assignee</span>
-        <span>{{ detail.assigneeId ? (detail.assigneeId | slice: 0 : 8) : 'Unassigned' }}</span>
-      </div>
-      <div class="summary-item" *ngIf="detail.slaDueAt">
-        <span class="label">SLA</span>
-        <span [class]="getSlaInfo(detail.slaDueAt).class">{{
-          getSlaInfo(detail.slaDueAt).text
-        }}</span>
-      </div>
-    </div>
 
-    <ng-container *appHasRole="actionRoles">
-      <div class="action-bar" *ngIf="validTransitions.length > 0">
-        <button
-          mat-raised-button
-          color="primary"
-          *ngIf="detail.status === 'OPEN'"
-          (click)="assignToMe()"
-        >
-          Assign to Me
-        </button>
-        <button
-          mat-raised-button
-          color="accent"
-          *ngFor="let status of validTransitions"
-          (click)="transitionTo(status)"
-        >
-          {{ getStatusLabel(status) }}
-        </button>
-      </div>
-    </ng-container>
-  </mat-card>
+      <ng-container *appHasRole="actionRoles">
+        <div class="action-bar" *ngIf="validTransitions.length > 0">
+          <button nbButton status="primary" *ngIf="detail.status === 'OPEN'" (click)="assignToMe()">
+            Assign to Me
+          </button>
+          <button
+            nbButton
+            status="info"
+            *ngFor="let status of validTransitions"
+            (click)="transitionTo(status)"
+          >
+            {{ getStatusLabel(status) }}
+          </button>
+        </div>
+      </ng-container>
+    </nb-card-body>
+  </nb-card>
 
   <!-- Transaction & Risk Score -->
   <div class="detail-grid">
-    <mat-card>
-      <mat-card-header>
-        <mat-card-title>Transaction</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
+    <nb-card>
+      <nb-card-header>Transaction</nb-card-header>
+      <nb-card-body>
         <div class="info-grid">
           <div class="info-item">
             <span class="label">Amount</span>
@@ -90,38 +85,38 @@
             <span class="value">{{ formatTimestamp(detail.transaction.createdAt) }}</span>
           </div>
         </div>
-      </mat-card-content>
-    </mat-card>
+      </nb-card-body>
+    </nb-card>
 
-    <mat-card>
-      <mat-card-header>
-        <mat-card-title>Risk Score</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
+    <nb-card>
+      <nb-card-header>Risk Score</nb-card-header>
+      <nb-card-body>
         <div class="score-section">
           <div class="score-item">
             <span class="label">ML Score</span>
-            <mat-progress-bar
-              mode="determinate"
+            <nb-progress-bar
               [value]="detail.riskScore.mlScore * 100"
-            ></mat-progress-bar>
+              status="info"
+              size="small"
+            ></nb-progress-bar>
             <span class="value">{{ (detail.riskScore.mlScore * 100).toFixed(1) }}%</span>
           </div>
           <div class="score-item">
             <span class="label">Rules Score</span>
-            <mat-progress-bar
-              mode="determinate"
+            <nb-progress-bar
               [value]="detail.riskScore.rulesScore * 100"
-            ></mat-progress-bar>
+              status="warning"
+              size="small"
+            ></nb-progress-bar>
             <span class="value">{{ (detail.riskScore.rulesScore * 100).toFixed(1) }}%</span>
           </div>
           <div class="score-item">
             <span class="label">Aggregate</span>
-            <mat-progress-bar
-              mode="determinate"
+            <nb-progress-bar
               [value]="detail.riskScore.aggregateScore * 100"
-              color="warn"
-            ></mat-progress-bar>
+              status="danger"
+              size="small"
+            ></nb-progress-bar>
             <span class="value">{{ (detail.riskScore.aggregateScore * 100).toFixed(1) }}%</span>
           </div>
         </div>
@@ -146,20 +141,20 @@
         </div>
 
         <div class="degraded-warning" *ngIf="detail.riskScore.degradedMode">
-          <mat-icon>warning</mat-icon>
+          <nb-icon icon="alert-triangle-outline" pack="eva"></nb-icon>
           <span>Degraded Mode — ML model unavailable, using rules only</span>
         </div>
-      </mat-card-content>
-    </mat-card>
+      </nb-card-body>
+    </nb-card>
   </div>
 
   <!-- Notes & Labels Tabs -->
-  <mat-tab-group class="detail-tabs">
-    <mat-tab label="Notes ({{ detail.notes.length }})">
+  <nb-tabset class="detail-tabs">
+    <nb-tab tabTitle="Notes ({{ detail.notes.length }})">
       <div class="tab-content">
         <div class="notes-list">
-          <mat-list>
-            <mat-list-item *ngFor="let note of detail.notes">
+          <nb-list>
+            <nb-list-item *ngFor="let note of detail.notes">
               <div class="note-item">
                 <div class="note-header">
                   <span class="author">{{ note.authorId | slice: 0 : 8 }}</span>
@@ -167,18 +162,21 @@
                 </div>
                 <p class="note-content">{{ note.content }}</p>
               </div>
-            </mat-list-item>
-          </mat-list>
+            </nb-list-item>
+          </nb-list>
         </div>
 
         <div class="add-note-form" *appHasRole="actionRoles">
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Add a note</mat-label>
-            <textarea matInput [(ngModel)]="newNote" rows="3" minlength="10"></textarea>
-          </mat-form-field>
+          <textarea
+            nbInput
+            fullWidth
+            rows="3"
+            placeholder="Add a note (min 10 characters)"
+            [(ngModel)]="newNote"
+          ></textarea>
           <button
-            mat-raised-button
-            color="primary"
+            nbButton
+            status="primary"
             (click)="submitNote()"
             [disabled]="newNote.length < 10 || noteSubmitting"
           >
@@ -186,12 +184,12 @@
           </button>
         </div>
       </div>
-    </mat-tab>
+    </nb-tab>
 
-    <mat-tab label="Labels ({{ detail.labels.length }})">
+    <nb-tab tabTitle="Labels ({{ detail.labels.length }})">
       <div class="tab-content">
-        <mat-list *ngIf="detail.labels.length > 0">
-          <mat-list-item *ngFor="let label of detail.labels">
+        <nb-list *ngIf="detail.labels.length > 0">
+          <nb-list-item *ngFor="let label of detail.labels">
             <div class="label-item">
               <span class="decision-chip" [style.background-color]="getDecisionColor(label.label)">
                 {{ label.label }}
@@ -200,30 +198,40 @@
               <span class="reason">{{ label.reason }}</span>
               <span class="timestamp">{{ formatTimestamp(label.labeledAt) }}</span>
             </div>
-          </mat-list-item>
-        </mat-list>
+          </nb-list-item>
+        </nb-list>
 
         <div class="label-form" *appHasRole="actionRoles">
-          <mat-radio-group [(ngModel)]="labelForm.label" class="label-radio">
-            <mat-radio-button value="FRAUD">FRAUD</mat-radio-button>
-            <mat-radio-button value="LEGITIMATE">LEGITIMATE</mat-radio-button>
-          </mat-radio-group>
+          <nb-radio-group [(ngModel)]="labelForm.label" class="label-radio">
+            <nb-radio value="FRAUD">FRAUD</nb-radio>
+            <nb-radio value="LEGITIMATE">LEGITIMATE</nb-radio>
+          </nb-radio-group>
 
           <div class="slider-row">
             <span class="label">Confidence: {{ labelForm.confidence }}%</span>
-            <mat-slider min="0" max="100" step="5">
-              <input matSliderThumb [(ngModel)]="labelForm.confidence" />
-            </mat-slider>
+            <input
+              type="range"
+              class="confidence-slider"
+              min="0"
+              max="100"
+              step="5"
+              name="confidence"
+              [ngModel]="labelForm.confidence"
+              (ngModelChange)="labelForm.confidence = +$event"
+            />
           </div>
 
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Reason</mat-label>
-            <textarea matInput [(ngModel)]="labelForm.reason" rows="3"></textarea>
-          </mat-form-field>
+          <textarea
+            nbInput
+            fullWidth
+            rows="3"
+            placeholder="Reason"
+            [(ngModel)]="labelForm.reason"
+          ></textarea>
 
           <button
-            mat-raised-button
-            color="warn"
+            nbButton
+            status="danger"
             (click)="submitLabel()"
             [disabled]="!labelForm.reason || labelSubmitting"
           >
@@ -231,8 +239,8 @@
           </button>
         </div>
       </div>
-    </mat-tab>
-  </mat-tab-group>
+    </nb-tab>
+  </nb-tabset>
 </div>
 
 <div class="loading" *ngIf="loading()">

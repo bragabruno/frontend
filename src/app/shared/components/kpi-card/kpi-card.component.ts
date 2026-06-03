@@ -1,12 +1,12 @@
 import { Component, input, computed } from '@angular/core';
 import { NgIf, DecimalPipe } from '@angular/common';
-import { MatIconModule } from '@angular/material/icon';
+import { NbCardModule, NbIconModule } from '@nebular/theme';
 import { KpiData } from '../../../features/cases/services/kpi.service';
 
 @Component({
   selector: 'app-kpi-card',
   standalone: true,
-  imports: [NgIf, DecimalPipe, MatIconModule],
+  imports: [NgIf, DecimalPipe, NbCardModule, NbIconModule],
   templateUrl: './kpi-card.component.html',
   styleUrl: './kpi-card.component.scss',
 })

@@ -1,6 +1,8 @@
 import { TestBed } from '@angular/core/testing';
-import { signal } from '@angular/core';
+import { signal, importProvidersFrom } from '@angular/core';
 import { Router } from '@angular/router';
+import { NbThemeModule } from '@nebular/theme';
+import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { of, throwError } from 'rxjs';
 import { CasesListComponent } from './cases-list.component';
@@ -50,6 +52,7 @@ describe('CasesListComponent', () => {
       imports: [CasesListComponent],
       providers: [
         provideNoopAnimations(),
+        importProvidersFrom(NbThemeModule.forRoot(), NbEvaIconsModule),
         { provide: CasesService, useValue: casesService },
         { provide: KpiService, useValue: kpiService },
         // SSE is only read as a signal here; provide an inert empty stream.

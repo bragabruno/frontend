@@ -1,20 +1,20 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgIf, NgFor, DatePipe, SlicePipe } from '@angular/common';
-import { MatCardModule } from '@angular/material/card';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatTabsModule } from '@angular/material/tabs';
-import { MatChipsModule } from '@angular/material/chips';
-import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatListModule } from '@angular/material/list';
+import {
+  NbCardModule,
+  NbButtonModule,
+  NbIconModule,
+  NbProgressBarModule,
+  NbTabsetModule,
+  NbListModule,
+  NbInputModule,
+  NbRadioModule,
+  NbBadgeModule,
+} from '@nebular/theme';
 import { FormsModule } from '@angular/forms';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatRadioModule } from '@angular/material/radio';
-import { MatSliderModule } from '@angular/material/slider';
 import { CasesService } from '../services/cases.service';
 import { AuthService } from '../../../core/auth/auth.service';
 import {
@@ -46,20 +46,18 @@ interface LabelSubmission {
     NgFor,
     DatePipe,
     SlicePipe,
-    MatCardModule,
-    MatButtonModule,
-    MatIconModule,
-    MatTabsModule,
-    MatChipsModule,
-    MatProgressBarModule,
     MatDialogModule,
     MatSnackBarModule,
-    MatListModule,
+    NbCardModule,
+    NbButtonModule,
+    NbIconModule,
+    NbProgressBarModule,
+    NbTabsetModule,
+    NbListModule,
+    NbInputModule,
+    NbRadioModule,
+    NbBadgeModule,
     FormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatRadioModule,
-    MatSliderModule,
     HasRoleDirective,
   ],
   templateUrl: './case-detail.component.html',
