@@ -4,12 +4,14 @@ import { NgIf, NgFor, NgClass, DatePipe, SlicePipe, CurrencyPipe } from '@angula
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatSortModule, Sort } from '@angular/material/sort';
-import { MatIconModule } from '@angular/material/icon';
-import { MatSelectModule } from '@angular/material/select';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import {
+  NbCardModule,
+  NbSelectModule,
+  NbButtonModule,
+  NbIconModule,
+  NbSpinnerModule,
+} from '@nebular/theme';
 import { FormsModule } from '@angular/forms';
 import { CasesService } from '../services/cases.service';
 import { KpiService, KpiData } from '../services/kpi.service';
@@ -32,12 +34,12 @@ import { formatSlaDue } from '../../../shared/utils/utils';
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
-    MatIconModule,
-    MatSelectModule,
-    MatFormFieldModule,
-    MatButtonModule,
     MatTooltipModule,
-    MatProgressSpinnerModule,
+    NbCardModule,
+    NbSelectModule,
+    NbButtonModule,
+    NbIconModule,
+    NbSpinnerModule,
     FormsModule,
     KpiCardComponent,
     DashboardChartsComponent,
@@ -214,13 +216,13 @@ export class CasesListComponent implements OnInit, OnDestroy {
   getSeverityIcon(severity: Severity): string {
     switch (severity) {
       case 'CRITICAL':
-        return 'error';
+        return 'alert-triangle-outline';
       case 'HIGH':
-        return 'warning';
+        return 'alert-circle-outline';
       case 'MEDIUM':
-        return 'info';
+        return 'info-outline';
       case 'LOW':
-        return 'check_circle';
+        return 'checkmark-circle-2-outline';
     }
   }
 }

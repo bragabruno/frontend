@@ -1,8 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { importProvidersFrom } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
+import { NbThemeModule } from '@nebular/theme';
+import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { of, throwError } from 'rxjs';
 import { CaseDetailComponent } from './case-detail.component';
@@ -77,12 +80,18 @@ describe('CaseDetailComponent', () => {
       imports: [CaseDetailComponent],
       providers: [
         provideNoopAnimations(),
+        importProvidersFrom(NbThemeModule.forRoot(), NbEvaIconsModule),
         { provide: CasesService, useValue: casesService },
         { provide: AuthService, useValue: authService },
         { provide: Router, useValue: jasmine.createSpyObj<Router>('Router', ['navigate']) },
         {
           provide: ActivatedRoute,
-          useValue: { snapshot: { paramMap: { get: () => 'case-1' } } },
+          // params/queryParams observables are needed by NbTabsetComponent (route-aware tabs).
+          useValue: {
+            snapshot: { paramMap: { get: () => 'case-1' } },
+            params: of({}),
+            queryParams: of({}),
+          },
         },
       ],
     });
