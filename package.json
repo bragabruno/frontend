@@ -35,7 +35,7 @@
     "@angular-eslint/eslint-plugin-template": "^19.8.1",
     "@angular-eslint/schematics": "^19.8.1",
     "@angular-eslint/template-parser": "^19.8.1",
-    "@angular/cli": "^19.2.27",
+    "@angular/cli": "^21.2.13",
     "@angular/compiler-cli": "^19.2.0",
     "@playwright/test": "^1.60.0",
     "@types/jasmine": "~5.1.0",
@@ -53,5 +53,10 @@
     "msw": "^2.14.6",
     "prettier": "^3.8.3",
     "typescript": "~5.7.2"
+  },
+  "msw": {
+    "workerDirectory": [
+      "public"
+    ]
   }
 }

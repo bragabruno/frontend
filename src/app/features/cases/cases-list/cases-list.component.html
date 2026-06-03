@@ -157,6 +157,10 @@
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns"
           (click)="onRowClick(row)"
+          (keydown.enter)="onRowClick(row)"
+          (keydown.space)="onRowClick(row)"
+          tabindex="0"
+          role="button"
           class="clickable-row"
           [class.row-expanded]="isExpanded(row.id)"
           [class.row-new]="isNewCase(row.id)">

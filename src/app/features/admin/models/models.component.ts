@@ -4,17 +4,48 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AdminService } from '../services/admin.service';
 import { ModelVersionDto, PageResponse } from '../../../shared/models/models';
 
 @Component({
   selector: 'app-models',
   standalone: true,
-  imports: [NgIf, NgFor, MatTableModule, MatPaginatorModule, MatChipsModule, MatButtonModule],
+  imports: [
+    NgIf,
+    NgFor,
+    MatTableModule,
+    MatPaginatorModule,
+    MatChipsModule,
+    MatButtonModule,
+    MatIconModule,
+    MatProgressSpinnerModule,
+  ],
   template: `
     <div class="admin-page">
       <h1>Model Versions</h1>
-      <table mat-table [dataSource]="models()">
+
+      <div class="loading" *ngIf="loading()">
+        <mat-spinner diameter="24" />
+        <span>Loading models...</span>
+      </div>
+
+      <div class="error" *ngIf="error() as err">
+        <mat-icon>error_outline</mat-icon>
+        <span>{{ err }}</span>
+        <button mat-stroked-button (click)="loadModels()">Retry</button>
+      </div>
+
+      <div class="empty" *ngIf="!loading() && !error() && models().length === 0">
+        <span>No models found</span>
+      </div>
+
+      <table
+        mat-table
+        [dataSource]="models()"
+        *ngIf="!loading() && !error() && models().length > 0"
+      >
         <ng-container matColumnDef="version">
           <th mat-header-cell *matHeaderCellDef>Version</th>
           <td mat-cell *matCellDef="let row" class="mono">{{ row.version }}</td>
@@ -104,6 +135,28 @@ import { ModelVersionDto, PageResponse } from '../../../shared/models/models';
         background-color: var(--bg-elevated);
         color: var(--text-tertiary);
       }
+      .loading {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 48px;
+        justify-content: center;
+        color: var(--text-secondary);
+      }
+      .error {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+        padding: 48px;
+        color: var(--accent-red);
+      }
+      .empty {
+        display: flex;
+        justify-content: center;
+        padding: 48px;
+        color: var(--text-tertiary);
+      }
     `,
   ],
 })
@@ -111,6 +164,8 @@ export class ModelsComponent implements OnInit {
   displayedColumns = ['version', 'status', 'prAuc', 'rocAuc', 'recall', 'fpr'];
   models = signal<ModelVersionDto[]>([]);
   totalElements = signal(0);
+  loading = signal(false);
+  error = signal<string | null>(null);
 
   constructor(private adminService: AdminService) {}
 
@@ -119,10 +174,17 @@ export class ModelsComponent implements OnInit {
   }
 
   loadModels(page = 0): void {
+    this.loading.set(true);
+    this.error.set(null);
     this.adminService.getModels(page).subscribe({
       next: (res: PageResponse<ModelVersionDto>) => {
         this.models.set(res.content);
         this.totalElements.set(res.totalElements);
+        this.loading.set(false);
+      },
+      error: (err) => {
+        this.loading.set(false);
+        this.error.set(err.message ?? 'Failed to load models');
       },
     });
   }
