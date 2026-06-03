@@ -169,12 +169,15 @@ export class CaseDetailComponent implements OnInit {
     this.noteSubmitting = true;
     this.casesService.addNote(detail.id, this.newNote).subscribe({
       next: (note) => {
+        // Append so notes stay in chronological order (oldest first, newest last).
         this.caseDetail.update((d) => (d ? { ...d, notes: [...d.notes, note] } : d));
         this.newNote = '';
         this.noteSubmitting = false;
       },
       error: () => {
+        // Keep the draft so the analyst can retry; surface the failure.
         this.noteSubmitting = false;
+        this.snackBar.open('Failed to add note', 'Close', { duration: 3000 });
       },
     });
   }
