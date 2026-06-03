@@ -1,18 +1,17 @@
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
+import { NbButtonModule, NbIconModule } from '@nebular/theme';
 
 @Component({
   selector: 'app-not-found',
   standalone: true,
-  imports: [RouterLink, MatButtonModule, MatIconModule],
+  imports: [RouterLink, NbButtonModule, NbIconModule],
   template: `
     <div class="error-page">
-      <mat-icon class="error-icon">search_off</mat-icon>
+      <nb-icon class="error-icon" icon="search-outline" pack="eva"></nb-icon>
       <h1>404 — Not Found</h1>
       <p>The page you're looking for doesn't exist.</p>
-      <a mat-raised-button color="primary" routerLink="/cases">Go to Cases</a>
+      <a nbButton status="primary" routerLink="/cases">Go to Cases</a>
     </div>
   `,
   styles: [

@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
-import { MatButtonModule } from '@angular/material/button';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { NbCardModule, NbButtonModule } from '@nebular/theme';
 
 export interface ConfirmDialogData {
   title: string;
@@ -11,23 +11,37 @@ export interface ConfirmDialogData {
 
 /**
  * Reusable confirmation dialog for guarding destructive actions.
- * Closes with `true` when confirmed, `false`/undefined otherwise.
+ * Rendered with Nebular components but opened/closed via MatDialog so callers
+ * keep using `dialog.open(...).afterClosed()`. Closes with `true` on confirm,
+ * `false` on explicit cancel, and `undefined` if dismissed (backdrop/Escape).
+ * Callers should treat any non-`true` result as "not confirmed".
  */
 @Component({
   selector: 'app-confirm-dialog',
   standalone: true,
-  imports: [MatDialogModule, MatButtonModule],
+  imports: [NbCardModule, NbButtonModule],
   template: `
-    <h2 mat-dialog-title>{{ data.title }}</h2>
-    <mat-dialog-content>{{ data.message }}</mat-dialog-content>
-    <mat-dialog-actions align="end">
-      <button mat-button [mat-dialog-close]="false">{{ data.cancelText ?? 'Cancel' }}</button>
-      <button mat-raised-button color="warn" [mat-dialog-close]="true">
-        {{ data.confirmText ?? 'Confirm' }}
-      </button>
-    </mat-dialog-actions>
+    <nb-card
+      class="confirm-dialog"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="confirm-dialog-title"
+      aria-describedby="confirm-dialog-message"
+    >
+      <nb-card-header id="confirm-dialog-title">{{ data.title }}</nb-card-header>
+      <nb-card-body id="confirm-dialog-message">{{ data.message }}</nb-card-body>
+      <nb-card-footer class="confirm-actions">
+        <button nbButton ghost status="basic" type="button" (click)="dialogRef.close(false)">
+          {{ data.cancelText ?? 'Cancel' }}
+        </button>
+        <button nbButton status="danger" type="button" (click)="dialogRef.close(true)">
+          {{ data.confirmText ?? 'Confirm' }}
+        </button>
+      </nb-card-footer>
+    </nb-card>
   `,
 })
 export class ConfirmDialogComponent {
   readonly data = inject<ConfirmDialogData>(MAT_DIALOG_DATA);
+  readonly dialogRef = inject<MatDialogRef<ConfirmDialogComponent, boolean>>(MatDialogRef);
 }

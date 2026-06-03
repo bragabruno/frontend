@@ -1,13 +1,11 @@
 import { Component, signal } from '@angular/core';
 import { NgIf } from '@angular/common';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatTooltipModule } from '@angular/material/tooltip';
+import { NbButtonModule, NbIconModule, NbTooltipModule } from '@nebular/theme';
 
 @Component({
   selector: 'app-help-widget',
   standalone: true,
-  imports: [NgIf, MatButtonModule, MatIconModule, MatTooltipModule],
+  imports: [NgIf, NbButtonModule, NbIconModule, NbTooltipModule],
   templateUrl: './help-widget.component.html',
   styleUrl: './help-widget.component.scss',
 })

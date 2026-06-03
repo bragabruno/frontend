@@ -1,18 +1,17 @@
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
+import { NbButtonModule, NbIconModule } from '@nebular/theme';
 
 @Component({
   selector: 'app-unauthorized',
   standalone: true,
-  imports: [RouterLink, MatButtonModule, MatIconModule],
+  imports: [RouterLink, NbButtonModule, NbIconModule],
   template: `
     <div class="error-page">
-      <mat-icon class="error-icon">lock</mat-icon>
+      <nb-icon class="error-icon" icon="lock-outline" pack="eva"></nb-icon>
       <h1>403 — Access Denied</h1>
       <p>You don't have permission to access this page.</p>
-      <a mat-raised-button color="primary" routerLink="/cases">Go to Cases</a>
+      <a nbButton status="primary" routerLink="/cases">Go to Cases</a>
     </div>
   `,
   styles: [
