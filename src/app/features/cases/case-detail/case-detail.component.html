@@ -216,7 +216,8 @@
               max="100"
               step="5"
               name="confidence"
-              [(ngModel)]="labelForm.confidence"
+              [ngModel]="labelForm.confidence"
+              (ngModelChange)="labelForm.confidence = +$event"
             />
           </div>
 
