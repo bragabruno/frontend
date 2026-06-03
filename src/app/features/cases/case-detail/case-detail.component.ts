@@ -29,6 +29,13 @@ import {
 } from '../../../shared/models/models';
 import { formatSlaDue, formatCurrency, formatDate } from '../../../shared/utils/utils';
 
+/** A label captured at confirmation time so a later form edit can't alter what is persisted. */
+interface LabelSubmission {
+  label: LabelType;
+  confidence: number;
+  reason: string;
+}
+
 @Component({
   selector: 'app-case-detail',
   standalone: true,
@@ -176,35 +183,45 @@ export class CaseDetailComponent implements OnInit {
     const detail = this.caseDetail();
     if (!detail || !this.labelForm.reason) return;
 
-    const label = this.labelForm.label;
+    // Snapshot the form now so an edit while the dialog is open can't change what was confirmed.
+    const submission: LabelSubmission = {
+      label: this.labelForm.label,
+      confidence: this.labelForm.confidence,
+      reason: this.labelForm.reason,
+    };
     // Guard the destructive, audit-logged resolution behind an explicit confirmation.
     const dialogData: ConfirmDialogData = {
-      title: `Mark case as ${label}?`,
-      message: `This records an audit-logged ${label} label and resolves the case. This cannot be easily undone.`,
-      confirmText: `Mark ${label}`,
+      title: `Mark case as ${submission.label}?`,
+      message: `This records an audit-logged ${submission.label} label and resolves the case. This cannot be easily undone.`,
+      confirmText: `Mark ${submission.label}`,
     };
     this.dialog
       .open(ConfirmDialogComponent, { data: dialogData })
       .afterClosed()
       .subscribe((confirmed) => {
-        if (confirmed) this.persistLabel(detail, label);
+        if (confirmed) this.persistLabel(submission);
       });
   }
 
-  private persistLabel(detail: CaseDetailDto, label: LabelType): void {
+  private persistLabel(submission: LabelSubmission): void {
+    // Read the latest state so rollback restores what's current, not a pre-dialog snapshot.
+    const detail = this.caseDetail();
+    if (!detail) return;
+
     const previousStatus = detail.status;
-    const newStatus: CaseStatus = label === 'FRAUD' ? 'RESOLVED_FRAUD' : 'RESOLVED_LEGIT';
+    const newStatus: CaseStatus =
+      submission.label === 'FRAUD' ? 'RESOLVED_FRAUD' : 'RESOLVED_LEGIT';
 
     // Optimistic: resolve the case immediately, roll back if the API rejects it.
     this.labelSubmitting = true;
     this.caseDetail.update((d) => (d ? { ...d, status: newStatus } : d));
 
     this.casesService
-      .addLabel(detail.id, label, this.labelForm.confidence / 100, this.labelForm.reason)
+      .addLabel(detail.id, submission.label, submission.confidence / 100, submission.reason)
       .subscribe({
         next: () => {
           this.labelSubmitting = false;
-          this.snackBar.open(`Case marked as ${label}`, 'Close', { duration: 3000 });
+          this.snackBar.open(`Case marked as ${submission.label}`, 'Close', { duration: 3000 });
         },
         error: () => {
           this.labelSubmitting = false;
