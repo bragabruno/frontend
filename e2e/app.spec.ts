@@ -37,7 +37,7 @@ test.describe('Case Queue', () => {
 
   test('should display case list table', async ({ page }) => {
     await expect(page.locator('table')).toBeVisible();
-    await expect(page.locator('th')).toHaveCount(6);
+    await expect(page.locator('th')).toHaveCount(8);
   });
 
   test('should have filter controls', async ({ page }) => {
