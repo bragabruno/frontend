@@ -4,134 +4,117 @@
 }
 
 .sidenav {
-  width: 260px;
-  height: 100%;
-  background-color: var(--bg-sidebar);
-  color: var(--text-primary);
   display: flex;
   flex-direction: column;
-  transition: width 250ms ease;
-  overflow: hidden;
-  border-right: 1px solid var(--border-subtle);
-}
-
-.sidenav.collapsed {
-  width: 64px;
-}
-
-.sidenav-header {
-  padding: 16px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  height: 64px;
-  border-bottom: 1px solid var(--border-subtle);
-  flex-shrink: 0;
-}
-
-.logo-mark {
-  width: 32px;
-  height: 32px;
-  border-radius: var(--radius-sm);
-  background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 13px;
-  font-weight: 700;
-  flex-shrink: 0;
-}
-
-.logo-text {
-  font-size: 16px;
-  font-weight: 600;
-  white-space: nowrap;
-  letter-spacing: -0.3px;
+  height: 100%;
+  padding: var(--spacing-md) var(--spacing-sm);
 }
 
 .nav-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
   flex: 1;
-  padding: 8px 8px !important;
-  overflow-y: auto;
 }
 
-a {
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 11px 14px;
+  border-radius: var(--radius-md);
   color: var(--text-secondary);
-  text-decoration: none;
-  border-radius: var(--radius-sm);
-  margin-bottom: 2px;
-  height: 40px !important;
-  transition: all 150ms ease;
-  border-left: 3px solid transparent;
-}
+  font-weight: var(--font-weight-medium);
+  font-size: var(--font-size-base);
+  white-space: nowrap;
+  transition:
+    background var(--transition-fast, 150ms ease),
+    color var(--transition-fast, 150ms ease),
+    transform var(--transition-fast, 150ms ease);
 
-a:hover {
-  background-color: var(--bg-elevated);
-  color: var(--text-primary);
-}
+  .nav-icon {
+    font-size: 1.35rem;
+    color: var(--text-tertiary);
+    transition: color 150ms ease;
+    flex-shrink: 0;
+  }
 
-a.active-link {
-  background-color: rgba(59, 130, 246, 0.1);
-  color: var(--accent-blue);
-  border-left-color: var(--accent-blue);
-}
+  &:hover {
+    background: color-mix(in srgb, var(--accent-purple) 10%, transparent);
+    color: var(--text-primary);
 
-a mat-icon {
-  color: inherit;
-  margin-right: 10px;
-  font-size: 20px;
-  width: 20px;
-  height: 20px;
+    .nav-icon {
+      color: var(--accent-purple);
+    }
+  }
+
+  &.active-link {
+    background: color-mix(in srgb, var(--accent-purple) 18%, transparent);
+    color: var(--text-primary);
+    box-shadow: inset 3px 0 0 var(--accent-purple);
+
+    .nav-icon {
+      color: var(--accent-purple);
+    }
+  }
 }
 
 .sidenav-footer {
-  padding: 12px;
+  padding: var(--spacing-sm);
   border-top: 1px solid var(--border-subtle);
-  flex-shrink: 0;
+  margin-top: var(--spacing-sm);
 }
 
 .user-profile {
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 8px;
-  border-radius: var(--radius-sm);
-  cursor: default;
 }
 
 .user-avatar {
-  width: 32px;
-  height: 32px;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
   border-radius: var(--radius-full);
-  background: linear-gradient(135deg, var(--accent-green), var(--accent-cyan));
-  color: var(--text-inverse);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 12px;
-  font-weight: 700;
+  background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue));
+  color: #fff;
+  font-weight: var(--font-weight-bold);
+  font-size: 0.8rem;
   flex-shrink: 0;
 }
 
 .user-info {
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  min-width: 0;
 }
 
 .user-name {
-  font-size: 13px;
-  font-weight: 500;
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-sm);
   color: var(--text-primary);
-  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .user-role {
-  font-size: 11px;
+  font-size: var(--font-size-xs);
   color: var(--text-tertiary);
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.06em;
+}
+
+// When Nebular compacts the sidebar, hide labels and center icons.
+:host-context(.compacted) {
+  .nav-label,
+  .user-info {
+    display: none;
+  }
+  .nav-link {
+    justify-content: center;
+  }
 }

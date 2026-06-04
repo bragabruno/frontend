@@ -1,20 +1,18 @@
-<mat-sidenav-container class="shell-container">
-  <mat-sidenav
-    #sidenav
-    [mode]="isMobile() ? 'over' : 'side'"
-    [opened]="!isMobile()"
-    [class.collapsed]="sidenavCollapsed()"
-    class="shell-sidenav">
-    <app-sidenav [user]="currentUser()" (toggleCollapse)="onToggleSidenav()" />
-  </mat-sidenav>
+<nb-layout>
+  <nb-layout-header fixed>
+    <app-topbar [user]="currentUser()" (toggleSidenav)="onToggleSidebar()" />
+  </nb-layout-header>
 
-  <mat-sidenav-content class="shell-content">
-    <app-topbar [user]="currentUser()" (toggleSidenav)="sidenav.toggle()" />
+  <nb-sidebar [tag]="sidebarTag" responsive class="menu-sidebar" start>
+    <app-sidenav [user]="currentUser()" />
+  </nb-sidebar>
+
+  <nb-layout-column class="shell-column">
     <app-breadcrumbs [items]="breadcrumbs()" />
     <main class="page-content">
-      <ng-content />
+      <router-outlet />
     </main>
-  </mat-sidenav-content>
-</mat-sidenav-container>
+  </nb-layout-column>
+</nb-layout>
 
 <app-help-widget />

@@ -1,30 +1,28 @@
-<nav class="sidenav" [class.collapsed]="collapsed()">
-  <div class="sidenav-header">
-    <div class="logo-mark">FP</div>
-    <span class="logo-text" *ngIf="!collapsed()">FraudPrevention</span>
-  </div>
-
-  <mat-nav-list class="nav-list">
+<nav class="sidenav">
+  <ul class="nav-list">
     <ng-container *ngFor="let item of navItems">
-      <a *ngIf="isVisible(item)"
-         mat-list-item
-         [routerLink]="item.route"
-         routerLinkActive="active-link"
-         [matTooltip]="collapsed() ? item.label : ''"
-         matTooltipPosition="right">
-        <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
-        <span matListItemTitle *ngIf="!collapsed()">{{ item.label }}</span>
-      </a>
+      <li *ngIf="isVisible(item)">
+        <a
+          [routerLink]="item.route"
+          routerLinkActive="active-link"
+          class="nav-link"
+          [nbTooltip]="item.label"
+          nbTooltipPlacement="right"
+        >
+          <nb-icon [icon]="item.icon" pack="eva" class="nav-icon"></nb-icon>
+          <span class="nav-label">{{ item.label }}</span>
+        </a>
+      </li>
     </ng-container>
-  </mat-nav-list>
+  </ul>
 
   <div class="sidenav-footer" *ngIf="user() as u">
-    <div class="user-profile" [matTooltip]="collapsed() ? u.username : ''">
-      <div class="user-avatar">{{ initials }}</div>
-      <div class="user-info" *ngIf="!collapsed()">
+    <div class="user-profile">
+      <span class="user-avatar">{{ initials }}</span>
+      <span class="user-info">
         <span class="user-name">{{ u.username }}</span>
         <span class="user-role">{{ roleLabel }}</span>
-      </div>
+      </span>
     </div>
   </div>
 </nav>

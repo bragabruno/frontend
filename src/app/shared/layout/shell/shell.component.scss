@@ -1,27 +1,35 @@
 :host {
   display: block;
-  height: 100vh;
 }
 
-.shell-container {
-  height: 100%;
+// Nebular sets header height via --header-height; keep our content readable.
+.menu-sidebar {
+  --sidebar-width: 248px;
+  --sidebar-width-compact: 64px;
 }
 
-.shell-sidenav {
-  width: 260px;
-  border: none;
-  background-color: var(--bg-sidebar);
-}
-
-.shell-sidenav.collapsed {
-  width: 64px;
-}
-
-.shell-content {
-  background-color: var(--bg-base);
+.shell-column {
+  background: var(--bg-base);
 }
 
 .page-content {
   padding: var(--spacing-lg);
-  min-height: calc(100vh - 64px - 48px);
+  display: block;
+}
+
+// A soft Moonlight aurora behind the content for depth.
+.shell-column::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(60rem 40rem at 110% -10%, color-mix(in srgb, var(--accent-purple) 12%, transparent), transparent 60%),
+    radial-gradient(50rem 36rem at -10% 110%, color-mix(in srgb, var(--accent-blue) 10%, transparent), transparent 60%);
+}
+
+.page-content > * {
+  position: relative;
+  z-index: 1;
 }

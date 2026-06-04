@@ -1,57 +1,63 @@
 :host {
   display: block;
+  width: 100%;
 }
 
 .topbar {
-  background-color: var(--bg-surface);
-  color: var(--text-primary);
-  border-bottom: 1px solid var(--border-subtle);
-  position: sticky;
-  top: 0;
-  z-index: 1100;
-  height: 64px;
-  padding: 0 16px;
-  gap: 12px;
-}
-
-.menu-btn {
-  color: var(--text-secondary);
-}
-
-.search-container {
   display: flex;
   align-items: center;
-  gap: 8px;
-  background-color: var(--bg-input);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-sm);
-  padding: 6px 12px;
-  width: 280px;
-  transition: border-color 150ms ease;
-
-  &:focus-within {
-    border-color: var(--accent-blue);
-  }
-}
-
-.search-icon {
-  color: var(--text-tertiary);
-  font-size: 18px;
-  width: 18px;
-  height: 18px;
-}
-
-.search-input {
-  background: transparent;
-  border: none;
-  outline: none;
-  color: var(--text-primary);
-  font-size: 13px;
+  gap: var(--spacing-md);
   width: 100%;
-  font-family: var(--font-family);
+  height: 100%;
+  padding: 0 var(--spacing-md);
+}
 
-  &::placeholder {
+.icon-btn nb-icon {
+  font-size: 1.4rem;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-family-display);
+  font-weight: var(--font-weight-bold);
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+}
+
+.brand-mark {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-md);
+  background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue));
+  color: #fff;
+  font-size: 0.85rem;
+}
+
+.brand-text {
+  font-size: 1.05rem;
+}
+
+.search {
+  position: relative;
+  flex: 0 1 360px;
+  margin-left: var(--spacing-md);
+
+  .search-icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
     color: var(--text-tertiary);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  input {
+    padding-left: 38px;
   }
 }
 
@@ -59,47 +65,27 @@
   flex: 1;
 }
 
-.topbar-actions {
-  display: flex;
-  gap: 4px;
-}
-
-.action-btn {
-  color: var(--text-secondary);
-}
-
-.topbar-divider {
-  width: 1px;
-  height: 24px;
-  background-color: var(--border-subtle);
-  margin: 0 4px;
+.user-menu {
+  position: relative;
 }
 
 .user-button {
   display: flex;
   align-items: center;
   gap: 10px;
-  text-transform: none;
   padding: 4px 8px;
-  border-radius: var(--radius-sm);
-  transition: background-color 150ms ease;
-
-  &:hover {
-    background-color: var(--bg-elevated);
-  }
 }
 
 .user-avatar {
+  display: grid;
+  place-items: center;
   width: 34px;
   height: 34px;
   border-radius: var(--radius-full);
-  background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 12px;
-  font-weight: 700;
+  background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue));
+  color: #fff;
+  font-weight: var(--font-weight-bold);
+  font-size: 0.78rem;
 }
 
 .user-info {
@@ -107,24 +93,69 @@
   flex-direction: column;
   align-items: flex-start;
   line-height: 1.2;
-}
 
-.username {
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--text-primary);
-}
+  .username {
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--font-size-sm);
+    color: var(--text-primary);
+  }
 
-.role-badge {
-  font-size: 11px;
-  color: var(--text-tertiary);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+  .role-badge {
+    font-size: var(--font-size-xs);
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
 }
 
 .dropdown-icon {
+  font-size: 1.1rem;
   color: var(--text-tertiary);
-  font-size: 18px;
-  width: 18px;
-  height: 18px;
+}
+
+.user-dropdown {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+  min-width: 220px;
+  padding: var(--spacing-sm);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-xl);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  .dropdown-header {
+    display: flex;
+    flex-direction: column;
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border-subtle);
+    margin-bottom: 4px;
+
+    .username {
+      font-weight: var(--font-weight-semibold);
+      color: var(--text-primary);
+    }
+    .role-badge {
+      font-size: var(--font-size-xs);
+      color: var(--text-tertiary);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+  }
+
+  .dropdown-item {
+    justify-content: flex-start;
+    gap: 10px;
+  }
+}
+
+// Hide the brand text and search on small screens.
+@media (max-width: 720px) {
+  .brand-text,
+  .search,
+  .user-info {
+    display: none;
+  }
 }

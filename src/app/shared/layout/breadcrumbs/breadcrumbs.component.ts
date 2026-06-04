@@ -1,7 +1,7 @@
 import { Component, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { NgFor, NgIf } from '@angular/common';
-import { MatIconModule } from '@angular/material/icon';
+import { NbIconModule } from '@nebular/theme';
 
 export interface Breadcrumb {
   label: string;
@@ -11,7 +11,7 @@ export interface Breadcrumb {
 @Component({
   selector: 'app-breadcrumbs',
   standalone: true,
-  imports: [RouterLink, NgFor, NgIf, MatIconModule],
+  imports: [RouterLink, NgFor, NgIf, NbIconModule],
   templateUrl: './breadcrumbs.component.html',
   styleUrl: './breadcrumbs.component.scss',
 })
