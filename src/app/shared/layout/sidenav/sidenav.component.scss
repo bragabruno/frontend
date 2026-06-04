@@ -18,6 +18,16 @@
   flex-direction: column;
   gap: 4px;
   flex: 1;
+
+  li {
+    animation: ml-rise 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+
+    @for $i from 1 through 6 {
+      &:nth-child(#{$i}) {
+        animation-delay: #{$i * 45}ms;
+      }
+    }
+  }
 }
 
 .nav-link {

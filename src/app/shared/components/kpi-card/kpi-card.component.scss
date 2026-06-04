@@ -1,20 +1,46 @@
 :host {
   display: block;
+  animation: ml-rise 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 .kpi-card {
-  background: var(--bg-surface);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-md);
+  // Frosted glass surface with a faint accent wash.
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--accent, transparent) 8%, transparent), transparent 60%),
+    var(--glass-bg);
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
   padding: 20px;
-  transition: all 200ms ease;
+  transition:
+    transform 220ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 220ms ease,
+    border-color 220ms ease;
   position: relative;
   overflow: hidden;
 
+  // Accent glow strip along the top edge.
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent, var(--accent-purple)), transparent);
+    opacity: 0.6;
+    transition: opacity 220ms ease;
+  }
+
   &:hover {
-    border-color: var(--accent, var(--border-medium));
-    box-shadow: 0 0 20px color-mix(in srgb, var(--accent, var(--border-medium)) 15%, transparent);
-    transform: translateY(-1px);
+    border-color: color-mix(in srgb, var(--accent, var(--accent-purple)) 45%, var(--glass-border));
+    box-shadow:
+      var(--shadow-lg),
+      0 0 26px color-mix(in srgb, var(--accent, var(--accent-purple)) 22%, transparent);
+    transform: translateY(-4px);
+
+    &::before {
+      opacity: 1;
+    }
   }
 }
 
@@ -60,11 +86,13 @@
 }
 
 .kpi-value {
-  font-size: 28px;
+  font-family: var(--font-family-display);
+  font-size: 30px;
   font-weight: 700;
   color: var(--text-primary);
   letter-spacing: -0.5px;
   line-height: 1;
+  font-feature-settings: 'tnum' 1;
 }
 
 .sparkline {
