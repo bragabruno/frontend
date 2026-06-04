@@ -156,6 +156,51 @@ h4 {
   border: 1px solid var(--glass-border);
 }
 
+// --- Motion: entrance reveal + staggered dashboard cards ---
+@keyframes ml-rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+// Stagger the KPI cards as they rise in on first paint.
+.kpi-grid > app-kpi-card {
+  @for $i from 1 through 8 {
+    &:nth-child(#{$i}) {
+      animation-delay: #{($i - 1) * 60}ms;
+    }
+  }
+}
+
+// Dashboard chart cards + case detail cards gently rise in.
+app-dashboard-charts nb-card,
+.detail-grid > nb-card,
+.summary-card {
+  animation: ml-rise 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+// Subtle interactive lift for content cards (not the data-table container).
+app-dashboard-charts nb-card {
+  transition:
+    transform 220ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 220ms ease;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lg);
+  }
+}
+
+// Login card entrance.
+.login-card {
+  animation: ml-rise 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
 // Material 3 Dark Theme
 $dark-theme: mat.define-theme((
   color: (
