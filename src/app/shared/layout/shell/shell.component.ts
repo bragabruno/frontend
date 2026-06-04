@@ -39,9 +39,10 @@ export class ShellComponent implements OnDestroy {
     .pipe(filter((event) => event instanceof NavigationEnd))
     .subscribe(() => {
       this.breadcrumbs.set(this.buildBreadcrumbs(this.activatedRoute.root));
-      this.currentUser.set(this.auth.currentUser());
     });
 
+  // AuthService.currentUser is a signal getter, so this effect is the single,
+  // reactive source for the shell's user (login/logout/restore all flow here).
   private userEffect = effect(() => {
     this.currentUser.set(this.auth.currentUser());
   });

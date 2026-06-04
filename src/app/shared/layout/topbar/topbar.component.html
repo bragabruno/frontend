@@ -10,7 +10,7 @@
     <nb-icon icon="menu-2-outline" pack="eva"></nb-icon>
   </button>
 
-  <a class="brand" href="/cases">
+  <a class="brand" routerLink="/cases">
     <span class="brand-mark">FP</span>
     <span class="brand-text">Fraud&nbsp;Prevention</span>
   </a>
@@ -66,6 +66,7 @@
         ghost
         status="danger"
         type="button"
+        role="menuitem"
         class="dropdown-item"
         (click)="onLogout()"
       >
