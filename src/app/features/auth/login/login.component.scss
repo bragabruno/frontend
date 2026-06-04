@@ -7,17 +7,17 @@
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  // Futuristic nebula backdrop layered over the cosmic theme.
+  // Moonlight nebula backdrop layered over the cosmic theme.
   background:
-    radial-gradient(circle at 20% 15%, rgba(63, 81, 181, 0.35), transparent 45%),
-    radial-gradient(circle at 85% 80%, rgba(170, 22, 244, 0.3), transparent 45%),
-    radial-gradient(circle at 50% 50%, rgba(0, 214, 214, 0.12), transparent 60%);
+    radial-gradient(circle at 20% 15%, rgba(130, 170, 255, 0.3), transparent 45%),
+    radial-gradient(circle at 85% 80%, rgba(192, 153, 255, 0.28), transparent 45%),
+    radial-gradient(circle at 50% 50%, rgba(134, 225, 252, 0.1), transparent 60%);
 }
 
 .login-card {
   width: 100%;
   max-width: 26rem;
-  box-shadow: 0 0 2.5rem rgba(120, 92, 255, 0.35);
+  box-shadow: 0 0 2.5rem rgba(192, 153, 255, 0.32);
 }
 
 .login-title {

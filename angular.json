@@ -32,7 +32,8 @@
               }
             ],
             "styles": [
-              "node_modules/@nebular/theme/styles/prebuilt/cosmic.css",
+              "node_modules/@nebular/theme/styles/prebuilt/cosmic-custom-properties.css",
+              "node_modules/@nebular/theme/styles/prebuilt/components-custom-properties.css",
               "src/styles.scss"
             ],
             "scripts": []
@@ -48,8 +49,8 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "1MB",
-                  "maximumError": "1.5MB"
+                  "maximumWarning": "1.5MB",
+                  "maximumError": "2.2MB"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -101,7 +102,8 @@
               }
             ],
             "styles": [
-              "node_modules/@nebular/theme/styles/prebuilt/cosmic.css",
+              "node_modules/@nebular/theme/styles/prebuilt/cosmic-custom-properties.css",
+              "node_modules/@nebular/theme/styles/prebuilt/components-custom-properties.css",
               "src/styles.scss"
             ],
             "scripts": []
