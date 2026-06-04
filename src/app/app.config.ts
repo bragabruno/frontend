@@ -12,6 +12,7 @@ import { NbThemeModule, NbSidebarModule } from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { authInterceptor } from './core/auth/auth.interceptor';
 import { AuthService } from './core/auth/auth.service';
+import { ThemeService } from './core/theme/theme.service';
 import { routes } from './app.routes';
 
 export const appConfig: ApplicationConfig = {
@@ -27,6 +28,10 @@ export const appConfig: ApplicationConfig = {
       NbEvaIconsModule,
       NbSidebarModule.forRoot(),
     ),
+    // Apply the persisted dark/light theme before the first render.
+    provideAppInitializer(() => {
+      inject(ThemeService);
+    }),
     // Re-establish a session from the persisted refresh token before routes/guards run.
     provideAppInitializer(() => inject(AuthService).restoreSession()),
   ],

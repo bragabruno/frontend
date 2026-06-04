@@ -84,6 +84,54 @@ $_nb-text-vars: (
   --text-hint-color: var(--ml-basic-400);
 }
 
+// --- Moonlight LIGHT theme -----------------------------------------------
+// Toggled by ThemeService adding `light-mode` on <html>. Because every colour
+// derives from the --ml-* primitives, redefining them here flips the whole UI
+// (Nebular scales + semantic tokens) — no second theme stylesheet needed.
+html.light-mode {
+  // Neutral ramp inverted: 100 = darkest text → 1100 = lightest background.
+  --ml-basic-100: #1a1c2b;
+  --ml-basic-200: #2f334d;
+  --ml-basic-300: #444a73;
+  --ml-basic-400: #5c648f;
+  --ml-basic-500: #828bb8;
+  --ml-basic-600: #b6c0e0;
+  --ml-basic-700: #ccd5f0;
+  --ml-basic-800: #dde3f7;
+  --ml-basic-900: #ffffff;
+  --ml-basic-1000: #eef1fb;
+  --ml-basic-1100: #f5f7fd;
+
+  // Accents deepened a touch for contrast on light surfaces.
+  --ml-purple-400: #9a78f5;
+  --ml-purple-500: #7c5cf0;
+  --ml-purple-600: #6a48d8;
+  --ml-blue-500: #3f6fd1;
+  --ml-green-500: #5a9e3f;
+  --ml-green-600: #4e8a34;
+  --ml-cyan-500: #2298bd;
+  --ml-cyan-600: #1b7e9e;
+  --ml-yellow-500: #c98a2e;
+  --ml-yellow-600: #ad7423;
+  --ml-red-500: #e0495a;
+  --ml-red-600: #c63b4b;
+  --ml-orange-500: #e0744a;
+  --ml-pink-500: #cc5fbb;
+
+  // Literal semantic tokens that aren't derived from --ml-*.
+  --border-subtle: #e6eaf7;
+  --bg-input: #ffffff;
+
+  // Softer, slate-tinted depth for a light surface.
+  --shadow-sm: 0 1px 2px rgba(40, 50, 90, 0.08);
+  --shadow-md: 0 4px 12px rgba(40, 50, 90, 0.1);
+  --shadow-lg: 0 8px 24px rgba(40, 50, 90, 0.12);
+  --shadow-xl: 0 24px 60px rgba(40, 50, 90, 0.16);
+  --shadow-glow-violet: 0 0 28px rgba(124, 92, 240, 0.18);
+  --glass-bg: rgba(255, 255, 255, 0.65);
+  --glass-border: rgba(40, 50, 90, 0.08);
+}
+
 // Native headings use the display face with tightened tracking.
 h1,
 h2,
