@@ -54,90 +54,34 @@ $_nb-text-vars: (
   --card-shadow: var(--shadow-lg);
 }
 
-// --- Moonlight palette ---------------------------------------------------
-// Reskin Nebular by redefining the scale ramps; every semantic surface,
-// border, button and text colour re-derives from these. (Requires the
-// *-custom-properties prebuilt CSS, which exposes these as CSS variables.)
+// --- Moonlight palette → Nebular -----------------------------------------
+// Map Nebular's scale ramps onto the Moonlight PRIMITIVES defined once in
+// _variables.scss (--ml-*). Every semantic surface, border, button and text
+// colour re-derives from these, so the palette has a single source of truth.
+// (Requires the *-custom-properties prebuilt CSS, which exposes these vars.)
 .nb-theme-cosmic {
-  // Neutral blue-grays: 100 = brightest text → 1100 = darkest background
-  --color-basic-100: #d5def5;
-  --color-basic-200: #c8d3f5;
-  --color-basic-300: #a9b8e8;
-  --color-basic-400: #828bb8;
-  --color-basic-500: #636da6;
-  --color-basic-600: #444a73;
-  --color-basic-700: #3b4261;
-  --color-basic-800: #2f334d;
-  --color-basic-900: #222436;
-  --color-basic-1000: #1e2030;
-  --color-basic-1100: #191a2a;
+  @for $i from 1 through 9 {
+    --color-primary-#{$i}00: var(--ml-purple-#{$i}00);
+    --color-success-#{$i}00: var(--ml-green-#{$i}00);
+    --color-info-#{$i}00: var(--ml-cyan-#{$i}00);
+    --color-warning-#{$i}00: var(--ml-yellow-#{$i}00);
+    --color-danger-#{$i}00: var(--ml-red-#{$i}00);
+  }
+  @for $i from 1 through 11 {
+    --color-basic-#{$i}00: var(--ml-basic-#{$i}00);
+  }
 
-  // Primary — Moonlight purple
-  --color-primary-100: #f3edff;
-  --color-primary-200: #e4d6ff;
-  --color-primary-300: #d3bdff;
-  --color-primary-400: #c9aaff;
-  --color-primary-500: #c099ff;
-  --color-primary-600: #a87fef;
-  --color-primary-700: #8a63d0;
-  --color-primary-800: #6d4baa;
-  --color-primary-900: #503680;
-
-  // Success — green
-  --color-success-100: #f1f9e2;
-  --color-success-200: #e3f3c6;
-  --color-success-300: #d3edaa;
-  --color-success-400: #cbeb9c;
-  --color-success-500: #c3e88d;
-  --color-success-600: #a6cf6e;
-  --color-success-700: #84ac4f;
-  --color-success-800: #648636;
-  --color-success-900: #466023;
-
-  // Info — cyan
-  --color-info-100: #e7f9ff;
-  --color-info-200: #cbf2ff;
-  --color-info-300: #aeeaff;
-  --color-info-400: #9ae6fe;
-  --color-info-500: #86e1fc;
-  --color-info-600: #5fbfe0;
-  --color-info-700: #3f97b8;
-  --color-info-800: #28708c;
-  --color-info-900: #184c63;
-
-  // Warning — yellow
-  --color-warning-100: #fff4e0;
-  --color-warning-200: #ffe7bd;
-  --color-warning-300: #ffd99a;
-  --color-warning-400: #ffd089;
-  --color-warning-500: #ffc777;
-  --color-warning-600: #e0a559;
-  --color-warning-700: #b8813f;
-  --color-warning-800: #8c5f2a;
-  --color-warning-900: #634019;
-
-  // Danger — red
-  --color-danger-100: #ffe3e5;
-  --color-danger-200: #ffc4c9;
-  --color-danger-300: #ffa3ab;
-  --color-danger-400: #ff8c95;
-  --color-danger-500: #ff757f;
-  --color-danger-600: #e05761;
-  --color-danger-700: #b83f49;
-  --color-danger-800: #8c2b34;
-  --color-danger-900: #631b22;
-
-  // Core surfaces (also set explicitly so layout/header/sidebar track Moonlight)
-  --background-basic-color-1: #222436;
-  --background-basic-color-2: #1e2030;
-  --background-basic-color-3: #191a2a;
+  // Core surfaces, pinned so layout/header/sidebar track Moonlight.
+  --background-basic-color-1: var(--ml-basic-900);
+  --background-basic-color-2: var(--ml-basic-1000);
+  --background-basic-color-3: var(--ml-basic-1100);
   --background-basic-color-4: #161724;
-  --layout-background-color: #191a2a;
-  --card-background-color: #222436;
-  --header-background-color: #1e2030;
-  --sidebar-background-color: #1e2030;
-  --text-basic-color: #c8d3f5;
-  --text-hint-color: #828bb8;
+  --layout-background-color: var(--ml-basic-1100);
+  --card-background-color: var(--ml-basic-900);
+  --header-background-color: var(--ml-basic-1000);
+  --sidebar-background-color: var(--ml-basic-1000);
+  --text-basic-color: var(--ml-basic-200);
+  --text-hint-color: var(--ml-basic-400);
 }
 
 // Native headings use the display face with tightened tracking.

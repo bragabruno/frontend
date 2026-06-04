@@ -7,17 +7,17 @@
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  // Moonlight nebula backdrop layered over the cosmic theme.
+  // Moonlight nebula backdrop, derived from the palette accent tokens.
   background:
-    radial-gradient(circle at 20% 15%, rgba(130, 170, 255, 0.3), transparent 45%),
-    radial-gradient(circle at 85% 80%, rgba(192, 153, 255, 0.28), transparent 45%),
-    radial-gradient(circle at 50% 50%, rgba(134, 225, 252, 0.1), transparent 60%);
+    radial-gradient(circle at 20% 15%, color-mix(in srgb, var(--accent-blue) 30%, transparent), transparent 45%),
+    radial-gradient(circle at 85% 80%, color-mix(in srgb, var(--accent-purple) 28%, transparent), transparent 45%),
+    radial-gradient(circle at 50% 50%, color-mix(in srgb, var(--accent-cyan) 12%, transparent), transparent 60%);
 }
 
 .login-card {
   width: 100%;
   max-width: 26rem;
-  box-shadow: 0 0 2.5rem rgba(192, 153, 255, 0.32);
+  box-shadow: var(--shadow-glow-violet);
 }
 
 .login-title {
