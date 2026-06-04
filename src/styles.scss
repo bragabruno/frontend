@@ -23,6 +23,61 @@ a {
   text-decoration: none;
 }
 
+// --- Typography: route Nebular's per-level font vars to our pairing, and give
+//     cards a softer radius + elevation. Applies to every registered theme. ---
+$_nb-text-vars: (
+  'paragraph',
+  'paragraph-2',
+  'subtitle',
+  'subtitle-2',
+  'label',
+  'caption',
+  'caption-2',
+  'button-giant',
+  'button-large',
+  'button-medium',
+  'button-small',
+  'button-tiny'
+);
+
+.nb-theme-cosmic,
+.nb-theme-default,
+.nb-theme-corporate,
+.nb-theme-dark {
+  @each $v in $_nb-text-vars {
+    --text-#{$v}-font-family: var(--font-family);
+  }
+  @for $i from 1 through 6 {
+    --text-heading-#{$i}-font-family: var(--font-family-display);
+  }
+  --card-border-radius: var(--radius-lg);
+  --card-shadow: var(--shadow-lg);
+}
+
+// Native headings use the display face with tightened tracking.
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-family-display);
+  letter-spacing: -0.015em;
+}
+
+// Tabular figures keep numeric/ID columns aligned and crisp.
+.mono,
+.case-id,
+.value {
+  font-feature-settings: 'tnum' 1;
+}
+
+// --- Frosted-glass surface utility (depth) ---
+.glass {
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+}
+
 // Material 3 Dark Theme
 $dark-theme: mat.define-theme((
   color: (
