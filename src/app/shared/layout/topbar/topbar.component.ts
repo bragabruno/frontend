@@ -6,6 +6,7 @@ import { NbIconModule, NbButtonModule, NbInputModule } from '@nebular/theme';
 import { CurrentUser } from '../../models/models';
 import { getInitials } from '../../utils/utils';
 import { AuthService } from '../../../core/auth/auth.service';
+import { ThemeService } from '../../../core/theme/theme.service';
 
 @Component({
   selector: 'app-topbar',
@@ -17,12 +18,19 @@ import { AuthService } from '../../../core/auth/auth.service';
 export class TopbarComponent {
   private readonly auth = inject(AuthService);
   private readonly host = inject(ElementRef<HTMLElement>);
+  private readonly theme = inject(ThemeService);
 
   user = input<CurrentUser | null>(null);
   toggleSidenav = output<void>();
 
   searchQuery = signal('');
   menuOpen = signal(false);
+
+  readonly isLight = this.theme.isLight;
+
+  toggleTheme(): void {
+    this.theme.toggle();
+  }
 
   // Close the user dropdown on outside click or Escape (accessible dropdown).
   @HostListener('document:click', ['$event'])
