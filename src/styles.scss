@@ -201,6 +201,21 @@ app-dashboard-charts nb-card {
   animation: ml-rise 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
+// --- ngx-charts tooltips (rendered on <body>) themed to Moonlight ---
+.ngx-charts-tooltip-content {
+  background: var(--bg-elevated) !important;
+  color: var(--text-primary) !important;
+  border: 1px solid var(--border-subtle) !important;
+  border-radius: var(--radius-md) !important;
+  box-shadow: var(--shadow-lg) !important;
+  font-family: var(--font-family) !important;
+  font-size: 12px !important;
+
+  .tooltip-caret {
+    border-top-color: var(--bg-elevated) !important;
+  }
+}
+
 // Material 3 Dark Theme
 $dark-theme: mat.define-theme((
   color: (

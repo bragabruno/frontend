@@ -9,9 +9,11 @@
 }
 
 .chart-card {
-  background: var(--bg-surface);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-md);
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
   padding: 20px;
 }
 
@@ -24,4 +26,42 @@
   font-size: 14px;
   font-weight: 600;
   color: var(--text-secondary);
+  letter-spacing: 0.01em;
+}
+
+// --- ngx-charts theming → Moonlight tokens (adapts to light/dark) ---
+:host ::ng-deep .ngx-charts {
+  text {
+    fill: var(--text-tertiary);
+    font-family: var(--font-family);
+    font-size: 11px;
+  }
+
+  .gridline-path {
+    stroke: var(--border-subtle);
+    stroke-dasharray: 3 4;
+  }
+
+  .domain {
+    stroke: var(--border-medium);
+  }
+
+  .pie-label {
+    fill: var(--text-secondary);
+    font-weight: 500;
+  }
+
+  .pie-label-line {
+    stroke: var(--text-tertiary);
+  }
+
+  .bar,
+  .arc {
+    transition: opacity 180ms ease;
+    cursor: pointer;
+
+    &:hover {
+      opacity: 0.85;
+    }
+  }
 }

@@ -1,6 +1,6 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { NgFor } from '@angular/common';
-import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { NgxChartsModule, Color, ScaleType } from '@swimlane/ngx-charts';
 import {
   DashboardService,
   ChartDataPoint,
@@ -18,11 +18,21 @@ export class DashboardChartsComponent implements OnInit {
   severityData = signal<ChartDataPoint[]>([]);
   topRules = signal<ChartDataPoint[]>([]);
 
-  colorScheme = {
-    name: 'dark',
+  // Moonlight ordinal scheme for the charts.
+  colorScheme: Color = {
+    name: 'moonlight',
     selectable: true,
-    group: 'Ordinal' as any,
-    domain: ['#3b82f6', '#a855f7', '#f59e0b', '#ec4899', '#ef4444', '#22c55e', '#6b7280'],
+    group: ScaleType.Ordinal,
+    domain: [
+      '#82aaff',
+      '#c099ff',
+      '#ffc777',
+      '#fca7ea',
+      '#ff757f',
+      '#c3e88d',
+      '#86e1fc',
+      '#636da6',
+    ],
   };
 
   constructor(private dashboardService: DashboardService) {}
