@@ -4,73 +4,146 @@
 
 // --- CSS Custom Properties (Dark Theme) ---
 :root {
+  // ====================================================================
+  // Moonlight palette PRIMITIVES — single source of truth. Both the
+  // semantic tokens below and Nebular's --color-* scales (styles.scss)
+  // derive from these, so a palette change is a one-place edit.
+  // ====================================================================
+  // Neutral blue-grays: 100 = brightest text → 1100 = darkest background
+  --ml-basic-100: #d5def5;
+  --ml-basic-200: #c8d3f5;
+  --ml-basic-300: #a9b8e8;
+  --ml-basic-400: #828bb8;
+  --ml-basic-500: #636da6;
+  --ml-basic-600: #444a73;
+  --ml-basic-700: #3b4261;
+  --ml-basic-800: #2f334d;
+  --ml-basic-900: #222436;
+  --ml-basic-1000: #1e2030;
+  --ml-basic-1100: #191a2a;
+  // Purple (primary)
+  --ml-purple-100: #f3edff;
+  --ml-purple-200: #e4d6ff;
+  --ml-purple-300: #d3bdff;
+  --ml-purple-400: #c9aaff;
+  --ml-purple-500: #c099ff;
+  --ml-purple-600: #a87fef;
+  --ml-purple-700: #8a63d0;
+  --ml-purple-800: #6d4baa;
+  --ml-purple-900: #503680;
+  // Green (success)
+  --ml-green-100: #f1f9e2;
+  --ml-green-200: #e3f3c6;
+  --ml-green-300: #d3edaa;
+  --ml-green-400: #cbeb9c;
+  --ml-green-500: #c3e88d;
+  --ml-green-600: #a6cf6e;
+  --ml-green-700: #84ac4f;
+  --ml-green-800: #648636;
+  --ml-green-900: #466023;
+  // Cyan (info)
+  --ml-cyan-100: #e7f9ff;
+  --ml-cyan-200: #cbf2ff;
+  --ml-cyan-300: #aeeaff;
+  --ml-cyan-400: #9ae6fe;
+  --ml-cyan-500: #86e1fc;
+  --ml-cyan-600: #5fbfe0;
+  --ml-cyan-700: #3f97b8;
+  --ml-cyan-800: #28708c;
+  --ml-cyan-900: #184c63;
+  // Yellow (warning)
+  --ml-yellow-100: #fff4e0;
+  --ml-yellow-200: #ffe7bd;
+  --ml-yellow-300: #ffd99a;
+  --ml-yellow-400: #ffd089;
+  --ml-yellow-500: #ffc777;
+  --ml-yellow-600: #e0a559;
+  --ml-yellow-700: #b8813f;
+  --ml-yellow-800: #8c5f2a;
+  --ml-yellow-900: #634019;
+  // Red (danger)
+  --ml-red-100: #ffe3e5;
+  --ml-red-200: #ffc4c9;
+  --ml-red-300: #ffa3ab;
+  --ml-red-400: #ff8c95;
+  --ml-red-500: #ff757f;
+  --ml-red-600: #e05761;
+  --ml-red-700: #b83f49;
+  --ml-red-800: #8c2b34;
+  --ml-red-900: #631b22;
+  // Extras
+  --ml-blue-500: #82aaff;
+  --ml-orange-500: #ff966c;
+  --ml-pink-500: #fca7ea;
+
+  // --- Semantic tokens (derived from primitives) ---
   // Backgrounds
-  --bg-base: #0a0a0a;
-  --bg-surface: #1a1a1a;
-  --bg-elevated: #242424;
-  --bg-sidebar: #0f0f0f;
-  --bg-input: #1e1e1e;
+  --bg-base: var(--ml-basic-1100);
+  --bg-surface: var(--ml-basic-900);
+  --bg-elevated: var(--ml-basic-800);
+  --bg-sidebar: var(--ml-basic-1000);
+  --bg-input: #1b1d2b;
 
   // Borders
-  --border-subtle: #2a2a2a;
-  --border-medium: #3a3a3a;
-  --border-strong: #4a4a4a;
+  --border-subtle: #2a2e45;
+  --border-medium: var(--ml-basic-700);
+  --border-strong: var(--ml-basic-600);
 
   // Text
-  --text-primary: #ffffff;
-  --text-secondary: #a0a0a0;
-  --text-tertiary: #666666;
-  --text-inverse: #0a0a0a;
+  --text-primary: var(--ml-basic-200);
+  --text-secondary: var(--ml-basic-400);
+  --text-tertiary: var(--ml-basic-500);
+  --text-inverse: var(--ml-basic-1100);
 
   // Accents
-  --accent-green: #22c55e;
-  --accent-green-dim: rgba(34, 197, 94, 0.15);
-  --accent-red: #ef4444;
-  --accent-red-dim: rgba(239, 68, 68, 0.15);
-  --accent-amber: #f59e0b;
-  --accent-amber-dim: rgba(245, 158, 11, 0.15);
-  --accent-blue: #3b82f6;
-  --accent-blue-dim: rgba(59, 130, 246, 0.15);
-  --accent-purple: #a855f7;
-  --accent-purple-dim: rgba(168, 85, 247, 0.15);
-  --accent-cyan: #06b6d4;
-  --accent-cyan-dim: rgba(6, 182, 212, 0.15);
+  --accent-green: var(--ml-green-500);
+  --accent-green-dim: rgba(195, 232, 141, 0.15);
+  --accent-red: var(--ml-red-500);
+  --accent-red-dim: rgba(255, 117, 127, 0.15);
+  --accent-amber: var(--ml-yellow-500);
+  --accent-amber-dim: rgba(255, 199, 119, 0.15);
+  --accent-blue: var(--ml-blue-500);
+  --accent-blue-dim: rgba(130, 170, 255, 0.15);
+  --accent-purple: var(--ml-purple-500);
+  --accent-purple-dim: rgba(192, 153, 255, 0.15);
+  --accent-cyan: var(--ml-cyan-500);
+  --accent-cyan-dim: rgba(134, 225, 252, 0.15);
 
   // Severity
-  --severity-critical: #ef4444;
-  --severity-critical-bg: rgba(239, 68, 68, 0.12);
-  --severity-high: #f59e0b;
-  --severity-high-bg: rgba(245, 158, 11, 0.12);
-  --severity-medium: #eab308;
-  --severity-medium-bg: rgba(234, 179, 8, 0.12);
-  --severity-low: #06b6d4;
-  --severity-low-bg: rgba(6, 182, 212, 0.12);
+  --severity-critical: var(--ml-red-500);
+  --severity-critical-bg: rgba(255, 117, 127, 0.12);
+  --severity-high: var(--ml-orange-500);
+  --severity-high-bg: rgba(255, 150, 108, 0.12);
+  --severity-medium: var(--ml-yellow-500);
+  --severity-medium-bg: rgba(255, 199, 119, 0.12);
+  --severity-low: var(--ml-cyan-500);
+  --severity-low-bg: rgba(134, 225, 252, 0.12);
 
   // Decision
-  --decision-approve: #22c55e;
-  --decision-approve-bg: rgba(34, 197, 94, 0.12);
-  --decision-review: #f59e0b;
-  --decision-review-bg: rgba(245, 158, 11, 0.12);
-  --decision-decline: #ef4444;
-  --decision-decline-bg: rgba(239, 68, 68, 0.12);
+  --decision-approve: var(--ml-green-500);
+  --decision-approve-bg: rgba(195, 232, 141, 0.12);
+  --decision-review: var(--ml-yellow-500);
+  --decision-review-bg: rgba(255, 199, 119, 0.12);
+  --decision-decline: var(--ml-red-500);
+  --decision-decline-bg: rgba(255, 117, 127, 0.12);
 
   // Status
-  --status-open: #3b82f6;
-  --status-assigned: #a855f7;
-  --status-in-review: #f59e0b;
-  --status-resolved-fraud: #ef4444;
-  --status-resolved-legit: #22c55e;
-  --status-escalated: #ec4899;
-  --status-closed: #6b7280;
+  --status-open: var(--ml-blue-500);
+  --status-assigned: var(--ml-purple-500);
+  --status-in-review: var(--ml-yellow-500);
+  --status-resolved-fraud: var(--ml-red-500);
+  --status-resolved-legit: var(--ml-green-500);
+  --status-escalated: var(--ml-pink-500);
+  --status-closed: var(--ml-basic-500);
 
   // Shadows & depth
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
   --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
   --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5);
   --shadow-xl: 0 24px 60px rgba(0, 0, 0, 0.55);
-  --shadow-glow-blue: 0 0 20px rgba(59, 130, 246, 0.15);
-  --shadow-glow-violet: 0 0 28px rgba(124, 92, 255, 0.22);
-  --shadow-glow-cyan: 0 0 24px rgba(0, 214, 214, 0.18);
+  --shadow-glow-blue: 0 0 20px rgba(130, 170, 255, 0.18);
+  --shadow-glow-violet: 0 0 28px rgba(192, 153, 255, 0.24);
+  --shadow-glow-cyan: 0 0 24px rgba(134, 225, 252, 0.18);
   // Frosted-glass surface (used by .glass utility + elevated cards)
   --glass-bg: rgba(20, 24, 38, 0.55);
   --glass-border: rgba(255, 255, 255, 0.08);

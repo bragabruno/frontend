@@ -162,3 +162,6 @@ docker-compose.override.yml
 # Keep .editorconfig committed
 .playwright-mcp/
 public/mockServiceWorker.js
+
+# Claude Code local automation artifacts
+.claude/
