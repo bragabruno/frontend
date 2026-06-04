@@ -63,11 +63,18 @@
   --status-escalated: #ec4899;
   --status-closed: #6b7280;
 
-  // Shadows
+  // Shadows & depth
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
   --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
   --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5);
+  --shadow-xl: 0 24px 60px rgba(0, 0, 0, 0.55);
   --shadow-glow-blue: 0 0 20px rgba(59, 130, 246, 0.15);
+  --shadow-glow-violet: 0 0 28px rgba(124, 92, 255, 0.22);
+  --shadow-glow-cyan: 0 0 24px rgba(0, 214, 214, 0.18);
+  // Frosted-glass surface (used by .glass utility + elevated cards)
+  --glass-bg: rgba(20, 24, 38, 0.55);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-blur: 14px;
 
   // Spacing
   --spacing-xs: 4px;
@@ -77,9 +84,10 @@
   --spacing-xl: 32px;
   --spacing-2xl: 48px;
 
-  // Typography
-  --font-family: 'Inter', 'Roboto', 'Helvetica Neue', sans-serif;
-  --font-family-mono: 'JetBrains Mono', 'Roboto Mono', monospace;
+  // Typography — distinctive pairing: Bricolage Grotesque (display) + IBM Plex Sans (body) + IBM Plex Mono (numerics/IDs)
+  --font-family: 'IBM Plex Sans', 'Helvetica Neue', sans-serif;
+  --font-family-display: 'Bricolage Grotesque', 'IBM Plex Sans', sans-serif;
+  --font-family-mono: 'IBM Plex Mono', 'JetBrains Mono', monospace;
 
   --font-size-xs: 0.75rem;
   --font-size-sm: 0.8125rem;
