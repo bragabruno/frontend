@@ -40,13 +40,73 @@
 
 .table-container {
   overflow-x: auto;
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-md);
-  background: var(--bg-surface);
 }
 
 table {
   width: 100%;
+  background: transparent;
+}
+
+// --- mat-table polish ---------------------------------------------------
+:host ::ng-deep {
+  .mat-mdc-table {
+    background: transparent;
+  }
+
+  // Sticky frosted header with uppercase muted labels.
+  .mat-mdc-header-row {
+    background: var(--glass-bg);
+    -webkit-backdrop-filter: blur(var(--glass-blur));
+    backdrop-filter: blur(var(--glass-blur));
+  }
+
+  .mat-mdc-header-cell {
+    color: var(--text-tertiary);
+    font-family: var(--font-family);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border-bottom-color: var(--border-medium);
+  }
+
+  .mat-mdc-cell {
+    color: var(--text-primary);
+    font-size: var(--font-size-base);
+    border-bottom-color: var(--border-subtle);
+  }
+
+  .mat-sort-header-arrow {
+    color: var(--accent-purple);
+  }
+}
+
+// Per-row severity accent bar + smooth hover.
+:host ::ng-deep .clickable-row {
+  transition:
+    background-color 160ms ease,
+    box-shadow 160ms ease;
+
+  td:first-child {
+    box-shadow: inset 3px 0 0 var(--row-accent, transparent);
+  }
+
+  &[data-severity='CRITICAL'] {
+    --row-accent: var(--severity-critical);
+  }
+  &[data-severity='HIGH'] {
+    --row-accent: var(--severity-high);
+  }
+  &[data-severity='MEDIUM'] {
+    --row-accent: var(--severity-medium);
+  }
+  &[data-severity='LOW'] {
+    --row-accent: var(--severity-low);
+  }
+
+  &:hover {
+    background: color-mix(in srgb, var(--row-accent, var(--accent-purple)) 8%, var(--bg-elevated));
+  }
 }
 
 .expand-cell {
@@ -126,11 +186,6 @@ table {
 
 .clickable-row {
   cursor: pointer;
-  transition: background-color 150ms ease;
-}
-
-.clickable-row:hover {
-  background-color: var(--bg-elevated);
 }
 
 .row-expanded {
