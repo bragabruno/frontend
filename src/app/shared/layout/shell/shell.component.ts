@@ -1,8 +1,6 @@
 import { Component, signal, inject, effect, OnDestroy } from '@angular/core';
-import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
-import { NgIf } from '@angular/common';
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { Router, NavigationEnd, ActivatedRoute, RouterOutlet } from '@angular/router';
+import { NbLayoutModule, NbSidebarModule, NbSidebarService } from '@nebular/theme';
 import { filter } from 'rxjs/operators';
 import { SidenavComponent } from '../sidenav/sidenav.component';
 import { TopbarComponent } from '../topbar/topbar.component';
@@ -15,8 +13,9 @@ import { CurrentUser } from '../../models/models';
   selector: 'app-shell',
   standalone: true,
   imports: [
-    NgIf,
-    MatSidenavModule,
+    RouterOutlet,
+    NbLayoutModule,
+    NbSidebarModule,
     SidenavComponent,
     TopbarComponent,
     BreadcrumbsComponent,
@@ -29,32 +28,23 @@ export class ShellComponent implements OnDestroy {
   private readonly auth = inject(AuthService);
   private readonly router = inject(Router);
   private readonly activatedRoute = inject(ActivatedRoute);
-  private readonly breakpointObserver = inject(BreakpointObserver);
+  private readonly sidebar = inject(NbSidebarService);
+
+  readonly sidebarTag = 'menu-sidebar';
 
   currentUser = signal<CurrentUser | null>(null);
   breadcrumbs = signal<Breadcrumb[]>([]);
-  isMobile = signal(false);
-  sidenavCollapsed = signal(false);
-
-  private mobileSub = this.breakpointObserver.observe([Breakpoints.Handset]).subscribe((result) => {
-    this.isMobile.set(result.matches);
-  });
 
   private routerSub = this.router.events
     .pipe(filter((event) => event instanceof NavigationEnd))
     .subscribe(() => {
       this.breadcrumbs.set(this.buildBreadcrumbs(this.activatedRoute.root));
-      this.refreshUser();
+      this.currentUser.set(this.auth.currentUser());
     });
 
   private userEffect = effect(() => {
-    const user = this.auth.currentUser();
-    this.currentUser.set(user);
-  });
-
-  private refreshUser(): void {
     this.currentUser.set(this.auth.currentUser());
-  }
+  });
 
   private buildBreadcrumbs(route: ActivatedRoute, crumbs: Breadcrumb[] = []): Breadcrumb[] {
     const child = route.firstChild;
@@ -71,12 +61,11 @@ export class ShellComponent implements OnDestroy {
     return this.buildBreadcrumbs(child, crumbs);
   }
 
-  onToggleSidenav(): void {
-    this.sidenavCollapsed.update((v) => !v);
+  onToggleSidebar(): void {
+    this.sidebar.toggle(true, this.sidebarTag);
   }
 
   ngOnDestroy(): void {
-    this.mobileSub.unsubscribe();
     this.routerSub.unsubscribe();
   }
 }

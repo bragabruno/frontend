@@ -1,14 +1,28 @@
-<mat-toolbar class="topbar">
-  <button mat-icon-button (click)="toggleSidenav.emit()" aria-label="Toggle navigation" class="menu-btn">
-    <mat-icon>menu</mat-icon>
+<div class="topbar">
+  <button
+    nbButton
+    ghost
+    type="button"
+    class="icon-btn menu-btn"
+    (click)="toggleSidenav.emit()"
+    aria-label="Toggle navigation"
+  >
+    <nb-icon icon="menu-2-outline" pack="eva"></nb-icon>
   </button>
 
-  <div class="search-container">
-    <mat-icon class="search-icon">search</mat-icon>
+  <a class="brand" href="/cases">
+    <span class="brand-mark">FP</span>
+    <span class="brand-text">Fraud&nbsp;Prevention</span>
+  </a>
+
+  <div class="search">
+    <nb-icon icon="search-outline" pack="eva" class="search-icon"></nb-icon>
     <input
-      class="search-input"
+      nbInput
+      fullWidth
+      fieldSize="small"
       type="text"
-      placeholder="Search..."
+      placeholder="Search cases, users, rules…"
       [ngModel]="searchQuery()"
       (ngModelChange)="searchQuery.set($event)"
     />
@@ -16,42 +30,48 @@
 
   <span class="spacer"></span>
 
-  <div class="topbar-actions">
-    <button mat-icon-button aria-label="Notifications" class="action-btn">
-      <mat-icon [matBadge]="0" matBadgeColor="warn" [matBadgeHidden]="true">notifications</mat-icon>
-    </button>
-
-    <button mat-icon-button aria-label="Settings" class="action-btn">
-      <mat-icon>settings</mat-icon>
-    </button>
-  </div>
-
-  <div class="topbar-divider"></div>
+  <button nbButton ghost type="button" class="icon-btn" aria-label="Notifications">
+    <nb-icon icon="bell-outline" pack="eva"></nb-icon>
+  </button>
 
   <div class="user-menu" *ngIf="user() as u">
-    <button mat-button [matMenuTriggerFor]="userMenu" class="user-button">
-      <div class="user-avatar">{{ initials }}</div>
-      <div class="user-info">
+    <button
+      nbButton
+      ghost
+      type="button"
+      class="user-button"
+      (click)="toggleMenu()"
+      [attr.aria-expanded]="menuOpen()"
+      aria-haspopup="menu"
+    >
+      <span class="user-avatar">{{ initials }}</span>
+      <span class="user-info">
+        <span class="username">{{ u.username }}</span>
+        <span class="role-badge">{{ roleBadge }}</span>
+      </span>
+      <nb-icon
+        class="dropdown-icon"
+        [icon]="menuOpen() ? 'chevron-up-outline' : 'chevron-down-outline'"
+        pack="eva"
+      ></nb-icon>
+    </button>
+
+    <div class="user-dropdown glass" *ngIf="menuOpen()" role="menu">
+      <div class="dropdown-header">
         <span class="username">{{ u.username }}</span>
         <span class="role-badge">{{ roleBadge }}</span>
       </div>
-      <mat-icon class="dropdown-icon">expand_more</mat-icon>
-    </button>
-
-    <mat-menu #userMenu="matMenu" class="user-dropdown">
-      <button mat-menu-item>
-        <mat-icon>person</mat-icon>
-        <span>Profile</span>
+      <button
+        nbButton
+        ghost
+        status="danger"
+        type="button"
+        class="dropdown-item"
+        (click)="onLogout()"
+      >
+        <nb-icon icon="log-out-outline" pack="eva"></nb-icon>
+        Sign out
       </button>
-      <button mat-menu-item>
-        <mat-icon>help_outline</mat-icon>
-        <span>Help</span>
-      </button>
-      <mat-divider></mat-divider>
-      <button mat-menu-item (click)="onLogout()">
-        <mat-icon>logout</mat-icon>
-        <span>Sign out</span>
-      </button>
-    </mat-menu>
+    </div>
   </div>
-</mat-toolbar>
+</div>

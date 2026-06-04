@@ -1,15 +1,7 @@
 import { Component, input, output, signal, inject } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import { NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
-import { MatMenuModule } from '@angular/material/menu';
-import { MatBadgeModule } from '@angular/material/badge';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatDividerModule } from '@angular/material/divider';
+import { NbIconModule, NbButtonModule, NbInputModule } from '@nebular/theme';
 import { CurrentUser } from '../../models/models';
 import { getInitials } from '../../utils/utils';
 import { AuthService } from '../../../core/auth/auth.service';
@@ -17,19 +9,7 @@ import { AuthService } from '../../../core/auth/auth.service';
 @Component({
   selector: 'app-topbar',
   standalone: true,
-  imports: [
-    NgIf,
-    FormsModule,
-    RouterLink,
-    MatToolbarModule,
-    MatIconModule,
-    MatButtonModule,
-    MatMenuModule,
-    MatBadgeModule,
-    MatInputModule,
-    MatFormFieldModule,
-    MatDividerModule,
-  ],
+  imports: [NgIf, FormsModule, NbIconModule, NbButtonModule, NbInputModule],
   templateUrl: './topbar.component.html',
   styleUrl: './topbar.component.scss',
 })
@@ -40,7 +20,7 @@ export class TopbarComponent {
   toggleSidenav = output<void>();
 
   searchQuery = signal('');
-  menuOpened = signal(false);
+  menuOpen = signal(false);
 
   get initials(): string {
     const u = this.user();
@@ -52,7 +32,12 @@ export class TopbarComponent {
     return u ? u.role.replace('_', ' ') : '';
   }
 
+  toggleMenu(): void {
+    this.menuOpen.update((v) => !v);
+  }
+
   onLogout(): void {
+    this.menuOpen.set(false);
     this.auth.logout();
   }
 }

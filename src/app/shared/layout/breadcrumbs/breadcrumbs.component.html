@@ -3,7 +3,7 @@
     <li *ngFor="let item of items(); let last = last">
       <a *ngIf="item.route && !last" [routerLink]="item.route">{{ item.label }}</a>
       <span *ngIf="!item.route || last" class="current">{{ item.label }}</span>
-      <mat-icon *ngIf="!last" class="separator">chevron_right</mat-icon>
+      <nb-icon *ngIf="!last" class="separator" icon="chevron-right-outline" pack="eva"></nb-icon>
     </li>
   </ol>
 </nav>
