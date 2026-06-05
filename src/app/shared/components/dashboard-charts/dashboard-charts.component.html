@@ -1,6 +1,6 @@
 <div class="charts-grid">
   <div class="chart-card">
-    <h3 class="chart-title">Case Status Distribution</h3>
+    <h2 class="chart-title">Case Status Distribution</h2>
     <ngx-charts-pie-chart
       [results]="statusDistribution()"
       [legend]="false"
@@ -13,7 +13,7 @@
   </div>
 
   <div class="chart-card">
-    <h3 class="chart-title">Cases by Severity</h3>
+    <h2 class="chart-title">Cases by Severity</h2>
     <ngx-charts-bar-vertical
       [results]="severityData()"
       [scheme]="colorScheme"
@@ -27,7 +27,7 @@
   </div>
 
   <div class="chart-card chart-card-wide">
-    <h3 class="chart-title">Top Rules Triggered</h3>
+    <h2 class="chart-title">Top Rules Triggered</h2>
     <ngx-charts-bar-horizontal
       [results]="topRules()"
       [scheme]="colorScheme"
