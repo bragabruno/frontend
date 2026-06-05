@@ -62,7 +62,7 @@
   </div>
 
   <nb-card class="table-container" *ngIf="!loading() && !error() && cases().length > 0">
-    <nb-card-body>
+    <nb-card-body tabindex="0" role="region" aria-label="Case queue table (scrollable)">
       <table
         mat-table
         [dataSource]="cases()"
@@ -71,7 +71,7 @@
         multiTemplateDataRows
       >
         <ng-container matColumnDef="expand">
-          <th mat-header-cell *matHeaderCellDef></th>
+          <th mat-header-cell *matHeaderCellDef><span class="sr-only">Expand row</span></th>
           <td mat-cell *matCellDef="let row" class="expand-cell">
             <button
               nbButton
@@ -79,6 +79,10 @@
               size="small"
               class="expand-btn"
               (click)="toggleExpand(row, $event)"
+              [attr.aria-label]="
+                isExpanded(row.id) ? 'Collapse case details' : 'Expand case details'
+              "
+              [attr.aria-expanded]="isExpanded(row.id)"
               [matTooltip]="isExpanded(row.id) ? 'Collapse' : 'Expand'"
             >
               <nb-icon
@@ -101,7 +105,16 @@
 
         <ng-container matColumnDef="id">
           <th mat-header-cell *matHeaderCellDef>Case ID</th>
-          <td mat-cell *matCellDef="let row" class="case-id">{{ row.id | slice: 0 : 8 }}</td>
+          <td mat-cell *matCellDef="let row" class="case-id">
+            <button
+              type="button"
+              class="case-id-link"
+              (click)="onRowClick(row); $event.stopPropagation()"
+              [attr.aria-label]="'Open case ' + (row.id | slice: 0 : 8)"
+            >
+              {{ row.id | slice: 0 : 8 }}
+            </button>
+          </td>
         </ng-container>
 
         <ng-container matColumnDef="status">
@@ -211,10 +224,6 @@
           mat-row
           *matRowDef="let row; columns: displayedColumns"
           (click)="onRowClick(row)"
-          (keydown.enter)="onRowClick(row)"
-          (keydown.space)="onRowClick(row)"
-          tabindex="0"
-          role="button"
           class="clickable-row"
           [attr.data-severity]="row.severity"
           [class.row-expanded]="isExpanded(row.id)"

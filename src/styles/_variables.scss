@@ -89,10 +89,11 @@
   --border-medium: var(--ml-basic-700);
   --border-strong: var(--ml-basic-600);
 
-  // Text
+  // Text — brightened one ramp step so secondary/tertiary clear WCAG AA contrast
+  // on the Moonlight surfaces (and, inverted, on the light theme).
   --text-primary: var(--ml-basic-200);
-  --text-secondary: var(--ml-basic-400);
-  --text-tertiary: var(--ml-basic-500);
+  --text-secondary: var(--ml-basic-300);
+  --text-tertiary: var(--ml-basic-400);
   --text-inverse: var(--ml-basic-1100);
 
   // Accents
