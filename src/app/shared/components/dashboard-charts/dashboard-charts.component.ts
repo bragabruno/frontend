@@ -27,7 +27,7 @@ export class DashboardChartsComponent implements OnInit {
       '#82aaff',
       '#c099ff',
       '#ffc777',
-      '#fca7ea',
+      '#4fd6be',
       '#ff757f',
       '#c3e88d',
       '#86e1fc',

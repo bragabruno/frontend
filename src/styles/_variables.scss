@@ -74,7 +74,7 @@
   // Extras
   --ml-blue-500: #82aaff;
   --ml-orange-500: #ff966c;
-  --ml-pink-500: #fca7ea;
+  --ml-teal-500: #4fd6be;
 
   // --- Semantic tokens (derived from primitives) ---
   // Backgrounds
@@ -133,7 +133,7 @@
   --status-in-review: var(--ml-yellow-500);
   --status-resolved-fraud: var(--ml-red-500);
   --status-resolved-legit: var(--ml-green-500);
-  --status-escalated: var(--ml-pink-500);
+  --status-escalated: var(--ml-teal-500);
   --status-closed: var(--ml-basic-500);
 
   // Shadows & depth
