@@ -1,72 +1,106 @@
 <nb-layout>
   <nb-layout-column class="login-column">
-    <nb-card class="login-card" status="primary" accent="info">
-      <nb-card-header>
-        <h1 class="login-title">Fraud Prevention System</h1>
-        <p class="login-subtitle">Analyst Console</p>
-      </nb-card-header>
-
-      <nb-card-body>
-        <form (ngSubmit)="onSubmit()">
-          <div class="form-group">
-            <label class="label" for="username">Username</label>
-            <input
-              nbInput
-              fullWidth
-              fieldSize="large"
-              id="username"
-              name="username"
-              autocomplete="username"
-              placeholder="Username"
-              [(ngModel)]="username"
-            />
+    <div class="login-split">
+      <!-- Brand / aurora panel -->
+      <aside class="brand-panel">
+        <div class="aurora" aria-hidden="true">
+          <span class="blob blob-1"></span>
+          <span class="blob blob-2"></span>
+          <span class="blob blob-3"></span>
+        </div>
+        <div class="brand-content">
+          <div class="brand-lockup">
+            <span class="brand-mark">FP</span>
+            <span class="brand-name">Fraud Prevention</span>
           </div>
+          <h2 class="brand-headline">Stop fraud before it clears.</h2>
+          <p class="brand-sub">
+            Real-time risk scoring, an analyst-grade case queue, and explainable
+            decisions — in one console.
+          </p>
+          <ul class="brand-points">
+            <li>
+              <nb-icon icon="flash-outline" pack="eva"></nb-icon> Sub-second risk scoring
+            </li>
+            <li>
+              <nb-icon icon="layers-outline" pack="eva"></nb-icon> Prioritized case queue
+            </li>
+            <li>
+              <nb-icon icon="shield-outline" pack="eva"></nb-icon> Role-aware, audited actions
+            </li>
+          </ul>
+        </div>
+      </aside>
 
-          <div class="form-group">
-            <label class="label" for="password">Password</label>
-            <nb-form-field>
+      <!-- Form card -->
+      <nb-card class="login-card" status="primary" accent="info">
+        <nb-card-header>
+          <h1 class="login-title">Fraud Prevention System</h1>
+          <p class="login-subtitle">Analyst Console</p>
+        </nb-card-header>
+
+        <nb-card-body>
+          <form (ngSubmit)="onSubmit()">
+            <div class="form-group">
+              <label class="label" for="username">Username</label>
               <input
                 nbInput
                 fullWidth
                 fieldSize="large"
-                id="password"
-                name="password"
-                autocomplete="current-password"
-                placeholder="Password"
-                [type]="hidePassword ? 'password' : 'text'"
-                [(ngModel)]="password"
+                id="username"
+                name="username"
+                autocomplete="username"
+                placeholder="Username"
+                [(ngModel)]="username"
               />
-              <button
-                nbSuffix
-                nbButton
-                ghost
-                type="button"
-                (click)="hidePassword = !hidePassword"
-                [attr.aria-label]="hidePassword ? 'Show password' : 'Hide password'"
-              >
-                <nb-icon
-                  [icon]="hidePassword ? 'eye-outline' : 'eye-off-outline'"
-                  pack="eva"
-                ></nb-icon>
-              </button>
-            </nb-form-field>
-          </div>
+            </div>
 
-          <p class="error-message" *ngIf="error">{{ error }}</p>
+            <div class="form-group">
+              <label class="label" for="password">Password</label>
+              <nb-form-field>
+                <input
+                  nbInput
+                  fullWidth
+                  fieldSize="large"
+                  id="password"
+                  name="password"
+                  autocomplete="current-password"
+                  placeholder="Password"
+                  [type]="hidePassword ? 'password' : 'text'"
+                  [(ngModel)]="password"
+                />
+                <button
+                  nbSuffix
+                  nbButton
+                  ghost
+                  type="button"
+                  (click)="hidePassword = !hidePassword"
+                  [attr.aria-label]="hidePassword ? 'Show password' : 'Hide password'"
+                >
+                  <nb-icon
+                    [icon]="hidePassword ? 'eye-outline' : 'eye-off-outline'"
+                    pack="eva"
+                  ></nb-icon>
+                </button>
+              </nb-form-field>
+            </div>
 
-          <button
-            nbButton
-            fullWidth
-            status="primary"
-            size="large"
-            type="submit"
-            [disabled]="loading"
-          >
-            <span *ngIf="!loading">Sign In</span>
-            <span *ngIf="loading">Signing in…</span>
-          </button>
-        </form>
-      </nb-card-body>
-    </nb-card>
+            <p class="error-message" *ngIf="error">{{ error }}</p>
+
+            <button
+              nbButton
+              fullWidth
+              status="primary"
+              size="large"
+              type="submit"
+              [disabled]="loading"
+            >
+              <span *ngIf="!loading">Sign In</span>
+              <span *ngIf="loading">Signing in…</span>
+            </button>
+          </form>
+        </nb-card-body>
+      </nb-card>
+    </div>
   </nb-layout-column>
 </nb-layout>

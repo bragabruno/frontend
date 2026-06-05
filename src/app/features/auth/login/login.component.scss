@@ -7,24 +7,175 @@
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  // Moonlight nebula backdrop, derived from the palette accent tokens.
+  padding: 2rem;
   background:
-    radial-gradient(circle at 20% 15%, color-mix(in srgb, var(--accent-blue) 30%, transparent), transparent 45%),
-    radial-gradient(circle at 85% 80%, color-mix(in srgb, var(--accent-purple) 28%, transparent), transparent 45%),
-    radial-gradient(circle at 50% 50%, color-mix(in srgb, var(--accent-cyan) 12%, transparent), transparent 60%);
+    radial-gradient(circle at 15% 12%, color-mix(in srgb, var(--accent-blue) 22%, transparent), transparent 45%),
+    radial-gradient(circle at 88% 85%, color-mix(in srgb, var(--accent-purple) 22%, transparent), transparent 45%),
+    var(--bg-base);
 }
 
+// --- Split hero -----------------------------------------------------------
+.login-split {
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  width: 100%;
+  max-width: 56rem;
+  min-height: 32rem;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  box-shadow: var(--shadow-xl);
+  animation: ml-rise 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+// --- Brand / aurora panel ---
+.brand-panel {
+  position: relative;
+  overflow: hidden;
+  padding: 3rem;
+  display: flex;
+  align-items: center;
+  color: #fff;
+  background: linear-gradient(150deg, #2a2752, #1b1d33 60%, #14152a);
+}
+
+.aurora {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  filter: blur(36px);
+
+  .blob {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.55;
+    mix-blend-mode: screen;
+  }
+
+  .blob-1 {
+    width: 26rem;
+    height: 26rem;
+    top: -8rem;
+    left: -6rem;
+    background: var(--accent-purple);
+    animation: aurora-drift 14s ease-in-out infinite;
+  }
+  .blob-2 {
+    width: 22rem;
+    height: 22rem;
+    bottom: -7rem;
+    right: -5rem;
+    background: var(--accent-blue);
+    animation: aurora-drift 18s ease-in-out infinite reverse;
+  }
+  .blob-3 {
+    width: 16rem;
+    height: 16rem;
+    bottom: 2rem;
+    left: 4rem;
+    background: var(--accent-cyan);
+    opacity: 0.35;
+    animation: aurora-drift 22s ease-in-out infinite;
+  }
+}
+
+@keyframes aurora-drift {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(8%, -6%) scale(1.18);
+  }
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+}
+
+.brand-content {
+  position: relative;
+  z-index: 1;
+  max-width: 22rem;
+}
+
+.brand-lockup {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+
+  .brand-mark {
+    display: grid;
+    place-items: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: var(--radius-md);
+    background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue));
+    font-family: var(--font-family-display);
+    font-weight: 700;
+    font-size: 0.95rem;
+  }
+
+  .brand-name {
+    font-family: var(--font-family-display);
+    font-weight: 600;
+    font-size: 1.05rem;
+    letter-spacing: -0.01em;
+  }
+}
+
+.brand-headline {
+  font-family: var(--font-family-display);
+  font-size: 2rem;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  margin: 0 0 0.9rem;
+}
+
+.brand-sub {
+  margin: 0 0 1.75rem;
+  color: rgba(255, 255, 255, 0.72);
+  line-height: 1.55;
+  font-size: 0.95rem;
+}
+
+.brand-points {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+
+  li {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    color: rgba(255, 255, 255, 0.88);
+    font-size: 0.9rem;
+
+    nb-icon {
+      color: var(--accent-cyan);
+      font-size: 1.1rem;
+    }
+  }
+}
+
+// --- Form card ---
 .login-card {
   width: 100%;
-  max-width: 26rem;
-  box-shadow: var(--shadow-glow-violet);
+  max-width: none;
+  margin: 0;
+  border-radius: 0;
+  box-shadow: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .login-title {
   margin: 0;
   font-size: 1.5rem;
   font-weight: 700;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.01em;
 }
 
 .login-subtitle {
@@ -49,7 +200,18 @@
 
 .error-message {
   margin: 0 0 1rem;
-  // Nebular cosmic theme variable so the error color tracks the active theme.
   color: var(--text-danger-color, var(--color-danger-500, #ff3d71));
   font-size: 0.85rem;
+}
+
+// Stack on small screens; drop the brand panel.
+@media (max-width: 768px) {
+  .login-split {
+    grid-template-columns: 1fr;
+    max-width: 28rem;
+    min-height: 0;
+  }
+  .brand-panel {
+    display: none;
+  }
 }
