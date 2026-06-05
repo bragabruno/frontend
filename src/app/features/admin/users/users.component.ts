@@ -68,7 +68,7 @@ import { UserDto, PageResponse } from '../../../shared/models/models';
                 }}</span>
               </td>
             </ng-container>
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
           </table>
           <mat-paginator
