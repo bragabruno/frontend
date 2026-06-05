@@ -21,6 +21,16 @@
   grid-column: span 1;
 }
 
+// Charts fill their card width (no fixed [view]) with a stable height, so they
+// shrink responsively instead of forcing horizontal overflow on small screens.
+ngx-charts-pie-chart,
+ngx-charts-bar-vertical,
+ngx-charts-bar-horizontal {
+  display: block;
+  width: 100%;
+  height: 240px;
+}
+
 .chart-title {
   margin: 0 0 16px 0;
   font-size: 14px;
