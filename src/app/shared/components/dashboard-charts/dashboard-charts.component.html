@@ -2,41 +2,41 @@
   <div class="chart-card">
     <h3 class="chart-title">Case Status Distribution</h3>
     <ngx-charts-pie-chart
-      [view]="[280, 220]"
       [results]="statusDistribution()"
       [legend]="false"
       [doughnut]="true"
       [scheme]="colorScheme"
       [labels]="true"
-      [legendTitle]="''">
+      [legendTitle]="''"
+    >
     </ngx-charts-pie-chart>
   </div>
 
   <div class="chart-card">
     <h3 class="chart-title">Cases by Severity</h3>
     <ngx-charts-bar-vertical
-      [view]="[280, 220]"
       [results]="severityData()"
       [scheme]="colorScheme"
       [xAxis]="true"
       [yAxis]="true"
       [showXAxisLabel]="false"
       [showYAxisLabel]="false"
-      [roundDomains]="true">
+      [roundDomains]="true"
+    >
     </ngx-charts-bar-vertical>
   </div>
 
   <div class="chart-card chart-card-wide">
     <h3 class="chart-title">Top Rules Triggered</h3>
     <ngx-charts-bar-horizontal
-      [view]="[500, 220]"
       [results]="topRules()"
       [scheme]="colorScheme"
       [xAxis]="true"
       [yAxis]="true"
       [showXAxisLabel]="false"
       [showYAxisLabel]="false"
-      [roundDomains]="true">
+      [roundDomains]="true"
+    >
     </ngx-charts-bar-horizontal>
   </div>
 </div>

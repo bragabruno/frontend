@@ -17,6 +17,12 @@
   display: block;
 }
 
+@media (max-width: 640px) {
+  .page-content {
+    padding: var(--spacing-md);
+  }
+}
+
 // A soft Moonlight aurora behind the content for depth.
 .shell-column::before {
   content: '';
