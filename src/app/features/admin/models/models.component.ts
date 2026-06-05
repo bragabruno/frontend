@@ -74,7 +74,7 @@ import { ModelVersionDto, PageResponse } from '../../../shared/models/models';
               <th mat-header-cell *matHeaderCellDef>FPR</th>
               <td mat-cell *matCellDef="let row">{{ (row.metrics.fpr * 100).toFixed(1) }}%</td>
             </ng-container>
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
           </table>
           <mat-paginator

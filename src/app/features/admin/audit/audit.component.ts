@@ -70,7 +70,7 @@ import { AuditEventDto, PageResponse } from '../../../shared/models/models';
                 {{ row.targetType }}: {{ row.targetId | slice: 0 : 8 }}
               </td>
             </ng-container>
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
           </table>
           <mat-paginator
