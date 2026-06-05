@@ -32,8 +32,16 @@
               }
             ],
             "styles": [
-              "node_modules/@nebular/theme/styles/prebuilt/cosmic-custom-properties.css",
-              "node_modules/@nebular/theme/styles/prebuilt/components-custom-properties.css",
+              {
+                "input": "node_modules/@nebular/theme/styles/prebuilt/cosmic-custom-properties.css",
+                "bundleName": "nebular-theme",
+                "inject": true
+              },
+              {
+                "input": "node_modules/@nebular/theme/styles/prebuilt/components-custom-properties.css",
+                "bundleName": "nebular-theme",
+                "inject": true
+              },
               "src/styles.scss"
             ],
             "scripts": []
@@ -102,8 +110,16 @@
               }
             ],
             "styles": [
-              "node_modules/@nebular/theme/styles/prebuilt/cosmic-custom-properties.css",
-              "node_modules/@nebular/theme/styles/prebuilt/components-custom-properties.css",
+              {
+                "input": "node_modules/@nebular/theme/styles/prebuilt/cosmic-custom-properties.css",
+                "bundleName": "nebular-theme",
+                "inject": true
+              },
+              {
+                "input": "node_modules/@nebular/theme/styles/prebuilt/components-custom-properties.css",
+                "bundleName": "nebular-theme",
+                "inject": true
+              },
               "src/styles.scss"
             ],
             "scripts": []
