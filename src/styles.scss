@@ -271,24 +271,31 @@ html {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--border-medium);
+  background: color-mix(in srgb, var(--accent-purple) 45%, var(--border-medium));
   border-radius: 3px;
 
   &:hover {
-    background: var(--border-strong);
+    background: var(--accent-purple);
   }
 }
 
-// Toasts (Mat Snackbar overrides)
+// Toasts (Mat Snackbar overrides) — Moonlight glass.
 .mat-mdc-snack-bar-container {
-  &.success-snackbar {
-    --mdc-snackbar-container-color: var(--status-resolved-legit);
-    --mdc-snackbar-supporting-text-color: var(--text-inverse);
+  .mdc-snackbar__surface {
+    background: var(--bg-elevated) !important;
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-md) !important;
+    box-shadow: var(--shadow-lg) !important;
+  }
+  .mdc-snackbar__label {
+    font-family: var(--font-family);
   }
 
-  &.error-snackbar {
-    --mdc-snackbar-container-color: var(--accent-red);
-    --mdc-snackbar-supporting-text-color: var(--text-primary);
+  &.success-snackbar .mdc-snackbar__surface {
+    border-left: 3px solid var(--accent-green);
+  }
+  &.error-snackbar .mdc-snackbar__surface {
+    border-left: 3px solid var(--accent-red);
   }
 }
 
@@ -329,7 +336,7 @@ html {
 
 // --- Focus Ring (Accessibility) ---
 *:focus-visible {
-  outline: 2px solid var(--accent-blue);
+  outline: 2px solid var(--accent-purple);
   outline-offset: 2px;
   border-radius: var(--radius-sm);
 }
