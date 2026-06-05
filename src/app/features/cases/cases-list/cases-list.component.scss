@@ -263,44 +263,54 @@ table {
   justify-content: center;
 }
 
-.loading {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 12px;
-  padding: 48px;
-  color: var(--text-secondary);
-  font-size: 14px;
-}
-
-.error {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
-  padding: 48px;
-  color: var(--accent-red);
-  font-size: 14px;
-}
-
-.error-icon {
-  font-size: 36px;
-  width: 36px;
-  height: 36px;
-}
-
+// --- State surfaces: inviting, centered, with a tinted icon disc ---
+.loading,
+.error,
 .empty {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;
-  padding: 48px;
-  color: var(--text-tertiary);
+  justify-content: center;
+  gap: 14px;
+  padding: 64px 48px;
   font-size: 14px;
+  border-radius: var(--radius-lg);
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+}
+
+.loading {
+  flex-direction: row;
+  color: var(--text-secondary);
+}
+
+.error {
+  color: var(--text-secondary);
+}
+
+.empty {
+  color: var(--text-tertiary);
+}
+
+// Icon sits in a soft tinted disc.
+.error-icon,
+.empty-icon {
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-full);
+  font-size: 26px;
+}
+
+.error-icon {
+  color: var(--accent-red);
+  background: var(--accent-red-dim);
 }
 
 .empty-icon {
-  font-size: 36px;
-  width: 36px;
-  height: 36px;
+  color: var(--accent-purple);
+  background: var(--accent-purple-dim);
 }
