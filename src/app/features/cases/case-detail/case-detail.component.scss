@@ -17,6 +17,42 @@
   }
 }
 
+// --- Hero summary card: severity-tinted accent + wash ---
+.summary-card {
+  position: relative;
+  overflow: hidden;
+
+  &[data-severity='CRITICAL'] {
+    --hero-accent: var(--severity-critical);
+  }
+  &[data-severity='HIGH'] {
+    --hero-accent: var(--severity-high);
+  }
+  &[data-severity='MEDIUM'] {
+    --hero-accent: var(--severity-medium);
+  }
+  &[data-severity='LOW'] {
+    --hero-accent: var(--severity-low);
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 3px;
+    z-index: 1;
+    background: linear-gradient(90deg, var(--hero-accent, var(--accent-purple)), transparent 70%);
+  }
+
+  ::ng-deep nb-card-body {
+    background: radial-gradient(
+      60% 130% at 0% 0%,
+      color-mix(in srgb, var(--hero-accent, transparent) 12%, transparent),
+      transparent 60%
+    );
+  }
+}
+
 .summary-card .summary-row {
   display: flex;
   gap: 32px;
@@ -293,4 +329,81 @@
   font-size: 14px;
   font-weight: 500;
   color: var(--text-primary);
+}
+
+// --- Detail polish ------------------------------------------------------
+// Risk-score bars: rounded, with a grow-in reveal.
+@keyframes bar-grow {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.score-section ::ng-deep nb-progress-bar {
+  .progress-container {
+    border-radius: var(--radius-full);
+    background: var(--bg-elevated);
+  }
+
+  .progress-value {
+    border-radius: var(--radius-full);
+    transform-origin: left;
+    animation: bar-grow 0.85s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+}
+
+// Numeric score/info values use tabular mono figures.
+.score-item .value,
+.info-item .value {
+  font-family: var(--font-family-mono);
+  font-feature-settings: 'tnum' 1;
+}
+
+// Decision chip gets a soft glow.
+.decision-chip {
+  box-shadow: 0 0 16px color-mix(in srgb, currentColor 30%, transparent);
+  letter-spacing: 0.02em;
+}
+
+// Reason codes become accented pills with a hover.
+.code-chip {
+  transition:
+    border-color 160ms ease,
+    color 160ms ease,
+    background 160ms ease;
+
+  &:hover {
+    border-color: color-mix(in srgb, var(--accent-purple) 50%, var(--border-subtle));
+    color: var(--text-primary);
+    background: color-mix(in srgb, var(--accent-purple) 10%, var(--bg-elevated));
+  }
+}
+
+// Notes as a left-railed timeline with accent dots.
+.note-item {
+  position: relative;
+  padding-left: 18px;
+  border: none;
+  border-left: 2px solid var(--border-medium);
+  border-radius: 0;
+  margin-left: 4px;
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: -6px;
+    top: 14px;
+    width: 10px;
+    height: 10px;
+    border-radius: var(--radius-full);
+    background: var(--accent-purple);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent-purple) 22%, transparent);
+  }
+
+  .author {
+    color: var(--accent-purple);
+  }
 }
